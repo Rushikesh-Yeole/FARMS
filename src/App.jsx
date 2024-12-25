@@ -9,6 +9,7 @@ import SignUp from './pages/SignUp';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Header from './components/Header';
+import TFeed from './pages/TFeed';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
     <Route path='/sign-up' element={<SignUp />} />
     <Route path='/about' element={<About />} />
     <Route path='/profile' element={<Profile />} />
+    <Route path='/tfeed' element={<TFeed />} />
   </Routes>
   </BrowserRouter>
   )
