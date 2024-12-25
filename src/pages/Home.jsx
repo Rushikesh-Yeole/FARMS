@@ -34,9 +34,6 @@ export default function Home() {
             <p className="text-gray-600 mb-4">
               Create a seamless platform connecting farmers, retailers, and transporters for efficient, transparent transactions.
             </p>
-            <Link to="/marketplace">
-              <button className="text-teal-600 hover:text-teal-800 font-medium">Explore Phase 1</button>
-            </Link>
           </div>
           {/* Phase 2 */}
           <div className="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105">
@@ -44,9 +41,6 @@ export default function Home() {
             <p className="text-gray-600 mb-4">
               Empower stakeholders with actionable insights, predictive analytics, and trend forecasts for supply chain optimization.
             </p>
-            <Link to="/ecosystem">
-              <button className="text-teal-600 hover:text-teal-800 font-medium">Explore Phase 2</button>
-            </Link>
           </div>
           {/* Stakeholder Benefits */}
           <div className="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105">
@@ -54,9 +48,6 @@ export default function Home() {
             <p className="text-gray-600 mb-4">
               Farmers, retailers, and transporters gain access to better markets, smarter inventory, and optimized logistics for sustained growth.
             </p>
-            <Link to="/benefits">
-              <button className="text-teal-600 hover:text-teal-800 font-medium">Learn More</button>
-            </Link>
           </div>
         </div>
       </section>

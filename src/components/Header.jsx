@@ -3,14 +3,13 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
-  { to: "spost", label: "Farmer post Stock" },
+  { to: "spost", label: "Farmer Post" },
   { to: "fstock", label: "Farmer Stock" },
-  { to: "fdpost", label: "Farmer post Demand" },
-  { to: "fdemand", label: "Farmer Demands" },
+  { to: "fdpost", label: "Farmer Demand" },
+  { to: "fdemand", label: "Transport Demands" },
   { to: "TFeed", label: "Transporter" },
   { to: "rhome", label: "Retailer" },
   { to: "rpost", label: "Retailer Post" },
-  { to: "rprofile", label: "Profile" },
   { to: "rdash", label: "Retailer Demands" },
   { to: "/about", label: "About" },
   { to: "/Sign-in", label: "Sign In" },
