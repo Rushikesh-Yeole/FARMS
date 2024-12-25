@@ -6,89 +6,29 @@ const filters = {
 };
 
 const fruitsAndVeggies = [
-  {
-    name: "Mango",
-    img: "https://upload.wikimedia.org/wikipedia/commons/9/90/Hapus_Mango.jpg",
-  },
-  {
-    name: "Banana",
-    img: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg",
-  },
-  {
-    name: "Potato",
-    img: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Raw_potato.jpg",
-  },
-  {
-    name: "Tomato",
-    img: "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg",
-  },
-  {
-    name: "Carrot",
-    img: "https://upload.wikimedia.org/wikipedia/commons/4/40/Carrot.jpg",
-  },
-  {
-    name: "Apple",
-    img: "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg",
-  },
-  {
-    name: "Spinach",
-    img: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Spinacia_oleracea_Spinazie_bloeiend.jpg",
-  },
-  {
-    name: "Peas",
-    img: "https://upload.wikimedia.org/wikipedia/commons/5/52/Peas_in_pods_-_Studio.jpg",
-  },
-  {
-    name: "Pineapple",
-    img: "https://upload.wikimedia.org/wikipedia/commons/c/cb/Pineapple_and_cross_section.jpg",
-  },
-  {
-    name: "Cucumber",
-    img: "https://upload.wikimedia.org/wikipedia/commons/3/31/Cucumber.jpg",
-  },
-  {
-    name: "Orange",
-    img: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Orange-Fruit-Pieces.jpg",
-  },
-  {
-    name: "Onion",
-    img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Onion_Sliced_and_Whole.jpg",
-  },
-  {
-    name: "Garlic",
-    img: "https://upload.wikimedia.org/wikipedia/commons/a/ab/Garlic.jpg",
-  },
-  {
-    name: "Papaya",
-    img: "https://upload.wikimedia.org/wikipedia/commons/9/9c/Papaya.jpg",
-  },
-  {
-    name: "Guava",
-    img: "https://upload.wikimedia.org/wikipedia/commons/6/64/Guava_ID.jpg",
-  },
+  { name: "Mango", img: "https://upload.wikimedia.org/wikipedia/commons/9/90/Hapus_Mango.jpg" },
+  { name: "Banana", img: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg" },
+  { name: "Potato", img: "/images/potato.jpeg" },
+  { name: "Tomato", img: "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg" },
+  { name: "Carrot", img: "images/carrot.jpeg" },
 
+  { name: "Apple", img: "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg" },
+  { name: "Spinach", img: "images/Spinach.jpeg" },
+  { name: "Peas", img: "images/peas.jpeg" },
+  { name: "Pineapple", img: "images/pineapple.jpeg" },
+  { name: "Cucumber", img: "images/cucumber.jpeg" },
+  { name: "Orange", img: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Orange-Fruit-Pieces.jpg" },
+  { name: "Onion", img: "images/onion.jpeg" },
+  { name: "Garlic", img: "images/garlic.jpeg" },
+  { name: "Papaya", img: "images/papaya.jpeg" },
+  { name: "Guava", img: "images/guva.jpeg" },
+  
   // New Items
-  {
-    name: "Strawberry",
-    img: "https://upload.wikimedia.org/wikipedia/commons/2/29/PerfectStrawberry.jpg",
-  },
-  {
-    name: "Watermelon",
-    img: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Watermelon.jpg",
-  },
-  {
-    name: "Blueberry",
-    img: "https://upload.wikimedia.org/wikipedia/commons/f/fb/Blueberries.jpg",
-  },
-  {
-    name: "Chili Pepper",
-    img: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Chili_peppers.jpg",
-  },
-  {
-    name: "Bell Pepper",
-    img: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Bell_peppers.jpg",
-  },
+  { name: "Strawberry", img: "https://upload.wikimedia.org/wikipedia/commons/2/29/PerfectStrawberry.jpg" },
+  { name: "Watermelon", img: "images\watermelon.jpeg" },
+
 ];
+
 
 const products = Array.from({ length: 12 }, (_, i) => ({
   id: i + 1,
@@ -111,10 +51,7 @@ const RetailerHome = () => {
   const handleScroll = (direction) => {
     if (direction === "left" && scrollIndex > 0) {
       setScrollIndex(scrollIndex - 1);
-    } else if (
-      direction === "right" &&
-      scrollIndex < fruitsAndVeggies.length - 10
-    ) {
+    } else if (direction === "right" && scrollIndex < fruitsAndVeggies.length - 10) {
       setScrollIndex(scrollIndex + 1);
     }
   };
@@ -132,8 +69,8 @@ const RetailerHome = () => {
     <div className="flex bg-gray-50 min-h-screen">
       {/* Filter Section */}
       <aside className="w-1/4 p-4 sticky top-16 bg-white shadow-lg h-screen">
-        <h2 className="text-lg font-bold mb-4">Filters</h2>
-
+      <h2 className="text-lg font-bold mb-4">Filters</h2>
+        
         {/* Type Filter */}
         <div className="mb-6">
           <h3 className="font-medium mb-2">Type</h3>
@@ -144,8 +81,8 @@ const RetailerHome = () => {
                 name="type"
                 value={type}
                 checked={selectedType === type}
-                className="mr-2"
                 onChange={(e) => setSelectedType(e.target.value)}
+                className="mr-2"
               />
               {type}
             </label>
@@ -161,10 +98,7 @@ const RetailerHome = () => {
             max={filters.quantity.max}
             value={quantityRange.min}
             onChange={(e) =>
-              setQuantityRange({
-                ...quantityRange,
-                min: Number(e.target.value),
-              })
+              setQuantityRange({ ...quantityRange, min: Number(e.target.value) })
             }
             className="w-full mb-2"
           />
@@ -202,32 +136,30 @@ const RetailerHome = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-4">
+      <main className="flex-1 p-4 bg-green-100">
         {/* Scrollable Horizontal List */}
         <div className="relative mb-6">
           <button
             onClick={() => handleScroll("left")}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow"
           >
             {"<"}
           </button>
           <div className="flex ml-12 overflow-hidden space-x-4">
-            {fruitsAndVeggies
-              .slice(scrollIndex, scrollIndex + 10)
-              .map((item, idx) => (
-                <div key={idx} className="flex flex-col items-center">
-                  <img
-                    src={item.img}
-                    alt={item.name}
-                    className="w-16 h-16 rounded-full shadow-lg"
-                  />
-                  <span className="mt-2 text-sm font-medium">{item.name}</span>
-                </div>
-              ))}
+            {fruitsAndVeggies.slice(scrollIndex, scrollIndex + 10).map((item, idx) => (
+              <div key={idx} className="flex flex-col items-center">
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="w-16 h-16 rounded-full shadow-lg"
+                />
+                <span className="mt-2 text-sm font-medium">{item.name}</span>
+              </div>
+            ))}
           </div>
           <button
             onClick={() => handleScroll("right")}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow"
           >
             {">"}
           </button>
@@ -248,12 +180,8 @@ const RetailerHome = () => {
               <div>
                 <h3 className="text-lg font-bold">{product.name}</h3>
                 <p className="text-sm text-gray-600">{product.location}</p>
-                <p className="text-sm text-gray-600">
-                  Quantity: {product.quantity} Kg
-                </p>
-                <p className="text-green-500 font-semibold">
-                  {product.price} Tsh
-                </p>
+                <p className="text-sm text-gray-600">Quantity: {product.quantity} Kg</p>
+                <p className="text-green-500 font-semibold">{product.price} Tsh</p>
               </div>
             </div>
           ))}
