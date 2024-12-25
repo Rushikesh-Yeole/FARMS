@@ -2,8 +2,8 @@
 import React from "react";
 
 const demands = [
-  { id: 1, name: "Nyanya Chungu", quantity: "100 Kg", date: "2024-10-20", location: "Iringa", status: "Pending" },
-  { id: 2, name: "Maharage", quantity: "250 Kg", date: "2024-10-25", location: "Mbeya", status: "Matched" },
+  { id: 1, name: "Potato", quantity: "50 Kg", date: "2024-12-05", location: "Pune", status: "Pending" },
+  { id: 2, name: "Tomato", quantity: "250 Kg", date: "2024-10-25", location: "Mbeya", status: "Matched" },
 ];
 
 const Dashboard = () => {

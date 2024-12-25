@@ -11,6 +11,10 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Header from "./components/Header";
 import TFeed from "./pages/TFeed";
+import RHome from "./pages/RHome";
+import RProfile from "./pages/RProfile";
+import RPost from "./pages/RPost";
+import RDash from "./pages/RDashboard";
 
 export default function App() {
   return (
@@ -27,6 +31,10 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/tfeed" element={<TFeed />} />
+        <Route path="/rhome" element={<RHome />} />
+        <Route path="/rprofile" element={<RProfile />} />
+        <Route path="/rpost" element={<RPost />} />
+        <Route path="/rdash" element={<RDash />} />
       </Routes>
     </BrowserRouter>
   );
