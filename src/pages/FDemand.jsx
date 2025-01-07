@@ -1,3 +1,5 @@
+import FHeader from "../components/FarmerHeader";
+
 export default function TransportDemandListings() {
   const demands = [
     { id: 1, produce: "Wheat", from: "Pune", to: "Mumbai", capacity: "2 tons", date: "12/15/2024", time: "10:00 AM" },
@@ -6,6 +8,10 @@ export default function TransportDemandListings() {
   ];
 
   return (
+    <>
+    
+    <FHeader/>
+   
     <div className="bg-blue-50 min-h-screen py-6 px-4">
       <h1 className="text-2xl font-bold text-blue-900 text-center mb-6">Transport Demands</h1>
       {demands.map(({ id, produce, from, to, capacity, date, time }) => (
@@ -17,5 +23,6 @@ export default function TransportDemandListings() {
         </div>
       ))}
     </div>
+    </>
   );
 }

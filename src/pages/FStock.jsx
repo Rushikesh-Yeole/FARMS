@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import FHeader from "../components/FarmerHeader";
 
 // Dummy data for stock listings
 const stockListings = [
@@ -62,6 +63,10 @@ const ListingCard = ({ stockName, pictures, quantity, location, postDate, priceP
   };
 
   return (
+    <>
+   
+   
+    
     <div className="bg-white shadow-lg rounded-lg p-4 mb-6 hover:shadow-xl transition duration-300 cursor-pointer">
       <div className="flex items-center">
         <div>
@@ -121,6 +126,7 @@ const ListingCard = ({ stockName, pictures, quantity, location, postDate, priceP
         </div>
       )}
     </div>
+    </>
   );
 };
 
@@ -129,6 +135,10 @@ export default function StockListingsPage() {
   const sortedListings = stockListings.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
 
   return (
+    <>
+   
+    <FHeader/>
+  
     <div className="bg-green-50 min-h-screen py-10">
       <div className="max-w-4xl mx-auto p-8">
         {/* Sub-header style like "Saved" */}
@@ -149,5 +159,6 @@ export default function StockListingsPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

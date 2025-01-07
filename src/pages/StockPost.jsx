@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import FHeader from "../components/FarmerHeader";
 
 const InputField = ({ label, type, name, value, onChange, placeholder, ...rest }) => (
   <div>
@@ -75,6 +76,8 @@ export default function FarmerPost() {
   ];
 
   return (
+    <>
+    <FHeader/>
     <div className="bg-green-50 min-h-screen py-10">
       <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-4">
         <h1 className="text-3xl font-bold text-green-700 text-center mb-6">Post Your Stock</h1>
@@ -102,5 +105,6 @@ export default function FarmerPost() {
         </form>
       </div>
     </div>
+    </>
   );
 }

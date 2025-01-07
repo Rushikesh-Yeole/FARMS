@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import RHeader from "../components/RetailerHeader";
+import FHeader from "../components/FarmerHeader";
 const filters = {
   types: ["Fruits", "Vegetables"],
   quantity: { min: 0, max: 1000 },
@@ -41,7 +41,7 @@ const products = [
   { id: 12, name: "Onion", location: "Thane", price: "200", quantity: "600", img: "images/onion.jpeg"  , type:"Vegetables" ,mobile:"7588488221"},
 ];
 
-const RetailerHome = () => {
+const FarmerHome = () => {
   const [scrollIndex, setScrollIndex] = useState(0);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [selectedType, setSelectedType] = useState("");
@@ -77,7 +77,7 @@ const RetailerHome = () => {
     setPopupProduct(null);
   };
   return (<>
-    <RHeader/>
+    <FHeader/>
     <div className="flex  bg-green-200 min-h-screen">
       
       <aside className="w-1/4 p-4  top-0  bg-white shadow-lg h-screen">
@@ -159,8 +159,8 @@ const RetailerHome = () => {
       </aside>
 
       <main className="flex-1 p-4 bg-green-100">
-      <h1 className="text-2xl  font-bold mb-4 text-center">
-  Discover Fresh Produce from Local Farmers: Stock Available for Retailers
+      <h1 className="text-2xl font-bold mb-4 text-center">
+  Discover Retailers' Needs: Fresh Produce Demands Across the Market for Farmers
 </h1>
 
         <div className="relative mb-6">
@@ -189,10 +189,8 @@ const RetailerHome = () => {
             {">"}
           </button>
         </div>
-      
 
         <div className="grid grid-cols-2 gap-4">
-       
           {filteredProducts.map((product) => (
             <div
               key={product.id}
@@ -227,7 +225,7 @@ const RetailerHome = () => {
       <p className="text-sm mb-1"><strong>Price:</strong>₹{popupProduct.price} </p>
       <p className="text-sm mb-2"><strong>Quantity:</strong> {popupProduct.quantity} Kg</p>
       <div className="bg-green-50 border border-green-300 p-4 rounded-lg text-center mb-2">
-        <h3 className="text-green-600 font-bold text-lg mb-2">Contact the Farmer</h3>
+        <h3 className="text-green-600 font-bold text-lg mb-2">Contact the Retailer</h3>
         <p className="text-green-500 font-semibold text-sm">📞 {popupProduct.mobile}</p>
       </div>
       <button
@@ -249,4 +247,4 @@ const RetailerHome = () => {
 };
 
 
-export default RetailerHome;    
+export default FarmerHome;    

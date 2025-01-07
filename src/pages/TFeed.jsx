@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import THeader from "../components/TransporterHeader";
 const initialData = [
   { id: 1, from: "City A", to: "City B", quantity: 500, date: "2024-12-20", time: "14:30", farmer: { name: "John Doe", contact: "123-456-7890" } },
   { id: 2, from: "City A", to: "City Y", quantity: 300, date: "2024-12-21", time: "09:45", farmer: { name: "Alice Smith", contact: "987-654-3210" } },
@@ -33,6 +33,9 @@ export default function Home() {
   };
 
   return (
+    <>
+    <THeader/>
+   
     <div className="bg-green-100 min-h-screen p-4">
       {/* Row with Input Fields */}
       <div className="bg-green-200 p-4 shadow-md rounded-lg">
@@ -143,5 +146,6 @@ export default function Home() {
         </div>
       )}
     </div>
+    </>
   );
 }

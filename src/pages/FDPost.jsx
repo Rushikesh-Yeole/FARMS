@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import FHeader from "../components/FarmerHeader";
 
 // Reusable Input Component
 const InputField = ({ label, type, name, value, onChange, placeholder, ...props }) => (
@@ -31,6 +32,9 @@ const PostTransportDemand = () => {
   };
 
   return (
+    <>
+    <FHeader/>
+   
     <div className="bg-blue-50 min-h-screen py-10">
       <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-3xl font-bold text-blue-700 text-center mb-6">Post Transport Demand</h1>
@@ -52,6 +56,7 @@ const PostTransportDemand = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import RHeader from "../components/RetailerHeader";
 
 const PostStock = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -8,7 +9,8 @@ const PostStock = () => {
     setShowPopup(true);
   };
 
-  return (
+  return (<>
+  <RHeader/>
     <div className="flex w-full  items-center justify-center min-h-screen bg-green-50">
       <form
         className="bg-white p-8 mt-6 rounded-lg shadow-lg w-full max-w-xl"
@@ -102,6 +104,7 @@ const PostStock = () => {
         )}
       </form>
     </div>
+    </>
   );
 };
 

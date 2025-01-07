@@ -1,5 +1,6 @@
 // Dashboard.jsx
 import React from "react";
+import RHeader from "../components/RetailerHeader";
 
 const demands = [
   { id: 1, name: "Potato", quantity: "500 Kg", date: "2024-12-05", location: "Pune", status: "Pending" },
@@ -8,6 +9,9 @@ const demands = [
 
 const Dashboard = () => {
   return (
+    <>
+    <RHeader/>
+   
     <div className="p-6 min-h-screen bg-gray-50">
       <h1 className="text-3xl font-bold text-green-600 mb-6 text-center">My Demands</h1>
       <div className="overflow-x-auto">
@@ -35,6 +39,7 @@ const Dashboard = () => {
         </table>
       </div>
     </div>
+    </>
   );
 };
 
