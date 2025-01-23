@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import VRBestDealTag from "../Components/VRBestDealTag";
-import CartToggle from "../Components/CartToggle"
+import CartToggle from "../Components/CartToggle";
 const filters = {
   types: ["Fruits", "Vegetables", "Grains"],
   // fruits:["Mango,Banana,"],
@@ -9,7 +9,6 @@ const filters = {
 };
 
 const products = [
- 
   {
     id: 3,
     name: "Potato",
@@ -171,16 +170,15 @@ const VRfeed = () => {
     const items = filteredProducts.filter((product) => product.type === type);
 
     return (
-      <div className="mb-6    py-4">
-        <h2 className="text-xl font-bold mb-4">{type}</h2>
+      <div className="  pl-4 pt-4">
+        <h2 className="text-xl font-bold  mb-4">{type}</h2>
         <div
-          className="flex   overflow-x-auto"
+          className="flex  overflow-x-auto"
           style={{
             scrollBehavior: "smooth", // Enables smooth scrolling
             scrollbarWidth: "none", // Hides scrollbar for Firefox
           }}
         >
-
           <style>
             {`
               /* Hide scrollbar for Webkit browsers like Chrome, Safari, Edge */
@@ -190,40 +188,42 @@ const VRfeed = () => {
             `}
           </style>
           {items.map((item) => (
-           <div
-           key={item.id}
-           className="p-2 w-60 md:w-72 lg:w-80 border border-black bg-white shadow-md relative ml-3 rounded-lg flex-shrink-0"
-         >
-           <VRBestDealTag />
-           <div className="relative">
-             <img
-               src={item.img}
-               alt={item.name}
-               className="w-full border h-40 object-contain rounded-lg z-0"
-             />
-           </div>
-           <h3 className="mt-4 font-semibold text-lg">{item.name}</h3>
-           <p className="text-sm text-gray-500">{item.location}</p>
-           <div className="flex items-center gap-2 mt-2">
-             <span className="text-lg font-bold text-green-600">₹{item.price}</span>
-             <span className="line-through text-gray-400">
-               ₹{Math.floor(item.price * 1.5)}
-             </span>
-           </div>
-           <p className="text-sm text-green-600">
-             Save ₹{Math.floor(item.price * 0.5)}
-           </p>
-         
-           <div className="flex items-center gap-2 mt-4">
-             <button className="text-green-700 bg-white border border-green-700 hover:bg-green-700 hover:text-white hover:border-green-700 font-medium rounded-md text-sm px-4 py-2 w-full focus:outline-none mt-4">
-               Add to Cart
-             </button>
-             <button className="text-green-700 bg-white border border-1 border-black hover:bg-green-700 hover:text-white hover:border-green-700 font-medium rounded-md text-sm px-4 py-2 w-full focus:outline-none mt-4">
-               See more
-             </button>
-           </div>
-         </div>
-         
+            <div
+              key={item.id}
+              className="p-2 w-60 md:w-61 lg:w-63 border-[1.4px] border-solid bg-white  relative mr-4 rounded-lg flex-shrink-0"
+            >
+              <VRBestDealTag />
+              <div className="relative">
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="w-full border h-40 object-contain rounded-lg z-0"
+                />
+              </div>
+              <h3 className="mt-4 font-semibold text-lg text-gray-900">
+                {item.name}
+              </h3>
+              <p className="text-sm text-gray-500">{item.location}</p>
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-lg font-bold text-green-700">
+                  ₹{item.price}
+                </span>
+                <span className="line-through text-gray-400 text-sm">
+                  ₹{Math.floor(item.price * 1.5)}
+                </span>
+              </div>
+              <p className="text-sm text-green-600">
+                Save ₹{Math.floor(item.price * 0.5)}
+              </p>
+              <div className="flex items-center gap-3 p-1 mt-4">
+                <button className="bg-green-600 w-full text-white font-medium text-sm px-2 py-2 rounded-lg hover:bg-green-700 transition">
+                  Add to Cart
+                </button>
+                <button className="bg-gray-200 text-gray-800 w-full font-medium text-sm px-2 py-2 rounded-lg hover:bg-gray-300 transition">
+                  See More
+                </button>
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -231,9 +231,10 @@ const VRfeed = () => {
   };
 
   return (
-    <div className="flex  justify-center">
+    <div className="flex  bg-slate-50 justify-center">
+      {/* <div classname=" border-2 border-black w-full" >hi bdlhdewjblehd ewdhew kd ewd dhke</div> */}
       {/* Products Feed */}
-      <div className="w-full py-4 border border-black">
+      <div className="w-9/12 pl-4 border-black">
         {renderSection("Vegetables")}
         {renderSection("Fruits")}
       </div>
