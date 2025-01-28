@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerProfile } from "../store/profileSlice";
+import { useNavigate } from "react-router-dom";
 
 const RegisterProfile = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const RegisterProfile = () => {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.profile);
 
   const handleChange = (e) => {
@@ -24,7 +26,12 @@ const RegisterProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(registerProfile(formData));
+    dispatch(registerProfile(formData)).then((result) => {
+      if (result.type === "profile/registerProfile/fulfilled") {
+        // Navigate to OTP page with the contact number
+        navigate("/otp", { state: { phoneNumber: formData.contactNumber } });
+      }
+    });
   };
 
   return (
@@ -111,9 +118,7 @@ const RegisterProfile = () => {
         </div>
         <button
           type="submit"
-          className={`w-full text-white py-2 px-4 rounded-lg ${
-            loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
-          }`}
+          className={`w-full text-white py-2 px-4 rounded-lg ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"}`}
           disabled={loading}
         >
           {loading ? "Registering..." : "Register"}

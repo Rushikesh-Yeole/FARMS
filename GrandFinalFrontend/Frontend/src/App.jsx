@@ -1,29 +1,21 @@
-// import Header from "./Components/Header"
-// import VCarousel  from "./Components/VCarousel"
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import RegisterProfile from "./Pages/RegisterProfile";
-// import VRfeed  from "./Pages/VRfeed";
-// import About from "./Pages/About";
-// export default function App() {
-//   return (
-//     <BrowserRouter>
-//       {/* <Header /> */}
-//       <Routes>
-//         <Route path="/" element={<Header />} />
-
-//         <Route path="/about" element={<About />} />
-
-//       </Routes>
-
-//       <VCarousel/>
-//       <VRfeed/>
-//     </BrowserRouter>
-//   );
-// }
 import React from "react";
+import RegisterProfile from "./Pages/RegisterProfile"; // Correct path for RegisterProfile component
+import { useSelector } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import OtpPage from "./Pages/otpPage";
+import HomePage from "./Pages/HomePage";
 
 export default function App() {
-  return <>
-  <RegisterProfile/>
-  </>;
+  const intstate = useSelector((state) => state.registerProfile);
+  console.log(intstate); // Debugging: Ensure this is printing the correct Redux state
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<RegisterProfile />} />
+        <Route path="/otp" element={<OtpPage />} />
+        <Route path="/otp" element={<HomePage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
