@@ -99,9 +99,9 @@ export default function Header() {
 
       {/* Sidebar */}
       <div 
-        className={`lg:hidden fixed inset-0 bg-gray-800 bg-opacity-50 z-40 transition-all duration-300 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`lg:hidden fixed  inset-0 bg-gray-800 bg-opacity-50 z-40 transition-all duration-300 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
-        <div className="absolute left-0 top-0 w-3/4 h-full bg-white p-4 pt-16">
+        <div className="absolute  left-0 top-0 w-3/4 h-full bg-white p-4 pt-16">
           <ul className="space-y-4 pl-4">
             <li>
               <NavLink

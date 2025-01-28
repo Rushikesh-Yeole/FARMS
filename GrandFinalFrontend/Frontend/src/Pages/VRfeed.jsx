@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import VRBestDealTag from "../Components/VRBestDealTag";
 import CartToggle from "../Components/CartToggle";
+
 const filters = {
   types: ["Fruits", "Vegetables", "Grains"],
-  // fruits:["Mango,Banana,"],
   quantity: { min: 0, max: 1000 },
   price: { min: 0, max: 100000 },
 };
@@ -139,6 +139,12 @@ const VRfeed = () => {
     minPrice: 0,
     maxPrice: 100000,
   });
+  const [isFilterVisible, setIsFilterVisible] = useState(false); // Initially hidden
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prevState) => !prevState);
+  };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -155,6 +161,7 @@ const VRfeed = () => {
       );
     });
     setFilteredProducts(filtered);
+    setIsFilterVisible(false); // Close sidebar after applying filters
   };
 
   const resetFilters = () => {
@@ -170,18 +177,18 @@ const VRfeed = () => {
     const items = filteredProducts.filter((product) => product.type === type);
 
     return (
-      <div className="  pl-4 pt-4">
-        <h2 className="text-xl font-bold  mb-4">{type}</h2>
+      <div className="pt-4">
+        <h2 className="text-xl ml-4 font-bold mb-4">{type}</h2>
         <div
-          className="flex  overflow-x-auto"
+          className="flex overflow-x-auto"
           style={{
-            scrollBehavior: "smooth", // Enables smooth scrolling
-            scrollbarWidth: "none", // Hides scrollbar for Firefox
+            scrollBehavior: "smooth",
+            scrollbarWidth: "none",
           }}
         >
+        
           <style>
             {`
-              /* Hide scrollbar for Webkit browsers like Chrome, Safari, Edge */
               .flex::-webkit-scrollbar {
                 display: none;
               }
@@ -190,7 +197,7 @@ const VRfeed = () => {
           {items.map((item) => (
             <div
               key={item.id}
-              className="p-2 w-60 md:w-61 lg:w-63 border-[1.4px] border-solid bg-white  relative mr-4 rounded-lg flex-shrink-0"
+              className="p-2 ml-4 w-60 md:w-61 lg:w-63 border-[1.4px] border-solid bg-white relative mr-4 rounded-lg flex-shrink-0"
             >
               <VRBestDealTag />
               <div className="relative">
@@ -231,67 +238,173 @@ const VRfeed = () => {
   };
 
   return (
-    <div className="flex  bg-slate-50 justify-center">
-      {/* <div classname=" border-2 border-black w-full" >hi bdlhdewjblehd ewdhew kd ewd dhke</div> */}
-      {/* Products Feed */}
-      <div className="w-9/12 pl-4 border-black">
-        {renderSection("Vegetables")}
-        {renderSection("Fruits")}
+    <>
+      {/* Mobile View Search Bar */}
+      <div className="w-full my-4 p-3 lg:hidden">
+        <div className="flex items-center w-full">
+          <input
+            type="text"
+            className="flex-grow p-2 border border-gray-300 rounded"
+            placeholder="Search..."
+          />
+          <button
+            className="ml-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
+            onClick={() => setIsFilterVisible(true)} // Open filter
+          >
+            Open Filter
+          </button>
+        </div>
       </div>
-    </div>
+
+      <div className="flex relative bg-slate-50 justify-center">
+        {/* Filters Section (Sidebar) */}
+        {isFilterVisible && (
+          //  <div
+          //  className={`lg:hidden fixed  inset-0 bg-gray-800 bg-opacity-50 z-40 transition-all duration-300 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+          // >
+
+          <div
+            className="fixed top-0 left-0 w-3/4 h-full transition-all 
+          transform-translate-x-full 
+              duration-300 bg-white p-4 z-50 lg:hidden"
+          >
+            {/* Back Button */}
+            <button
+              className="absolute left-2 top-1 text-5xl font-bold text-gray-700 hover:text-gray-900 "
+              onClick={() => setIsFilterVisible(false)}
+            >
+              &larr; 
+            </button>
+            <h2 className="text-xl font-bold mb-4 mt-10">Filters</h2>
+            <div className="mb-4">
+              <label className="block mb-2 font-semibold">Type</label>
+              <select
+                name="type"
+                value={filterCriteria.type}
+                onChange={handleFilterChange}
+                className="w-full p-2 border rounded"
+              >
+                <option value="All">All</option>
+                <option value="Fruits">Fruits</option>
+                <option value="Vegetables">Vegetables</option>
+              </select>
+            </div>
+            
+
+            <div className="mb-4 w-64">
+          <h3 className="font-bold text-lg mb-2">Type</h3>
+          <div className="space-y-2">
+            {skills.map((skill) => (
+              <div key={skill.name} className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  checked={skill.selected}
+                  onChange={() => toggleSkill(skill.name)}
+                />
+                <label className="flex-grow">{skill.name}</label>
+                {/* <span>{skill.count}</span> */}
+              </div>
+            ))}
+          </div>
+        </div>
+
+            
+            <div className="mb-4">
+              <label className="block mb-2 font-semibold">Min Price</label>
+              <input
+                type="number"
+                name="minPrice"
+                value={filterCriteria.minPrice}
+                onChange={handleFilterChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block mb-2 font-semibold">Max Price</label>
+              <input
+                type="number"
+                name="maxPrice"
+                value={filterCriteria.maxPrice}
+                onChange={handleFilterChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <button
+              onClick={resetFilters}
+              className="w-full bg-red-500 text-white py-2 rounded mb-4"
+            >
+              Reset Filters
+            </button>
+            <button
+              onClick={applyFilters}
+              className="w-full bg-green-500 text-white py-2 rounded"
+            >
+              Apply Filters
+            </button>
+          </div>
+        )}
+
+        {/* Filters Section (Desktop) */}
+        <div
+          className={`bg-white p-4 hidden lg:block md:hidden md:w-1/4 md:h-screen md:p-4`}
+        >
+          <h2 className="text-xl font-bold mb-4">Filters</h2>
+          <div className="mb-4">
+            <label className="block mb-2 font-semibold">Type</label>
+            <select
+              name="type"
+              value={filterCriteria.type}
+              onChange={handleFilterChange}
+              className="w-full p-2 border rounded"
+            >
+              <option value="All">All</option>
+              <option value="Fruits">Fruits</option>
+              <option value="Vegetables">Vegetables</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2 font-semibold">Min Price</label>
+            <input
+              type="number"
+              name="minPrice"
+              value={filterCriteria.minPrice}
+              onChange={handleFilterChange}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2 font-semibold">Max Price</label>
+            <input
+              type="number"
+              name="maxPrice"
+              value={filterCriteria.maxPrice}
+              onChange={handleFilterChange}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <button
+            onClick={resetFilters}
+            className="w-full bg-red-500 text-white py-2 rounded mb-4"
+          >
+            Reset Filters
+          </button>
+          <button
+            onClick={applyFilters}
+            className="w-full bg-green-500 text-white py-2 rounded"
+          >
+            Apply Filters
+          </button>
+        </div>
+
+        {/* Products Feed */}
+        <div className="w-full md:w-3/4 lg:w-3/4">
+          {renderSection("Vegetables")}
+          {renderSection("Fruits")}
+        </div>
+      </div>
+    </>
   );
 };
 
 export default VRfeed;
-
-{
-  /* Filters Section */
-}
-//   <div className="w-1/4 p-4 bg-gray-100">
-//     <h2 className="text-xl font-bold mb-4">Filters</h2>
-//     <div className="mb-4">
-//       <label className="block mb-2 font-semibold">Type</label>
-//       <select
-//         name="type"
-//         value={filterCriteria.type}
-//         onChange={handleFilterChange}
-//         className="w-full p-2 border rounded"
-//       >
-//         <option value="All">All</option>
-//         <option value="Fruits">Fruits</option>
-//         <option value="Vegetables">Vegetables</option>
-//       </select>
-//     </div>
-//     <div className="mb-4">
-//       <label className="block mb-2 font-semibold">Min Price</label>
-//       <input
-//         type="number"
-//         name="minPrice"
-//         value={filterCriteria.minPrice}
-//         onChange={handleFilterChange}
-//         className="w-full p-2 border rounded"
-//       />
-//     </div>
-//     <div className="mb-4">
-//       <label className="block mb-2 font-semibold">Max Price</label>
-//       <input
-//         type="number"
-//         name="maxPrice"
-//         value={filterCriteria.maxPrice}
-//         onChange={handleFilterChange}
-//         className="w-full p-2 border rounded"
-//       />
-//     </div>
-//     <button
-//       onClick={resetFilters}
-//       className="w-full bg-red-500 text-white py-2 rounded mb-4"
-//     >
-//       Reset Filters
-//     </button>
-//     <button
-//       onClick={applyFilters}
-//       className="w-full bg-green-500 text-white py-2 rounded"
-//     >
-//       Apply Filters
-//     </button>
-//   </div>
