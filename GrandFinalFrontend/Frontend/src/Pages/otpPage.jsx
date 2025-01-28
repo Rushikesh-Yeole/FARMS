@@ -12,6 +12,7 @@ const OtpPage = () => {
     (state) => state.profile
   );
 
+
   const phoneNumber = location.state?.phoneNumber; // Get phone number passed from RegisterProfile
 
   const handleOtpChange = (e) => {
@@ -22,7 +23,18 @@ const OtpPage = () => {
     e.preventDefault();
     if (!otp) return;
 
-    dispatch(verifyOtp({ phoneNumber, otp })).then((result) => {
+    // Ensure OTP is sent as a string
+    const otpString = otp.toString();
+
+    dispatch(verifyOtp({
+      phoneNumber,
+      otp: otpString,
+      firstName: location.state?.firstName,
+      lastName: location.state?.lastName,
+      contactNumber: location.state?.contactNumber,
+      password: location.state?.password,
+      accountType: location.state?.accountType,
+    })).then((result) => {
       if (result.type === "profile/verifyOtp/fulfilled") {
         // OTP verification succeeded, navigate to home page
         navigate("/home", { state: { message: "Registered successfully!" } });
@@ -50,6 +62,7 @@ const OtpPage = () => {
             name="otp"
             id="otp"
             value={otp}
+            
             onChange={handleOtpChange}
             className="w-full px-4 py-2 border rounded-lg"
             required
@@ -58,9 +71,7 @@ const OtpPage = () => {
         <button
           type="submit"
           className={`w-full text-white py-2 px-4 rounded-lg ${
-            otpLoading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
+            otpLoading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
           }`}
           disabled={otpLoading}
         >

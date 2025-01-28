@@ -31,6 +31,7 @@ const RegisterProfile = () => {
         // Navigate to OTP page with the contact number
         navigate("/otp", { state: { phoneNumber: formData.contactNumber } });
       }
+      
     });
   };
 

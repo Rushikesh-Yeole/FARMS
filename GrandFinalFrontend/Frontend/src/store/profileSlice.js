@@ -17,11 +17,12 @@ export const registerProfile = createAsyncThunk(
 );
 
 // Async thunk for verifying OTP
+
 export const verifyOtp = createAsyncThunk(
   "profile/verifyOtp",
   async ({ phoneNumber, otp }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/profile/verifyOtp", { phoneNumber, otp });
+      const response = await axios.post("/api/profile/verifyOtp", { phoneNumber, otp,});
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -44,6 +45,7 @@ const profileSlice = createSlice({
   reducers: {
     // Additional reducers can be added here
   },
+
   extraReducers: (builder) => {
     builder
       // Handling registerProfile actions
@@ -60,7 +62,7 @@ const profileSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Handling verifyOtp actions
+        
       .addCase(verifyOtp.pending, (state) => {
         state.otpLoading = true;
         state.otpError = null;
