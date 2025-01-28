@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
+import React, { useState } from 'react';
+import { Search, SlidersHorizontal, X, MapPin, Package, ShoppingCart, ExternalLink } from 'lucide-react';
 import VRBestDealTag from "../Components/VRBestDealTag";
 import CartToggle from "../Components/CartToggle";
 
