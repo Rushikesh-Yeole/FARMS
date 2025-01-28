@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { verifyOtp } from "../store/profileSlice";
-import { useLocation, useNavigate } from "react-router-dom";
-
 const OtpPage = () => {
   const [otp, setOtp] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { otpLoading, otpError, otpVerified } = useSelector(
-    (state) => state.profile
-  );
+  const { otpLoading, otpError } = useSelector((state) => state.profile);
 
-
-  const phoneNumber = location.state?.phoneNumber; // Get phone number passed from RegisterProfile
+  // Extract form data passed via navigate
+  const {
+    phoneNumber,
+    firstName,
+    lastName,
+    contactNumber,
+    password,
+    accountType,
+  } = location.state || {};
 
   const handleOtpChange = (e) => {
     setOtp(e.target.value);
@@ -26,15 +26,17 @@ const OtpPage = () => {
     // Ensure OTP is sent as a string
     const otpString = otp.toString();
 
-    dispatch(verifyOtp({
-      phoneNumber,
-      otp: otpString,
-      firstName: location.state?.firstName,
-      lastName: location.state?.lastName,
-      contactNumber: location.state?.contactNumber,
-      password: location.state?.password,
-      accountType: location.state?.accountType,
-    })).then((result) => {
+    dispatch(
+      verifyOtp({
+        phoneNumber,
+        otp: otpString,
+        firstName,
+        lastName,
+        contactNumber,
+        password,
+        accountType,
+      })
+    ).then((result) => {
       if (result.type === "profile/verifyOtp/fulfilled") {
         // OTP verification succeeded, navigate to home page
         navigate("/home", { state: { message: "Registered successfully!" } });
@@ -62,7 +64,6 @@ const OtpPage = () => {
             name="otp"
             id="otp"
             value={otp}
-            
             onChange={handleOtpChange}
             className="w-full px-4 py-2 border rounded-lg"
             required
@@ -81,5 +82,3 @@ const OtpPage = () => {
     </div>
   );
 };
-
-export default OtpPage;

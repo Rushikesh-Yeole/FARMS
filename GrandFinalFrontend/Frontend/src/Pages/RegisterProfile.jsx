@@ -29,7 +29,7 @@ const RegisterProfile = () => {
     dispatch(registerProfile(formData)).then((result) => {
       if (result.type === "profile/registerProfile/fulfilled") {
         // Navigate to OTP page with the contact number
-        navigate("/otp", { state: { phoneNumber: formData.contactNumber } });
+        navigate("/otp", { state: formData });
       }
       
     });
