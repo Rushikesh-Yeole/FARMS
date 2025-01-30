@@ -1,13 +1,18 @@
 import React from "react";
 import RegisterProfile from "./Pages/RegisterProfile"; // Correct path for RegisterProfile component
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import OtpPage from "./Pages/otpPage";
-import HomePage from "./Pages/HomePage";
+import OtpPage from "./Pages/otpPage.jsx";
+import HomePage from "./Pages/HomePage.jsx";
+import About from "./Pages/About.jsx";
+// import returnprofiledata from
 
 export default function App() {
-  const intstate = useSelector((state) => state.Profile);
-  console.log(intstate); // Debugging: Ensure this is printing the correct Redux state
+  // const intstate = useSelector((state) => state.profile);
+  // console.log(intstate.profile); // Debugging: Ensure this is printing the correct Redux state
+  const profilestate = useSelector((state) => state.profile);
+  const userdata=profilestate?.profiledata;
+    console.log(userdata);
 
   return (
     <BrowserRouter>
@@ -15,6 +20,7 @@ export default function App() {
         <Route path="/" element={<RegisterProfile />} />
         <Route path="/otp" element={<OtpPage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/About" element={<About/>}/>
       </Routes>
     </BrowserRouter>
   );

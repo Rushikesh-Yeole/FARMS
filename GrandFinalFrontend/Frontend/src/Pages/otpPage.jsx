@@ -1,3 +1,8 @@
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { verifyOtp } from "../store/profileSlice";
+import { useLocation, useNavigate } from "react-router-dom";
+
 const OtpPage = () => {
   const [otp, setOtp] = useState("");
   const location = useLocation();
@@ -39,7 +44,7 @@ const OtpPage = () => {
     ).then((result) => {
       if (result.type === "profile/verifyOtp/fulfilled") {
         // OTP verification succeeded, navigate to home page
-        navigate("/home", { state: { message: "Registered successfully!" } });
+        navigate("/About", { state: { message: "Registered successfully!" } });
       } else {
         // OTP verification failed, show error message
         alert("Invalid OTP. Please try again.");
@@ -82,3 +87,5 @@ const OtpPage = () => {
     </div>
   );
 };
+
+export default OtpPage
