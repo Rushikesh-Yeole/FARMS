@@ -5,7 +5,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import OtpPage from "./Pages/otpPage.jsx";
 import HomePage from "./Pages/HomePage.jsx";
 import About from "./Pages/About.jsx";
-// import returnprofiledata from
+import LoginPage from "./Pages/loginPage.jsx";
+
+
 
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
