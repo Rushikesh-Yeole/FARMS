@@ -53,6 +53,7 @@ export default function Header() {
 
           {/* Centered Navigation Links */}
           <div className="hidden lg:flex flex-grow justify-center">
+            
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -62,6 +63,16 @@ export default function Header() {
               }
             >
               Home
+            </NavLink>
+            <NavLink
+              to="/profile"
+              className={({ isActive }) =>
+                `block py-2 px-4 text-sm font-medium duration-200 ${
+                  isActive ? "text-green-700" : "text-gray-700"
+                } hover:text-green-700`
+              }
+            >
+              Myprofile
             </NavLink>
             <NavLink
               to="/about"
@@ -99,10 +110,23 @@ export default function Header() {
 
       {/* Sidebar */}
       <div 
-        className={`lg:hidden fixed  inset-0 bg-gray-800 bg-opacity-50 z-40 transition-all duration-300 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
-      >
-        <div className="absolute  left-0 top-0 w-3/4 h-full bg-white p-4 pt-16">
+  className={`lg:hidden fixed  inset-0 ${isMenuOpen ? 'bg-black bg-opacity-70' : 'bg-white bg-opacity-0'} z-40`}
+>
+
+        <div  className={` left-0 top-0 sm:w-full md:w-1/2 h-full bg-white p-4 pt-16 border-2 inset-0   z-40 transition-all duration-700 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <ul className="space-y-4 pl-4">
+          <li>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  `block py-2 pr-4 pl-3 duration-200 ${
+                    isActive ? "text-green-700" : "text-gray-700"
+                  } hover:text-green-700`
+                }
+              >
+                Myprofile
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to="/"
