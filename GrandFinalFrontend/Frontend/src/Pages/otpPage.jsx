@@ -77,7 +77,7 @@ const OtpPage = () => {
         <button
           type="submit"
           className={`w-full text-white py-2 px-4 rounded-lg ${
-            otpLoading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+            otpLoading ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 hover:bg-green-600"
           }`}
           disabled={otpLoading}
         >

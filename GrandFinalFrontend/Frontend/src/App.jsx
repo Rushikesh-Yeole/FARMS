@@ -16,18 +16,24 @@ export default function App() {
   // const profilestate = useSelector((state) => state.profile);
   // const userdata=profilestate?.profiledata;
   //   console.log(userdata);
-  
+
   return (
     <BrowserRouter>
-      <Header></Header>
+       <div className="h-screen flex flex-col">
+        {/* Fixed Header */}
+        <Header />
       <Routes>
+        
         <Route path="/" element={<VRfeed />} />
-        <Route path="/farmerstock" element={<FarmerStockForm/>}></Route>
+        <Route path="/loginpage" element={<LoginPage/>}/>
+        <Route path="/register" element={<RegisterProfile/>}/>
+        <Route path="/farmerstock" element={<FarmerStockForm/>}/>
         <Route path="/otp" element={<OtpPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/About" element={<About />} />
         <Route path="/profile" element={<MyProfilePage/>}/>
       </Routes>
+    </div>
     </BrowserRouter>
   );
 }

@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import react from "react";
-import { useSelector,createAsyncThunk } from "react-redux";
+// import {createAsyncThunk } from "react-redux";   WRONG 
 
 export const farmerStockPost = createAsyncThunk(
     "farmerStock/Post",

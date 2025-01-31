@@ -4,32 +4,23 @@ import logo from '../../public/images/logo.png'; // Ensure correct path
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
+
   const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(prevState => !prevState);
   };
 
-  const toggleModal = () => {
-    setIsModalOpen(prevState => !prevState);
+  const handleOnclickLogin = () => {
+    navigate("/loginpage")
   };
 
-  const handleRetailerClick = () => {
-    setIsModalOpen(false);
-    navigate('/rhome');
-  };
-  const handleTransporterClick=()=>{
-    setIsMenuOpen(true);
-    navigate('/tfeed')
-  }
-  const handleFarmerClick=()=>{
-    setIsMenuOpen(true);
-    navigate('/ffeed')
-  }
+
   
   return (
-    <header className="shadow sticky z-50 top-0">
+    <header className="shadow h- sticky z-50 top-0">
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
         <div className="flex items-center justify-between mx-auto max-w-screen-xl">
           {/* Hamburger Menu */}
@@ -99,8 +90,8 @@ export default function Header() {
           {/* Login/Register Button */}
           <div className="hidden lg:block ml-auto">
             <button
-              onClick={toggleModal}
-              className="text-white  bg-green-700 border border-transparent hover:bg-white hover:text-green-700 hover:border-green-700 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+              onClick={handleOnclickLogin}
+              className="text-white  bg-green-700 border border-transparent hover:bg-white hover:text-green-700 hover:border-green-700  font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
             >
               Log in / Register
             </button>
@@ -165,8 +156,8 @@ export default function Header() {
             </li>
           </ul>
           <button
-            onClick={toggleModal}
-            className="text-white bg-green-700 border border-transparent hover:bg-white hover:text-green-700 hover:border-green-700 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none mt-4"
+            onClick={handleOnclickLogin}
+            className="text-white bg-green-700 border border-transparent hover:bg-white hover:text-green-700 hover:border-green-700 focus:ring-4  font-medium rounded-lg text-sm px-4 py-2 focus:outline-none mt-4"
           >
             Log in / Register
           </button>
@@ -174,27 +165,7 @@ export default function Header() {
       </div>
 
       {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0  bg-gray-800 bg-opacity-50 z-50 flex justify-center items-center">
-          <div className="bg-white  w-60 p-6 rounded-lg shadow-lg">
-            <h2 className="text-lg font-semibold mb-4 text-green-700">Select Role</h2>
-            <div className="flex  flex-col space-y-4">
-              <button onClick={handleFarmerClick} className="text-white bg-green-700 hover:bg-white hover:text-green-700 border border-green-700 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none">
-                Farmer
-              </button>
-              <button onClick={handleRetailerClick} className="text-white bg-green-700 hover:bg-white hover:text-green-700 border border-green-700 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none">
-                Retailer
-              </button>
-              <button onClick={handleTransporterClick} className="text-white bg-green-700 hover:bg-white hover:text-green-700 border border-green-700 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none">
-                Transporter
-              </button>
-            </div>
-            <button onClick={toggleModal} className="mt-4 text-sm text-gray-500 underline">
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+     
     </header>
   );
 }

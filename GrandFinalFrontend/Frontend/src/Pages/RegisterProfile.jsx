@@ -53,7 +53,7 @@ const RegisterProfile = () => {
             id="firstName"
             value={formData.firstName}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border focus:ring-green-400 rounded-lg"
             required
           />
         </div>
@@ -67,7 +67,7 @@ const RegisterProfile = () => {
             id="lastName"
             value={formData.lastName}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border focus:ring-green-400 rounded-lg"
             required
           />
         </div>
@@ -95,7 +95,7 @@ const RegisterProfile = () => {
             id="password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border focus:ring-green-400 rounded-lg"
             required
           />
         </div>
@@ -108,7 +108,7 @@ const RegisterProfile = () => {
             id="accountType"
             value={formData.accountType}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border focus:ring-green-400 rounded-lg"
             required
           >
             <option value="">Select Account Type</option>
@@ -119,7 +119,7 @@ const RegisterProfile = () => {
         </div>
         <button
           type="submit"
-          className={`w-full text-white py-2 px-4 rounded-lg ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"}`}
+          className={`w-full text-white py-2 px-4 rounded-lg ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 hover:bg-green-600"}`}
           disabled={loading}
         >
           {loading ? "Registering..." : "Register"}
