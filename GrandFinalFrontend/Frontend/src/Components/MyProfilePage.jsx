@@ -9,7 +9,7 @@ const Profile = ({ retailer }) => {
 
       <div className="flex items-center space-x-6 border-b pb-4">
         <img
-          src={retailer.profileImg || "https://via.placeholder.com/100"}
+          src={retailer.profileImg }
           alt="Retailer Profile"
           className="w-24 h-24 rounded-full border"
         />
@@ -21,7 +21,7 @@ const Profile = ({ retailer }) => {
             <span className="text-lg font-semibold">{retailer.rating} / 5</span>
           </div>
         </div>
-        
+
         <button className="ml-auto px-4 py-2 bg-green-600 text-white rounded-lg flex items-center gap-2 hover:bg-green-700 transition">
           <Edit className="w-4 h-4" />
           Edit Profile
@@ -49,12 +49,12 @@ const Profile = ({ retailer }) => {
           retailer.products.map((product) => (
             <div
               key={product.id}
-              className="border rounded-lg p-4 shadow-sm hover:shadow-md transition"
+              className="border  rounded-lg p-4 shadow-sm hover:shadow-md transition"
             >
               <img
                 src={product.img}
                 alt={product.name}
-                className="w-full h-40 object-cover rounded-md"
+                className="w-full h-40 object-contain rounded-md"
               />
               <h4 className="text-lg font-semibold mt-2">{product.name}</h4>
               <p className="text-gray-600 text-sm">{product.description}</p>
@@ -85,16 +85,16 @@ const sampleRetailer = {
   products: [
     {
       id: 1,
-      name: "Organic Tomatoes",
-      img: "https://via.placeholder.com/150",
+      name: "Organic pineapple",
+      img: "/images/pineapple.jpeg",
       description: "Fresh organic tomatoes, direct from the farm.",
       price: 50,
     },
     {
       id: 2,
-      name: "Alphonso Mangoes",
-      img: "https://via.placeholder.com/150",
-      description: "Sweet and juicy Alphonso mangoes.",
+      name: "Mangoes",
+      img: "/images/guva.jpeg",
+      description: "Sweet and juicy guva.",
       price: 120,
     },
   ],

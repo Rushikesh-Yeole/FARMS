@@ -26,6 +26,7 @@ export const verifyOtp = createAsyncThunk(
         otp,
         ...rest,
       });
+      
       console.log("Verified User Data:", response.data.user2);  //  Log only user data
       return response.data.user;
     } catch (error) {
