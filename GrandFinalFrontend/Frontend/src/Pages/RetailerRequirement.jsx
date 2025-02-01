@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { retailerdemandthunk } from "../store/retailerdemandSlice";
+
 const locationData = {
   Maharashtra: {
     Pune: ["Haveli", "Baramati", "Daund"],
@@ -11,51 +12,15 @@ const locationData = {
     Mysore: ["Mysore North", "Mysore South"],
   },
 };
+
 const cropCategories = {
   Cereals: ["Rice", "Wheat", "Jowar", "Bajra", "Maize", "Ragi"],
   Pulses: ["Tur", "Moong", "Urad", "Chana", "Masoor"],
-  Oilseeds: [
-    "Groundnut",
-    "Soybean",
-    "Sunflower",
-    "Safflower",
-    "Sesame",
-    "Niger Seed",
-  ],
+  Oilseeds: ["Groundnut", "Soybean", "Sunflower", "Safflower", "Sesame", "Niger Seed"],
   "Cash Crops": ["Cotton", "Sugarcane", "Tobacco"],
-  Fruits: [
-    "Mango",
-    "Banana",
-    "Grapes",
-    "Orange",
-    "Pomegranate",
-    "Guava",
-    "Papaya",
-    "Chikoo",
-    "Custard Apple",
-    "Fig",
-  ],
-  Vegetables: [
-    "Onion",
-    "Tomato",
-    "Brinjal",
-    "Okra",
-    "Cabbage",
-    "Cauliflower",
-    "Spinach",
-    "Carrot",
-    "Potato",
-    "Bitter Gourd",
-    "Bottle Gourd",
-  ],
-  "Spices and Condiments": [
-    "Turmeric",
-    "Ginger",
-    "Garlic",
-    "Chili",
-    "Coriander",
-    "Cumin",
-  ],
+  Fruits: ["Mango", "Banana", "Grapes", "Orange", "Pomegranate", "Guava", "Papaya"],
+  Vegetables: ["Onion", "Tomato", "Brinjal", "Okra", "Cabbage", "Cauliflower", "Spinach"],
+  "Spices and Condiments": ["Turmeric", "Ginger", "Garlic", "Chili", "Coriander", "Cumin"],
   "Plantation Crops": ["Coffee", "Areca Nut"],
   Flowers: ["Rose", "Jasmine", "Marigold"],
 };
@@ -65,7 +30,9 @@ export default function RetailerDemandForm() {
     category: "",
     crop: "",
     quantity: "",
-    expectedDelivery: "",
+    price: "", 
+    cropgrade: "", // Added crop grade
+    expectedDeliveryDate: "",
     location: {
       state: "",
       district: "",
@@ -89,24 +56,22 @@ export default function RetailerDemandForm() {
       location: { ...formData.location, [name]: value },
     });
   };
+
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Retailer Demand Submitted:", formData);
-    dispatch(retailerdemandthunk(formdata));
+    dispatch(retailerdemandthunk(formData));
     alert("Demand Posted Successfully!");
   };
-  
+
   return (
     <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10 border border-gray-200">
       <h2 className="text-3xl font-bold mb-6 text-center text-orange-500">
         🛒 Post Your Demand
       </h2>
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
-      >
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Crop Category Selection */}
         <div className="md:col-span-2">
           <label className="block font-medium mb-1">Crop Category</label>
@@ -114,9 +79,7 @@ export default function RetailerDemandForm() {
             name="category"
             className="w-full p-3 border rounded-lg"
             value={formData.category}
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value, crop: "" })
-            }
+            onChange={(e) => setFormData({ ...formData, category: e.target.value, crop: "" })}
             required
           >
             <option value="">-- Select Category --</option>
@@ -164,16 +127,47 @@ export default function RetailerDemandForm() {
           />
         </div>
 
-        {/* Expected Delivery Date */}
+        {/* Price */}
         <div>
-          <label className="block font-medium mb-1">
-            Expected Delivery Date
-          </label>
+          <label className="block font-medium mb-1">Expected Price (₹ per quintal)</label>
+          <input
+            type="number"
+            name="price"
+            className="w-full p-3 border rounded-lg"
+            value={formData.price}
+            onChange={handleChange}
+            required
+            min="1"
+            placeholder="Enter expected price"
+          />
+        </div>
+
+        {/* Crop Grade */}
+        <div>
+          <label className="block font-medium mb-1">Crop Grade</label>
+          <select
+            name="cropgrade"
+            className="w-full p-3 border rounded-lg"
+            value={formData.cropgrade}
+            onChange={handleChange}
+            required
+          >
+            <option value="">-- Select Grade --</option>
+            <option value="1">1 (Premium)</option>
+            <option value="2">2 (Good)</option>
+            <option value="3">3 (Average)</option>
+            <option value="4">4 (Low)</option>
+          </select>
+        </div>
+
+        {/* Expected Delivery Date */}
+        <div className="md:col-span-2">
+          <label className="block font-medium mb-1">Expected Delivery Date</label>
           <input
             type="date"
-            name="expectedDelivery"
+            name="expectedDeliveryDate"
             className="w-full p-3 border rounded-lg"
-            value={formData.expectedDelivery}
+            value={formData.expectedDeliveryDate}
             onChange={handleChange}
             required
           />
@@ -197,7 +191,6 @@ export default function RetailerDemandForm() {
             ))}
           </select>
         </div>
-
         {formData.location.state && (
           <div className="md:col-span-2">
             <label className="block font-medium mb-1">District</label>
@@ -234,12 +227,9 @@ export default function RetailerDemandForm() {
             />
           </div>
         )}
-
         {/* Contact Number */}
         <div className="md:col-span-2">
-          <label className="block font-medium mb-1">
-            Contact Number (Optional)
-          </label>
+          <label className="block font-medium mb-1">Contact Number (Optional)</label>
           <input
             type="text"
             name="contactNumber"
@@ -252,10 +242,7 @@ export default function RetailerDemandForm() {
 
         {/* Submit Button */}
         <div className="md:col-span-2">
-          <button
-            type="submit"
-            className="w-full bg-orange-600 hover:bg-blue-700 text-white p-3 rounded-lg transition"
-          >
+          <button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white p-3 rounded-lg transition">
             Post Demand
           </button>
         </div>

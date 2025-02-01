@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import OtpPage from "./Pages/otpPage.jsx";
 import HomePage from "./Pages/HomePage.jsx";
 import About from "./Pages/About.jsx";
-import LoginPage from "./Pages/loginPage.jsx";
+import LoginPage from "./Pages/LoginPage.jsx";
 import VRfeed from "./Pages/VRfeed.jsx";
 import Header from "./Components/Header.jsx";
 import MyProfilePage from "./Components/MyProfilePage.jsx";
