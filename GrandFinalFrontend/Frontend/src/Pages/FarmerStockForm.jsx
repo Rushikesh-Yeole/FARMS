@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import {farmerStockPost} from '../store/farmerStockPostSlice'
 const locationData = {
   Maharashtra: {
     Pune: ["Haveli", "Baramati", "Daund"],
@@ -60,13 +61,14 @@ const cropCategories = {
 };
 
 export default function FarmerStockForm() {
+  const dispatch = useDispatch()
   const [previewImage, setPreviewImage] = useState(null);
   const [formData, setFormData] = useState({
     category: "",
-    crop: "",
-    cropGrade: "",
+    cropname: "",
+    cropgrade: "",
     quantity: "",
-    image: null,
+    cropImage: null,
     location: {
       // address: "",
       state: "",
@@ -96,7 +98,7 @@ export default function FarmerStockForm() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, image: file });
+    setFormData({ ...formData, cropImage: file });
 
     // Image Preview Logic
     if (file) {
@@ -112,8 +114,12 @@ export default function FarmerStockForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
-    alert("Stock Posted Successfully!");
+    // console.log("Form Submitted:", formData);
+    dispatch(farmerStockPost(formData)).then(()=>{
+      console.log("done")
+    })
+
+    // alert("Stock Posted Successfully!");
   };
 
   return (
@@ -134,7 +140,7 @@ export default function FarmerStockForm() {
             className="w-full p-3 border rounded-lg"
             value={formData.category}
             onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value, crop: "" })
+              setFormData({ ...formData, category: e.target.value, cropname: "" })
             }
             required
           >
@@ -151,16 +157,16 @@ export default function FarmerStockForm() {
           <div className="md:col-span-2">
             <label className="block font-medium mb-1">Crop Type</label>
             <select
-              name="crop"
+              name="cropname"
               className="w-full p-3 border rounded-lg"
-              value={formData.crop}
+              value={formData.cropname}
               onChange={handleChange}
               required
             >
               <option value="">-- Select Crop --</option>
-              {cropCategories[formData.category].map((crop) => (
-                <option key={crop} value={crop}>
-                  {crop}
+              {cropCategories[formData.category].map((cropname) => (
+                <option key={cropname} value={cropname}>
+                  {cropname}
                 </option>
               ))}
             </select>
@@ -171,9 +177,9 @@ export default function FarmerStockForm() {
         <div>
           <label className="block font-medium mb-1">Crop Grade</label>
           <select
-            name="cropGrade"
+            name="cropgrade"
             className="w-full p-3 border rounded-lg"
-            value={formData.cropGrade}
+            value={formData.cropgrade}
             onChange={handleChange}
             required
           >
@@ -206,6 +212,7 @@ export default function FarmerStockForm() {
           <input
             type="file"
             accept="image/*"
+            name="cropImage"
             className="w-full p-3 border rounded-lg"
             onChange={handleFileChange}
             required

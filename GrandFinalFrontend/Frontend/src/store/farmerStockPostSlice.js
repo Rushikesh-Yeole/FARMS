@@ -1,4 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios"
 import react from "react";
 // import {createAsyncThunk } from "react-redux";   WRONG 
 
@@ -6,7 +7,9 @@ export const farmerStockPost = createAsyncThunk(
     "farmerStock/Post",
     async(postStockData,{rejectWithValue})=>{
         try{
-            const response = await axios.post("http://localhost:8000/farmer/poststock",postStockData)
+            console.log("hii")
+            const response = await axios.post("http://localhost:8000/farmer/poststock",postStockData,{ headers: { "Content-Type": "multipart/form-data" },withCredentials: true });
+            console.log(response)
             return response.data
         }catch(error){
             return rejectWithValue(
@@ -35,6 +38,7 @@ const postStockSlice = createSlice({
             .addCase(farmerStockPost.fulfilled,(state,action)=>{
                 state.loading = false
                 state.stockPostData = action.payload
+                console.log("infulfill",action.payload)
             })
             .addCase(farmerStockPost.rejected,(state,action)=>{
                 state.loading = false;

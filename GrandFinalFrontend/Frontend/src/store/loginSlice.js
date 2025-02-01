@@ -9,13 +9,12 @@ export const login = createAsyncThunk(
       const response = await axios.post("http://localhost:8000/api/login", {
         contactNumber: mobileNumber,
         password
-      });
-      
-      // Use response.data as it contains the parsed JSON from the backend
-      localStorage.setItem("Token",response.data.token)
-      return response.data; // returns the data to be stored in the state
+      }, { withCredentials: true });
+
+      // Assuming backend sends user data, store it in Redux state
+      return response.data;  // Store user info and token in Redux state
     } catch (error) {
-      // Check if there's a response object and return the error message accordingly
+      // Handle error gracefully
       return rejectWithValue(
         error.response && error.response.data 
           ? error.response.data.message 

@@ -1,23 +1,24 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/loginSlice";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 
 const LoginPage = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { userData, loading, error } = useSelector((state) => state.loginuser);
+  const navigate = useNavigate(); // Declare the useNavigate hook here
 
   const handleLogin = () => {
     if (mobileNumber && password) {
       dispatch(login({ mobileNumber, password })).then((result) => {
         if (result.type === "loginuser/login/fulfilled") {
-          // OTP verification succeeded, navigate to home page
-          navigate( "./farmerstock");
+          // OTP verification succeeded, navigate to the home page
+          navigate("/farmerstock");
         } else {
           // OTP verification failed, show error message
-          alert("User not loged in");
+          alert("User not logged in");
         }
       });
     }
