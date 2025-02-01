@@ -43,11 +43,12 @@ const loginSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.userData = action.payload;
-        console.log(action.payload) // Store the user data in the state
+        console.log("infulfill",action.payload) // Store the user data in the state
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload; // Store the error message in the state
+        state.error = action.payload;
+         // Store the error message in the state
       });
   },
 });

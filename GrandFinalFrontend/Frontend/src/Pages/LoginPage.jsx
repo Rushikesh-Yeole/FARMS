@@ -13,11 +13,14 @@ const LoginPage = () => {
   const handleLogin = () => {
     if (mobileNumber && password) {
       dispatch(login({ mobileNumber, password })).then((result) => {
-        if (result.type === "loginuser/login/fulfilled") {
-          // OTP verification succeeded, navigate to the home page
-          navigate("/farmerstock");
+        if (result.meta.requestStatus === "fulfilled") {
+          const user = result.payload; // Extract userData from payload
+          if (user && user.accountType === "Farmer") {
+            navigate("/farmerstock");
+          } else {
+            navigate("/retailerpost");
+          }
         } else {
-          // OTP verification failed, show error message
           alert("User not logged in");
         }
       });
