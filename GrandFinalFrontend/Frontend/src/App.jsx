@@ -10,6 +10,7 @@ import VRfeed from "./Pages/VRfeed.jsx";
 import Header from "./Components/Header.jsx";
 import MyProfilePage from "./Components/MyProfilePage.jsx";
 import FarmerStockForm from "./Pages/FarmerStockForm.jsx";
+import RetailerDemandForm from "./Pages/RetailerRequirement.jsx";
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
   // console.log(intstate.profile); // Debugging: Ensure this is printing the correct Redux state
@@ -22,17 +23,22 @@ export default function App() {
        <div className="h-screen flex flex-col">
         {/* Fixed Header */}
         <Header />
-      <Routes>
+
+   <div >
+
+   <Routes>
         
         <Route path="/" element={<VRfeed />} />
         <Route path="/loginpage" element={<LoginPage/>}/>
         <Route path="/register" element={<RegisterProfile/>}/>
         <Route path="/farmerstock" element={<FarmerStockForm/>}/>
+        <Route path="/retailerpost" element={<RetailerDemandForm />} />
         <Route path="/otp" element={<OtpPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/About" element={<About />} />
         <Route path="/profile" element={<MyProfilePage/>}/>
       </Routes>
+   </div>
     </div>
     </BrowserRouter>
   );
