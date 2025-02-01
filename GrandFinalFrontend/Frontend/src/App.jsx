@@ -20,26 +20,24 @@ export default function App() {
 
   return (
     <BrowserRouter>
-       <div className="h-screen flex flex-col">
+      <div className="h-screen flex flex-col">
         {/* Fixed Header */}
         <Header />
 
-   <div >
-
-   <Routes>
-        
-        <Route path="/" element={<VRfeed />} />
-        <Route path="/loginpage" element={<LoginPage/>}/>
-        <Route path="/register" element={<RegisterProfile/>}/>
-        <Route path="/farmerstock" element={<FarmerStockForm/>}/>
-        <Route path="/retailerpost" element={<RetailerDemandForm />} />
-        <Route path="/otp" element={<OtpPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/About" element={<About />} />
-        <Route path="/profile" element={<MyProfilePage/>}/>
-      </Routes>
-   </div>
-    </div>
+        <div>
+          <Routes>
+            <Route path="/" element={<VRfeed />} />
+            <Route path="/loginpage" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterProfile />} />
+            <Route path="/farmerstock" element={<FarmerStockForm />} />
+            <Route path="/retailerpost" element={<RetailerDemandForm />} />
+            <Route path="/otp" element={<OtpPage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/About" element={<About />} />
+            <Route path="/profile" element={<MyProfilePage />} />
+          </Routes>
+        </div>
+      </div>
     </BrowserRouter>
   );
 }
