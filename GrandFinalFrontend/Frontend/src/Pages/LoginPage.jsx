@@ -16,7 +16,7 @@ const LoginPage = () => {
         if (result.meta.requestStatus === "fulfilled") {
           const user = result.payload; // Extract userData from payload
           if (user && user.accountType === "Farmer") {
-            navigate("/farmerstock");
+            navigate("/transporterDemand");
           } else {
             navigate("/retailerpost");
           }
@@ -26,6 +26,8 @@ const LoginPage = () => {
       });
     }
   };
+
+
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">

@@ -17,13 +17,19 @@ export const transportDemandThunk = createAsyncThunk(
   "transporterDemandSlice/transportDemandThunk",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/transportDemand", formData);
-      return response;
+      const response = await axios.post(
+        "http://localhost:8000/farmer/reqtransporter",
+        formData,
+        { withCredentials: true }
+      );
+
+      return response.data; // ✅ Only return serializable data
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || "An error occurred");
     }
   }
 );
+
 
 const transportDemandSlice = createSlice({
   name: "transportDemand",
@@ -48,6 +54,7 @@ const transportDemandSlice = createSlice({
         state.isLoading = false;
         state.hasError = false;
         state.demands = action.payload;
+        console.log("success",action.payload)
       })
       .addCase(transportDemandThunk.rejected, (state, action) => {
         state.status = "failed";

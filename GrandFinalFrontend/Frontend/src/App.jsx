@@ -3,6 +3,7 @@ import RegisterProfile from "./Pages/RegisterProfile"; // Correct path for Regis
 import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import OtpPage from "./Pages/otpPage.jsx";
+import TransportDemandForm from "./Pages/TransportDemand.jsx"
 import HomePage from "./Pages/HomePage.jsx";
 import About from "./Pages/About.jsx";
 import LoginPage from "./Pages/LoginPage.jsx";
@@ -35,6 +36,7 @@ export default function App() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/About" element={<About />} />
             <Route path="/profile" element={<MyProfilePage />} />
+            <Route path="/transporterDemand" element={<TransportDemandForm/>}/>
           </Routes>
         </div>
       </div>
