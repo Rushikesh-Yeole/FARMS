@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+// import { useDispatch,useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { bestDeal } from "../store/viewBestDealsSlice";
 import {
   Star,
   TrendingUp,
@@ -11,10 +13,23 @@ import {
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
-
+import { useSelector,useDispatch } from "react-redux";
 const FarmerBestDealsPage = () => {
   const [distance, setDistance] = useState("");
   const [showContactMap, setShowContactMap] = useState({});
+  const dispatch = useDispatch();
+  const poststockState = useSelector((state)=>state.postStock)
+ 
+  // useEffect(() => {
+  //   // Ensure the state is populated before dispatching
+  //   if (poststockState?.stockPostData?.stock?._id) {
+  //     dispatch(poststockState.stockPostData.stock._id);
+  //   }
+  // }, []);
+ 
+    
+  
+
 
   // Example deals data
   const deals = [
@@ -52,10 +67,15 @@ const FarmerBestDealsPage = () => {
     },
   ];
 
-  const handleDistanceSubmit = (e) => {
-    e.preventDefault();
-    console.log("Distance submitted:", distance);
-  };
+
+  useEffect(()=>{
+    // Check if stock _id exists and dispatch the bestDeal thunk
+    if (poststockState?.stockPostData?.stock?._id) {
+      const requirementId = poststockState.stockPostData.stock._id;
+      dispatch(bestDeal(requirementId));  // Dispatch the async action with the stock ID
+    }
+  })
+  
 
   const toggleContact = (dealId) => {
     setShowContactMap((prev) => ({
@@ -63,6 +83,11 @@ const FarmerBestDealsPage = () => {
       [dealId]: !prev[dealId],
     }));
   };
+
+  const handleDistanceSubmit = (event) => {
+    event.preventDefault();
+    console.log("Distance form submitted!");
+};
 
   return (
     <div className="min-h-screen  lg:px-40 bg-gradient-to-b from-green-50 to-white py-8">

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {farmerStockPost} from '../store/farmerStockPostSlice'
+import { bestDeal } from "../store/viewBestDealsSlice";
+import { useNavigate } from "react-router-dom";
 const locationData = {
   Maharashtra: {
     Pune: ["Haveli", "Baramati", "Daund"],
     Mumbai: ["Andheri", "Dadar", "Borivali"],
+    nashik:["deola"]
   },
   Karnataka: {
     Bangalore: ["Bangalore North", "Bangalore South"],
@@ -61,8 +64,12 @@ const cropCategories = {
 };
 
 export default function FarmerStockForm() {
+
+  const navigate = useNavigate();
+  
   const dispatch = useDispatch()
   const [previewImage, setPreviewImage] = useState(null);
+  const state = useSelector((state)=>state.retailerdemand)
   const [formData, setFormData] = useState({
     category: "",
     cropname: "",
@@ -117,7 +124,13 @@ export default function FarmerStockForm() {
     // console.log("Form Submitted:", formData);
     dispatch(farmerStockPost(formData)).then(()=>{
       console.log("done")
+      navigate("/farmerbestdeals");
     })
+    // dispatch(bestDeal(state.postStock.stockPostData.stock._id)).then((result)=>{
+    //   if(result.type === "deals/bestDeals/fulfilled")
+    //   navigate("/farmerbestdeals");
+    // })
+    
 
     // alert("Stock Posted Successfully!");
   };

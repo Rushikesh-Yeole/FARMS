@@ -6,6 +6,7 @@ const locationData = {
   Maharashtra: {
     Pune: ["Haveli", "Baramati", "Daund"],
     Mumbai: ["Andheri", "Dadar", "Borivali"],
+    nashik:["deola"]
   },
   Karnataka: {
     Bangalore: ["Bangalore North", "Bangalore South"],
