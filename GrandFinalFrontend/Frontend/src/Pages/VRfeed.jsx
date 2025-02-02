@@ -222,14 +222,15 @@ const VRfeed = () => {
 
 
       ></button> */}
-      <VCarousel/>
-      <div className="w-full my-4 p-3 ">
+      <div className="w-full my-4 lg:px-56 ">
+      <VCarousel />
         <div className="flex items-center w-full">
           <input
             type="text"
             className="flex-grow p-2 border  rounded"
             placeholder="Search..."
           />
+          
           <button
             className="ml-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
             onClick={() => {
@@ -241,135 +242,17 @@ const VRfeed = () => {
             Open Filter
           </button>
         </div>
-      </div>
-          
-      <div className="flex relative  justify-center">
-        {/* Filters Section (Sidebar) */}
-        {isFilterVisible && (
-          //  <div
-          //  className={`lg:hidden fixed  inset-0 bg-gray-800 bg-opacity-50 z-40 transition-all duration-300 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
-          // >
-          <div
-            className={`fixed top-0 left-0 w-3/4 h-full transition-transform duration-300 bg-white p-4 z-50 lg:hidden ${
-              isFilterVisible ? "translate-x-0" : "translate-x-full"
-            }`}
-          >
-            {/* Back Button */}
-            <button
-              className="absolute left-2 top-1 text-5xl font-bold text-gray-700 hover:text-gray-900 "
-              onClick={() => setIsFilterVisible(false)}
-            >
-              &larr;
-            </button>
-            <h2 className="text-xl font-bold mb-4 mt-10">Filters</h2>
-            <div className="mb-4">
-              <label className="block mb-2 font-semibold">Type</label>
-              <select
-                name="type"
-                value={filterCriteria.type}
-                onChange={handleFilterChange}
-                className="w-full p-2 border rounded"
-              >
-
-                <option value="All">All</option>
-                <option value="Fruits">Fruits</option>
-                <option value="Vegetables">Vegetables</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="block mb-2 font-semibold">Min Price</label>
-              <input
-                type="number"
-                name="minPrice"
-                value={filterCriteria.minPrice}
-                onChange={handleFilterChange}
-                className="w-full p-2 border rounded"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2 font-semibold">Max Price</label>
-              <input
-                type="number"
-                name="maxPrice"
-                value={filterCriteria.maxPrice}
-                onChange={handleFilterChange}
-                className="w-full p-2 border rounded"
-              />
-            </div>
-            <button
-              onClick={resetFilters}
-              className="w-full bg-red-500 text-white py-2 rounded mb-4"
-            >
-              Reset Filters
-            </button>
-            <button
-              onClick={applyFilters}
-              className="w-full bg-green-500 text-white py-2 rounded"
-            >
-              Apply Filters
-            </button>
-          </div>
-        )}
-
-        {/* Filters Section (Desktop) */}
-        <div
-          className={`bg-white p-4 hidden lg:block md:hidden md:w-1/4 md:h-screen md:p-4`}
-        >
-          <h2 className="text-xl font-bold mb-4">Filters</h2>
-          <div className="mb-4">
-            <label className="block mb-2 font-semibold">Type</label>
-            <select
-              name="type"
-              value={filterCriteria.type}
-              onChange={handleFilterChange}
-              className="w-full p-2 border rounded"
-            >
-              <option value="All">All</option>
-              <option value="Fruits">Fruits</option>
-              <option value="Vegetables">Vegetables</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2 font-semibold">Min Price</label>
-            <input
-              type="number"
-              name="minPrice"
-              value={filterCriteria.minPrice}
-              onChange={handleFilterChange}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2 font-semibold">Max Price</label>
-            <input
-              type="number"
-              name="maxPrice"
-              value={filterCriteria.maxPrice}
-              onChange={handleFilterChange}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-          <button
-            onClick={resetFilters}
-            className="w-full bg-red-500 text-white py-2 rounded mb-4"
-          >
-            Reset Filters
-          </button>
-          <button
-            onClick={applyFilters}
-            className="w-full bg-green-500 text-white py-2 rounded"
-          >
-            Apply Filters
-          </button>
-        </div>
-
-        {/* Products Feed */}
-        <div className="w-full md:w-3/4 lg:w-3/4">
+        <div className="w-full">
           {renderSection("Vegetables")}
           {renderSection("Fruits")}
         </div>
       </div>
+
+    
+
+        {/* Products Feed */}
+       
+    
     </>
   );
 };
