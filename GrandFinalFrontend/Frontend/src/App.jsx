@@ -28,7 +28,7 @@ export default function App() {
       <div className="h-screen flex flex-col">
         {/* Fixed Header */}
         <Header />
-
+    
         <div>
           <Routes>
             <Route path="/" element={<VRfeed />} />

@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-// import { useDispatch,useSelector } from "react-redux";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { bestDeal } from "../store/viewBestDealsSlice";
 import {
   Star,
   TrendingUp,
@@ -9,29 +7,14 @@ import {
   Phone,
   Calendar,
   DollarSign,
-  Award,
-  ArrowRight,
   ShieldCheck,
+  ArrowRight,
 } from "lucide-react";
-import { useSelector,useDispatch } from "react-redux";
+
 const FarmerBestDealsPage = () => {
   const [distance, setDistance] = useState("");
   const [showContactMap, setShowContactMap] = useState({});
-  const dispatch = useDispatch();
-  const poststockState = useSelector((state)=>state.postStock)
- 
-  // useEffect(() => {
-  //   // Ensure the state is populated before dispatching
-  //   if (poststockState?.stockPostData?.stock?._id) {
-  //     dispatch(poststockState.stockPostData.stock._id);
-  //   }
-  // }, []);
- 
-    
-  
 
-
-  // Example deals data
   const deals = [
     {
       id: 1,
@@ -67,15 +50,10 @@ const FarmerBestDealsPage = () => {
     },
   ];
 
-
-  useEffect(()=>{
-    // Check if stock _id exists and dispatch the bestDeal thunk
-    if (poststockState?.stockPostData?.stock?._id) {
-      const requirementId = poststockState.stockPostData.stock._id;
-      dispatch(bestDeal(requirementId));  // Dispatch the async action with the stock ID
-    }
-  })
-  
+  const handleDistanceSubmit = (e) => {
+    e.preventDefault();
+    console.log("Distance submitted:", distance);
+  };
 
   const toggleContact = (dealId) => {
     setShowContactMap((prev) => ({
@@ -84,25 +62,20 @@ const FarmerBestDealsPage = () => {
     }));
   };
 
-  const handleDistanceSubmit = (event) => {
-    event.preventDefault();
-    console.log("Distance form submitted!");
-};
-
   return (
-    <div className="min-h-screen  lg:px-40 bg-gradient-to-b from-green-50 to-white py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen    border bg-gradient-to-b from-green-50 to-white py-8 px-4 sm:px-1 lg:px-20">
+      <div className="max-w-7xl  sm:mx-4 lg:mx-20 ">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-center  mb-12"
+          className="text-center mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-green-800 mb-4 font-[Poppins]">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-800 mb-4">
             Discover Your Best Profit Opportunities
           </h1>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto font-[Inter]">
+          <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto">
             Our AI-powered system analyzes thousands of deals to bring you the
             most profitable opportunities. Trust in our Deal Score™ - your guide
             to maximum returns.
@@ -114,22 +87,21 @@ const FarmerBestDealsPage = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="max-w-md mx-auto mb-12"
+          className="max-w-md mx-auto mb-10"
         >
-          <form onSubmit={handleDistanceSubmit} className="flex gap-4">
+          <form onSubmit={handleDistanceSubmit} className="flex flex-col sm:flex-row gap-4">
             <input
               type="number"
               value={distance}
               onChange={(e) => setDistance(e.target.value)}
-              placeholder="Enter maximum distance (km)"
-              className="flex-1 px-4 py-3 rounded-lg border-2 border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition-colors"
+              placeholder="Enter max distance (km)"
+              className="w-full sm:flex-1 px-4 py-3 rounded-lg border-2 border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition-colors"
             />
             <button
               type="submit"
-              className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center gap-2"
+              className="w-full sm:w-auto bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
             >
-              Find Deals
-              <ArrowRight size={20} />
+              Find Deals <ArrowRight size={20} />
             </button>
           </form>
         </motion.div>
@@ -141,75 +113,51 @@ const FarmerBestDealsPage = () => {
               key={deal.id}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-xl  shadow-lg overflow-hidden hover:shadow-xl transition-shadow relative"
+              transition={{ delay: index * 0.3, duration: 1 }}
+              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
             >
-              <div className="flex ">
-                {/* Left Section - Retailer Info & Image */}
-                <div className="w-1/4 bg-green-100 p-4 flex  flex-col items-center justify-center border-r border-gray-100">
+              <div className="flex flex-col md:flex-row">
+                {/* Image Section */}
+                <div className="w-full md:w-1/3 bg-green-100 p-4 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
                   <img
                     src={deal.productImage}
                     alt={deal.productName}
-                    className=" object-cover rounded-lg mb-4"
+                    className="w-full h-48 object-cover rounded-lg"
                   />
-                  <h3 className="text-2xl font-bold text-gray-900 text-center font-[Poppins] mb-2">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-center mt-2">
                     {deal.productName}
                   </h3>
-                  <p className="text-sm font-medium text-gray-600 text-center">
-                    {deal.retailerType}
-                  </p>
                 </div>
 
-                {/* Right Section - Deal Details */}
-                <div className="flex-1 p-6 relative">
-                  <div className="flex items-center justify-between mb-6">
+                {/* Deal Details */}
+                <div className="flex-1  p-6">
+                  <div className="flex flex-col  sm:flex-row justify-between mb-4">
                     <div className="flex items-center gap-2">
-                    <h4 className="text-2xl font-bold text-gray-900 text-center ">
-                    {deal.retailerName}
-                  </h4>
-                      <Star
-                        className="text-yellow-500 fill-yellow-500"
-                        size={28}
-                      />
-                      <span className="text-xl font-bold text-gray-900">
-                        {deal.rating}
-                      </span>
+                      <h4 className="text-xl font-bold">{deal.retailerName}</h4>
+                      <Star className="text-yellow-500 fill-yellow-500" size={20} />
+                      <span className="text-lg font-bold">{deal.rating}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <ShieldCheck className="text-green-700" size={28} />
-                      <span className="text-xl font-bold text-green-700">
+                      <ShieldCheck className="text-green-700" size={20} />
+                      <span className="text-lg font-bold text-green-700">
                         Best Deal
                       </span>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="flex items-center gap-3">
-                      <DollarSign
-                        className="text-gray-800"
-                        size={24}
-                        strokeWidth={2.5}
-                      />
+                  <div className="grid grid-cols-1 border sm:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-2">
+                      <DollarSign className="text-gray-800" size={20} />
                       <div>
-                        <p className="text-sm font-medium text-gray-700">
-                          Price per kg
-                        </p>
-                        <p className="text-lg font-bold text-gray-900">
-                          ₹{deal.pricePerKg}
-                        </p>
+                        <p className="text-sm font-medium text-gray-700">Price per kg</p>
+                        <p className="text-lg font-bold">₹{deal.pricePerKg}</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <TrendingUp
-                        className="text-gray-800"
-                        size={24}
-                        strokeWidth={2.5}
-                      />
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="text-gray-800" size={20} />
                       <div>
-                        <p className="text-sm font-medium text-gray-700">
-                          Expected Profit
-                        </p>
+                        <p className="text-sm font-medium text-gray-700">Expected Profit</p>
                         <p className="text-lg font-bold text-green-700">
                           ₹{deal.expectedProfitMin.toLocaleString()} - ₹
                           {deal.expectedProfitMax.toLocaleString()}
@@ -217,68 +165,19 @@ const FarmerBestDealsPage = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <MapPin
-                        className="text-gray-800 "
-                        size={24}
-                        strokeWidth={2.5}
-                      />
-                      <div>
-                        <p className="text-sm font-medium text-gray-700">
-                          Location
-                        </p>
-                        <p className="text-lg font-semibold text-gray-900">
-                          {deal.location}
-                        </p>
-                      </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="text-gray-800" size={20} />
+                      <p className="text-lg font-semibold">{deal.location}</p>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => toggleContact(deal.id)}
-                        className="flex items-center gap-2 px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg transition-colors"
-                      >
-                        <Phone
-                          className="text-green-700"
-                          size={20}
-                          strokeWidth={2.5}
-                        />
-                        <span className="font-semibold">
-                          {showContactMap[deal.id]
-                            ? deal.contactNumber
-                            : "Show Contact"}
-                        </span>
-                      </button>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <Calendar
-                        className="text-gray-800"
-                        size={24}
-                        strokeWidth={2.5}
-                      />
-                      <div>
-                        <p className="text-sm font-medium text-gray-700">
-                          Expected Delivery
-                        </p>
-                        <p className="text-lg font-semibold text-gray-900">
-                          {new Date(
-                            deal.expectedDeliveryDate
-                          ).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
+                    <button
+                      onClick={() => toggleContact(deal.id)}
+                      className="bg-green-100 hover:bg-green-200 text-green-700 px-4 py-2 rounded-lg flex items-center gap-2"
+                    >
+                      <Phone size={20} />
+                      {showContactMap[deal.id] ? deal.contactNumber : "Show Contact"}
+                    </button>
                   </div>
-
-                  {/* Best Deal Tag */}
-                  {deal.dealScore >= 95 && (
-                    <div className="absolute top-4 right-4">
-                      {/* <div className="bg-gradient-to-br from-amber-500 via-amber-400 to-yellow-400 text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transform rotate-2">
-                        <Award size={20} className="fill-white" />
-                        Premium Deal
-                      </div> */}
-                    </div>
-                  )}
                 </div>
               </div>
             </motion.div>
