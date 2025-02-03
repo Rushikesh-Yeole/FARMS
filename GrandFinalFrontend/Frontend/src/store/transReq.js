@@ -3,27 +3,27 @@ import axios from "axios";
 
 export const transreq = createAsyncThunk(
     'request/getrequest',
-    async()=>{
-        try{
-            const response = await axios.get("http://localhost:8000/transporter/getinfo");
-
+    async(_, { rejectWithValue }) => { // Correct error handling
+        try {
+          const response = await axios.get("http://localhost:8000/transporter/getinfo", {
+            withCredentials: true, // Ensures cookies are sent with the request
+        });
+        
             return response.data;
-
-        }
-        catch(error){
-            return isRejectedWithValue(
-                error.response && error.response.data 
-          ? error.response.data.message 
-          : error.message
-            )
+        } catch (error) {
+            return rejectWithValue(
+                error.response && error.response.data
+                    ? error.response.data.message
+                    : error.message
+            );
         }
     }
-)
+);
 
 const transReqSlice = createSlice({
     name: 'request',
     initialState: {
-        userData: null,
+        data: null, // Changed from userData to data
         loading: false,
         error: null,
     },
@@ -36,14 +36,14 @@ const transReqSlice = createSlice({
           })
           .addCase(transreq.fulfilled, (state, action) => {
             state.loading = false;
-            state.userData = action.payload;
-            console.log(action.payload) // Store the user data in the state
+            state.data = action.payload; // Store response in 'data'
+            console.log(action.payload);
           })
           .addCase(transreq.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.payload; // Store the error message in the state
+            state.error = action.payload;
           });
       },
-})
+});
 
 export default transReqSlice.reducer;

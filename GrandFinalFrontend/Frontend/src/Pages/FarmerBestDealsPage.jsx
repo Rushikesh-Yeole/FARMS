@@ -66,13 +66,15 @@ const FarmerBestDealsPage = () => {
       dealScore: 95,
     },
   ];
-
+  const [deal,setDeal] = useState([]);
 
   useEffect(()=>{
     // Check if stock _id exists and dispatch the bestDeal thunk
     if (poststockState?.stockPostData?.stock?._id) {
       const requirementId = poststockState.stockPostData.stock._id;
-      dispatch(bestDeal(requirementId));  // Dispatch the async action with the stock ID
+      dispatch(bestDeal(requirementId)).then((result)=>{
+        setDeal(action.payload);
+      });  // Dispatch the async action with the stock ID
     }
   })
   

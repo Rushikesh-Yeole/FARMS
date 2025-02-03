@@ -13,6 +13,9 @@ import MyProfilePage from "./Components/MyProfilePage.jsx";
 import FarmerStockForm from "./Pages/FarmerStockForm.jsx";
 import RetailerDemandForm from "./Pages/RetailerRequirement.jsx";
 import FarmerBestDealsPage  from "./Pages/FarmerBestDealsPage.jsx"
+import TransportReq from "./Pages/transportReq.jsx";
+import Dummy from "./Pages/Dummy.jsx";
+import MyStock from "./Pages/myStock.jsx";
 
 
 
@@ -42,6 +45,9 @@ export default function App() {
             <Route path="/About" element={<About />} />
             <Route path="/profile" element={<MyProfilePage />} />
             <Route path="/transporterDemand" element={<TransportDemandForm/>}/>
+            <Route path="/tranporterfeed" element={<TransportReq/>}/>
+            <Route path="/dummy" element={<Dummy/>}/>
+            <Route path ="/dummy/myStock"element={<MyStock/>}/>
           </Routes>
         </div>
       </div>
