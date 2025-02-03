@@ -44,7 +44,7 @@ const VCarousel = () => {
 
       </style>
       <div
-        className="flex  gap-4"
+        className="flex  gap-2"
         style={{
           scrollSnapType: "x mandatory", // Enables scroll snapping
 
@@ -53,7 +53,7 @@ const VCarousel = () => {
         {fruitsAndVeggies.map((item, index) => (
           <div
             key={index}
-            className="flex-shrink-0 min-w-[90px]  flex flex-col items-center justify-center"
+            className="flex-shrink-0  min-w-[90px]  flex flex-col items-center justify-center"
             style={{
               scrollSnapAlign: "center", // Aligns each item at the center during snap
             }}
