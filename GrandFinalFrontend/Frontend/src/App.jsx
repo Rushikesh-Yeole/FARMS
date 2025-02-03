@@ -13,9 +13,6 @@ import MyProfilePage from "./Components/MyProfilePage.jsx";
 import FarmerStockForm from "./Pages/FarmerStockForm.jsx";
 import RetailerDemandForm from "./Pages/RetailerRequirement.jsx";
 import FarmerBestDealsPage  from "./Pages/FarmerBestDealsPage.jsx"
-import TransportReq from "./Pages/transportReq.jsx";
-import Dummy from "./Pages/Dummy.jsx";
-import MyStock from "./Pages/myStock.jsx";
 
 
 
@@ -31,14 +28,16 @@ export default function App() {
       <div className="h-screen flex flex-col">
         {/* Fixed Header */}
         <Header />
-
+    
         <div>
           <Routes>
             <Route path="/" element={<VRfeed />} />
             <Route path="/loginpage" element={<LoginPage />} />
+            <Route path="/gohome" element={<Home/>} />
             <Route path="/register" element={<RegisterProfile />} />
             <Route path="/farmerstock" element={<FarmerStockForm />} />
             <Route path="/retailerpost" element={<RetailerDemandForm />} />
+            <Route path="/contactus" element={<Contact/>}></Route>
             <Route path="/farmerbestdeals" element={<FarmerBestDealsPage />} />
             <Route path="/otp" element={<OtpPage />} />
             <Route path="/home" element={<HomePage />} />

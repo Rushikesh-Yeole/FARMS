@@ -222,7 +222,7 @@ const VRfeed = () => {
 
 
       ></button> */}
-      <div className="w-full my-4 lg:px-56 ">
+      <div className="w-full  my-4 lg:px-44 ">
       <VCarousel />
         <div className="flex items-center w-full">
           <input

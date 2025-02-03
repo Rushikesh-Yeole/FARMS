@@ -1,105 +1,173 @@
-import react from "react";
 import React from "react";
-import { Edit, Store, ShoppingBag, Star } from "lucide-react";
+import {
+  Edit,
+  Store,
+  ShoppingBag,
+  Star,
+  Package,
+  DollarSign,
+} from "lucide-react";
 
-const Profile = ({ retailer }) => {
-  return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      {/* Profile Header */}
-
-      <div className="flex items-center space-x-6 border-b pb-4">
-        <img
-          src={retailer.profileImg }
-          alt="Retailer Profile"
-          className="w-24 h-24 rounded-full border"
-        />
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-900">{retailer.name}</h2>
-          <p className="text-gray-600">{retailer.storeName}</p>
-          <div className="flex items-center space-x-2 text-yellow-500 mt-1">
-            <Star className="w-5 h-5" />
-            <span className="text-lg font-semibold">{retailer.rating} / 5</span>
-          </div>
-        </div>
-
-        <button className="ml-auto px-4 py-2 bg-green-600 text-white rounded-lg flex items-center gap-2 hover:bg-green-700 transition">
-          <Edit className="w-4 h-4" />
-          Edit Profile
-        </button>
-      </div>
-
-      {/* Stats Section */}
-      <div className="flex justify-around text-center py-6">
-        <div>
-          <Store className="w-6 h-6 mx-auto text-blue-600" />
-          <p className="text-lg font-semibold">{retailer.totalListings}</p>
-          <p className="text-gray-600 text-sm">Total Listings</p>
-        </div>
-        <div>
-          <ShoppingBag className="w-6 h-6 mx-auto text-green-600" />
-          <p className="text-lg font-semibold">{retailer.soldItems}</p>
-          <p className="text-gray-600 text-sm">Sold Items</p>
-        </div>
-      </div>
-
-      {/* Product Listings */}
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">Your Listings</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {retailer.products.length > 0 ? (
-          retailer.products.map((product) => (
-            <div
-              key={product.id}
-              className="border  rounded-lg p-4 shadow-sm hover:shadow-md transition"
-            >
-              <img
-                src={product.img}
-                alt={product.name}
-                className="w-full h-40 object-contain rounded-md"
-              />
-              <h4 className="text-lg font-semibold mt-2">{product.name}</h4>
-              <p className="text-gray-600 text-sm">{product.description}</p>
-              <div className="flex justify-between items-center mt-3">
-                <span className="text-green-600 font-bold">₹{product.price}/kg</span>
-                <button className="text-sm bg-gray-200 px-3 py-1 rounded-lg hover:bg-gray-300">
-                  Manage
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-500">No products listed yet.</p>
-        )}
-      </div>
-    </div>
-  );
-};
-
-// Example data for testing
+// Sample data
 const sampleRetailer = {
+  id: "1",
   name: "Rajesh Kumar",
-  profileImg: "https://via.placeholder.com/100",
-  storeName: "FreshMart",
-  rating: 4.5,
-  totalListings: 12,
-  soldItems: 50,
+  profileImage: "",
+  storeName: "FreshMart Organics",
+  rating: 4.8,
+  totalListings: 25,
+  soldItems: 150,
+  revenue: 45000,
   products: [
     {
       id: 1,
-      name: "Organic pineapple",
-      img: "/images/pineapple.jpeg",
-      description: "Fresh organic tomatoes, direct from the farm.",
-      price: 50,
+      name: "Organic Alphonso Mangoes",
+      image:
+        "https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&q=80&w=1000",
+      description:
+        "Premium grade Alphonso mangoes sourced directly from Ratnagiri farms",
+      price: 400,
+      stock: 100,
+      category: "Fruits",
     },
     {
       id: 2,
-      name: "Mangoes",
-      img: "/images/guva.jpeg",
-      description: "Sweet and juicy guva.",
-      price: 120,
+      name: "Fresh Green Apples",
+      image:
+        "https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?auto=format&fit=crop&q=80&w=1000",
+      description:
+        "Imported Granny Smith apples, perfect blend of sweet and sour",
+      price: 220,
+      stock: 150,
+      category: "Fruits",
+    },
+    {
+      id: 3,
+      name: "Organic Tomatoes",
+      image:
+        "https://images.unsplash.com/photo-1566383444833-43afb88e5dc9?auto=format&fit=crop&q=80&w=1000",
+      description: "Farm-fresh organic tomatoes, locally sourced",
+      price: 60,
+      stock: 200,
+      category: "Vegetables",
     },
   ],
 };
 
-export default function MyProfilePage() {
-  return <Profile retailer={sampleRetailer} />;
+const StatCard = ({ icon: Icon, value, label }) => (
+  <div className="bg-white p-6 rounded-xl shadow-sm border flex flex-col items-center">
+    <Icon className="w-8 h-8 text-green-600 mb-2" />
+    <p className="text-2xl font-bold text-gray-900">{value.toLocaleString()}</p>
+    <p className="text-gray-600 text-sm">{label}</p>
+  </div>
+);
+
+const ProductCard = ({ product }) => (
+  <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
+    <div className="aspect-video w-full overflow-hidden">
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-full h-full object-cover"
+      />
+    </div>
+    <div className="p-4">
+      <div className="flex justify-between items-start mb-2">
+        <h4 className="text-lg font-semibold text-gray-900">{product.name}</h4>
+        <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">
+          {product.category}
+        </span>
+      </div>
+      <p className="text-gray-600 text-sm mb-3">{product.description}</p>
+      <div className="flex justify-between items-center">
+        <div>
+          <p className="text-green-600 font-bold">₹{product.price}/kg</p>
+          <p className="text-sm text-gray-500">Stock: {product.stock} kg</p>
+        </div>
+        <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200">
+          Manage
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+function RetailerProfile({ retailer }) {
+  return (
+    <div className="min-h-screen lg:px-44 bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Profile Header */}
+        <div className="bg-white rounded-xl border relative shadow-sm p-6 mb-8">
+          <div className="flex items-centerrelative space-x-6">
+            <img
+              src={retailer.profileImage}
+              alt={retailer.name}
+              className="w-32 h-32 rounded-full border-4 border-green-500 object-cover"
+            />
+            <div className="flex md:flex-row   flex-col">
+              <div>
+                <h1 className="md:text-3xl text-xl font-bold text-gray-900">
+                  {retailer.name}
+                </h1>
+                <p className="text-xl text-gray-600 mt-1">
+                  {retailer.storeName}
+                </p>
+                <div className="flex items-center mt-2">
+                  <Star className="w-6 h-6 text-yellow-400 fill-current" />
+                  <span className="ml-2 text-lg font-semibold">
+                    {retailer.rating} / 5.0
+                  </span>
+                </div>
+              </div>
+              <button className="px-2 top-12 right-20  md:absolute  py-2  bg-green-600 text-white w-32 rounded-lg flex items-center gap-2 hover:bg-green-700 transition-colors duration-200 shadow-sm">
+                <Edit className="w-5 h-5" />
+                Edit Profile
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Statistics */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <StatCard
+            icon={Package}
+            value={retailer.totalListings}
+            label="Total Listings"
+          />
+          <StatCard
+            icon={ShoppingBag}
+            value={retailer.soldItems}
+            label="Items Sold"
+          />
+          <StatCard
+            icon={DollarSign}
+            value={retailer.revenue}
+            label="Total Revenue (₹)"
+          />
+        </div>
+
+        {/* Products Section */}
+        <div className="bg-white rounded-xl border shadow-sm p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl md:2xl font-bold text-gray-900">
+              Your Products
+            </h2>
+            <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200">
+              + Add New Product
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {retailer.products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  return <RetailerProfile retailer={sampleRetailer} />;
 }

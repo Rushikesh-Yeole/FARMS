@@ -37,7 +37,7 @@ export default function Header() {
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
         <div className="flex items-center justify-between mx-auto max-w-screen-xl">
           {/* ✅ Hamburger Menu */}
-          <button className="lg:hidden p-2 text-green-700 relative z-50" onClick={toggleMenu}>
+          <button className="lg:hidden p-2 text-green-700  relative z-50" onClick={toggleMenu}>
             <div className={`w-6 h-1 bg-green-700 transition-all duration-300 transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></div>
             <div className={`w-6 h-1 bg-green-700 my-1 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></div>
             <div className={`w-6 h-1 bg-green-700 transition-all duration-300 transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></div>
@@ -73,11 +73,11 @@ export default function Header() {
 
       {/* ✅ Sidebar Overlay (Only Appears When Menu is Open) */}
       {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-70 z-40" onClick={toggleMenu}></div>
+        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-70  z-40" onClick={toggleMenu}></div>
       )}
 
       {/* ✅ Sidebar for Mobile */}
-      <div className={`lg:hidden fixed left-0 top-0 sm:w-full md:w-1/2 h-full bg-white p-4 pt-16 border-2 z-50 transition-all duration-700 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className={`lg:hidden fixed left-0 top-0 sm:w-full md:w-1/2 h-full bg-white p-4 pt-16 border-2 z-40 transition-all duration-700 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <ul className="space-y-4 pl-4">
           <li><NavLink to="/profile" className={({ isActive }) => `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700`} onClick={toggleMenu}>My Profile</NavLink></li>
           <li><NavLink to="/" className={({ isActive }) => `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700`} onClick={toggleMenu}>Home</NavLink></li>
