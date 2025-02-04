@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Star,
@@ -10,12 +10,15 @@ import {
   ShieldCheck,
   ArrowRight,
 } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { bestDeal } from "../store/viewBestDealsSlice";
 
 const FarmerBestDealsPage = () => {
   const [distance, setDistance] = useState("");
   const [showContactMap, setShowContactMap] = useState({});
-
-  const deals = [
+  const poststockState = useSelector((state) => state.postStock);
+  const dispatch = useDispatch();
+  const [deals, setDeals] = useState([
     {
       id: 1,
       retailerName: "Karan Chavan",
@@ -48,12 +51,42 @@ const FarmerBestDealsPage = () => {
       expectedProfitMax: 8500,
       dealScore: 95,
     },
-  ];
+  ]);
+  //////NOTES//////
 
-  const handleDistanceSubmit = (e) => {
-    e.preventDefault();
-    console.log("Distance submitted:", distance);
-  };
+  // useEffect(() => {
+  //   // Check if stock _id exists
+  //   if (poststockState?.stockPostData?.stock?._id) {
+  //     const requirementId = poststockState.stockPostData.stock._id;
+
+  //     dispatch(bestDeal(requirementId)).then((result) => {
+  //       if (result.type === "deals/bestDeals/fulfilled") {
+  //         setDeals(result.payload.demandWithScores);
+  //       }
+  //     });
+  //   }
+  // }, [poststockState?.stockPostData?.stock?._id, dispatch]);
+
+  // ✅ Issue 1: Missing dependency array
+  // This useEffect runs on every render, which is inefficient.
+  // It should only run when `poststockState?.stockPostData?.stock?._id` changes.
+
+  // ✅ Issue 2: Potential memory leak
+  // If the component unmounts before dispatch completes, updating state will cause errors.
+  // We need to prevent state updates on an unmounted component.
+
+  useEffect(() => {
+    if (poststockState?.stockPostData?.stock?._id) {
+      const requirementId = poststockState.stockPostData.stock._id;
+      dispatch(bestDeal(requirementId)).then((result) => {
+        if (result.type === "deals/bestDeals/fulfilled") {
+          const response = result.payload;
+          setDeals(response.demandsWithScores);  
+        }
+      });
+    }
+  }, [poststockState?.stockPostData?.stock?._id, dispatch]); 
+  
 
   const toggleContact = (dealId) => {
     setShowContactMap((prev) => ({
@@ -61,6 +94,7 @@ const FarmerBestDealsPage = () => {
       [dealId]: !prev[dealId],
     }));
   };
+  const handleDistanceSubmit = () => {};
 
   return (
     <div className="min-h-screen    border bg-gradient-to-b from-green-50 to-white py-8 px-4 sm:px-1 lg:px-20">
@@ -111,104 +145,80 @@ const FarmerBestDealsPage = () => {
 
         {/* Deals Section */}
         <div className="space-y-6 ">
-          {deals.map((deal, index) => (
-            <motion.div
-              key={deal.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.3, duration: 1 }}
-              className="bg-white border border-gray-300 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-            >
-            
-              <div className="flex flex-col md:flex-row">
-                {/* Image Section */}
-                <div className="w-full md:w-1/3 bg-green-100 md:p-4  flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
-                  <img
-                    src={deal.productImage}
-                    alt={deal.productName}
-                    className="w    object-contain rounded-s md:rounded-lg"
-                  />
-                  <h3 className="text-xl hidden md:block sm:text-2xl font-bold text-gray-900 text-center mt-2">
-                    {deal.productName}
-                  </h3>
-                </div>
+        {deals.map((deal, index) => (
+  <motion.div
+    key={index}  // Use index if there's no unique ID
+    initial={{ opacity: 0, x: -20 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ delay: index * 0.3, duration: 1 }}
+    className="bg-white border border-gray-300 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+  >
+    <div className="flex flex-col md:flex-row">
+      {/* Image Section (Use Placeholder for Now) */}
+      <div className="w-full md:w-1/3 bg-green-100 md:p-4 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
+        <img
+          src="https://via.placeholder.com/150"  // 🔄 Update later if you have product images
+          alt={deal.demand.crop}
+          className="w-full object-contain rounded-s md:rounded-lg"
+        />
+        <h3 className="text-xl hidden md:block sm:text-2xl font-bold text-gray-900 text-center mt-2">
+          {deal.demand.crop} (Grade {deal.demand.cropGrade})
+        </h3>
+      </div>
 
-                {/* Deal Details */}
-                <div className="flex-1  p-6">
-                  <div className="flex flex-col  sm:flex-row justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <h4 className="text-xl font-bold">{deal.retailerName}</h4>
-                      <Star
-                        className="text-yellow-500 fill-yellow-500"
-                        size={20}
-                      />
-                      <span className="text-lg font-bold">{deal.rating}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <ShieldCheck className="text-green-700" size={20} />
-                      <span className="text-lg font-bold text-green-700">
-                        Best Deal
-                      </span>
-                    </div>
-                  </div>
+      {/* Deal Details */}
+      <div className="flex-1 p-6">
+        <div className="flex flex-col sm:flex-row justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <h4 className="text-xl font-bold">
+              {deal.userId.firstName} {deal.userId.lastName}
+            </h4>
+            <Star className="text-yellow-500 fill-yellow-500" size={20} />
+            <span className="text-lg font-bold">{deal.userId.averageRating}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="text-green-700" size={20} />
+            <span className="text-lg font-bold text-green-700">Best Deal</span>
+          </div>
+        </div>
 
-                  <div className="grid grid-cols-1  sm:grid-cols-2 gap-4 ">
-                    <div className="flex  items-center gap-2">
-                      <IndianRupee className="text-gray-800" size={20} />
-                      <div>
-                        <p className="text-sm font-medium text-gray-700">
-                          Price per kg
-                        </p>
-                        <p className="text-lg font-bold">₹{deal.pricePerKg}</p>
-                      </div>
-                    </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="flex items-center gap-2">
+            <IndianRupee className="text-gray-800" size={20} />
+            <div>
+              <p className="text-sm font-medium text-gray-700">Price per Quintal</p>
+              <p className="text-lg font-bold">₹{deal.demand.pricePerQuintal}</p>
+            </div>
+          </div>
 
-                    <div className="flex   items-center gap-2">
-                      <TrendingUp className="text-gray-800" size={20} />
-                      <div>
-                        <p className="text-sm font-medium text-gray-700">
-                          Expected Profit
-                        </p>
-                        <p className="text-lg font-bold text-green-700">
-                          ₹{deal.expectedProfitMin.toLocaleString()} - ₹
-                          {deal.expectedProfitMax.toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
+          <div className="flex items-center gap-2">
+            <TrendingUp className="text-gray-800" size={20} />
+            <div>
+              <p className="text-sm font-medium text-gray-700">Quantity</p>
+              <p className="text-lg font-bold text-green-700">{deal.demand.quantity} Quintals</p>
+            </div>
+          </div>
 
-                    <div className="flex  items-center gap-2">
-                      <MapPin className="text-gray-800" size={20} />
-                      <p className="text-lg font-semibold">{deal.location}</p>
-                    </div>
-                  </div>
-                  <div className="grid mt-4 md:mt-6 grid-cols-1 md:grid-cols-2">
-                    <div className="flex  items-center gap-2">
-                      <Calendar className="text-gray-800" size={20} />
-                      <div>
-                        <p className="text-sm font-medium text-gray-700">
-                          Expected Delivery Date
-                        </p>
-                        <p className="text-lg font-bold">
-                          ₹{deal.expectedDeliveryDate}
-                        </p>
-                      </div>
-                    </div>
-                    <div>
-                      <button
-                        onClick={() => toggleContact(deal.id)}
-                        className="bg-green-100 mt-4 sm:mt-0  hover:bg-green-200 text-green-700 px-4 py-2 rounded-lg flex items-center gap-2"
-                      >
-                        <Phone size={20} />
-                        {showContactMap[deal.id]
-                          ? deal.contactNumber
-                          : "Show Contact"}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+          <div className="flex items-center gap-2">
+            <MapPin className="text-gray-800" size={20} />
+            <p className="text-lg font-semibold">{deal.demand.location.address}</p>
+          </div>
+        </div>
+
+        <div className="grid mt-4 md:mt-6 grid-cols-1 md:grid-cols-2">
+          <div className="flex items-center gap-2">
+            <Calendar className="text-gray-800" size={20} />
+            <div>
+              <p className="text-sm font-medium text-gray-700">Expected Delivery</p>
+              <p className="text-lg font-bold">{new Date(deal.demand.expectedDeliveryDate).toDateString()}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </motion.div>
+))}
+
         </div>
       </div>
     </div>

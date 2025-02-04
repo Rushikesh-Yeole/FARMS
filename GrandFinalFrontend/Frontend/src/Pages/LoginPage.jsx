@@ -16,9 +16,12 @@ const LoginPage = () => {
         if (result.meta.requestStatus === "fulfilled") {
           const user = result.payload; // Extract userData from payload
           if (user && user.accountType === "Farmer") {
-            navigate("/transporterDemand");
-          } else {
+            navigate("/dummy");
+          } else if(user && user.accountType === "Retailer") {
             navigate("/retailerpost");
+          }
+          else{
+            navigate("/tranporterfeed");
           }
         } else {
           alert("User not logged in");

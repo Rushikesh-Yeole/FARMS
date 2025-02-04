@@ -13,10 +13,19 @@ import MyProfilePage from "./Components/MyProfilePage.jsx";
 import FarmerStockForm from "./Pages/FarmerStockForm.jsx";
 import RetailerDemandForm from "./Pages/RetailerRequirement.jsx";
 import FarmerBestDealsPage  from "./Pages/FarmerBestDealsPage.jsx"
+
+// import { Home } from "lucide-react";
+import TransportReq from "./Pages/transportReq.jsx";
+import Dummy from "./Pages/Dummy.jsx";
+import MyStock from "./Pages/myStock.jsx";
+import ConfRequest from "./Pages/confReq.jsx";
+
+
 import Contact from "./Pages/Contact.jsx";
 import Home from "./Pages/Home.jsx";
 import RetailerSbestDeals from "./Pages/RetailerSbestDeals.jsx"
 import FarmerDashboard from "./Pages/FarmerDashBoard.jsx"
+import Transport from "./Pages/Transport.jsx";
 
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
@@ -40,6 +49,7 @@ export default function App() {
             <Route path="/farmerstock" element={<FarmerStockForm />} />
             <Route path="/farmerdashbaord" element={<FarmerDashboard />} />
             <Route path="/retailerpost" element={<RetailerDemandForm />} />
+            <Route path="/transport" element={<Transport />} />
             <Route path="/contactus" element={<Contact/>}></Route>
             <Route path="/farmerbestdeals" element={<FarmerBestDealsPage />} />
             <Route path="/retailerbestdeals" element={<RetailerSbestDeals />} />
@@ -48,6 +58,10 @@ export default function App() {
             <Route path="/About" element={<About />} />
             <Route path="/profile" element={<MyProfilePage />} />
             <Route path="/transporterDemand" element={<TransportDemandForm/>}/>
+            <Route path="/tranporterfeed" element={<TransportReq/>}/>
+            <Route path="/dummy" element={<Dummy/>}/>
+            <Route path ="/dummy/myStock"element={<MyStock/>}/>
+            <Route path="/dummy/confRequset" element={<ConfRequest/>}/>
           </Routes>
         </div>
       </div>

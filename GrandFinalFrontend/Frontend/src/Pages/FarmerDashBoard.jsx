@@ -45,6 +45,7 @@ const FarmerDashboard = () => {
           status: 'pending'
         },
         {
+          
           id: 2,
           retailerName: "City Grocers",
           quantity: 300,
@@ -186,7 +187,7 @@ const FarmerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen border-4 border-black  bg-gray-50">
+    <div className="min-h-screen  lg:px-44  bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Farmer Dashboard</h1>
@@ -243,10 +244,10 @@ const FarmerDashboard = () => {
                 key={stock.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl shadow-sm overflow-hidden"
+                className="bg-white rounded-xl shadow-xl  overflow-hidden"
               >
                 {/* Stock Header */}
-                <div className="p-6 border-b border-gray-100">
+                <div className="p-6  shadow-xl border-gray-100">
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="flex items-center gap-3 mb-2">
@@ -286,7 +287,7 @@ const FarmerDashboard = () => {
 
                   {/* Progress Bar */}
                   <div className="mt-6">
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <div className="flex  justify-between text-sm text-gray-600 mb-2">
                       <span>Stock Progress</span>
                       <span>
                         {stock.totalQuantity - stock.remainingQuantity}kg / {stock.totalQuantity}kg
@@ -309,7 +310,7 @@ const FarmerDashboard = () => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="bg-gray-50 p-6"
+                    className="bg-gray-50 shadow-xl border p-6"
                   >
                     <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                       <Handshake size={20} className="mr-2" />
@@ -319,7 +320,7 @@ const FarmerDashboard = () => {
                       {stock.acceptedDeals.map(deal => (
                         <div
                           key={deal.id}
-                          className="bg-white rounded-lg p-4 shadow-sm"
+                          className="bg-white rounded-lg p-4 shadow-lg border"
                         >
                           <div className="flex justify-between items-start mb-3">
                             <div className="flex items-center gap-2">
