@@ -6,6 +6,7 @@ import retailerdemandReducer from "./retailerdemandSlice";
 import transportDemandSlice from "./transportDemandSlice";
 import transReqReducer from "./transReq"; // Corrected import name
 import getMyStockReducer from "./myStockInfo"
+import requestStateusReducer from "./requsetstatusSlice"
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
     retailerdemand: retailerdemandReducer,
     transportdemand: transportDemandSlice,
     transReq: transReqReducer,
-    myStock:getMyStockReducer
+    myStock:getMyStockReducer,
+    requestStatus:requestStateusReducer
       },
 });
 

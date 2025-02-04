@@ -12,9 +12,16 @@ const Dummy = () => {
     navigate('./myStock')
       
   }
+  const transportRequest =()=>{
+    navigate('./confRequset')
+  }
 
   return (
-    <button onClick={handleShowMyButton}>Show my request</button>
+    <>
+    <button onClick={handleShowMyButton}>Show my request</button><br />
+    <button onClick={transportRequest}>show my transport request</button>
+
+    </>
   )
 }
 

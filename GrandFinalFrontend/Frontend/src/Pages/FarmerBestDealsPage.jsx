@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { motion } from "framer-motion";
 import {
   Star,
@@ -10,10 +10,14 @@ import {
   ShieldCheck,
   ArrowRight,
 } from "lucide-react";
+import { useSelector,useDispatch } from "react-redux";
+import { bestDeal } from "../store/viewBestDealsSlice";
 
 const FarmerBestDealsPage = () => {
   const [distance, setDistance] = useState("");
   const [showContactMap, setShowContactMap] = useState({});
+  const poststockState = useSelector((state)=>state.postStock)
+  const dispatch = useDispatch();
 
   const deals = [
     {
@@ -66,6 +70,7 @@ const FarmerBestDealsPage = () => {
       [dealId]: !prev[dealId],
     }));
   };
+  const handleDistanceSubmit =() =>{}
 
   return (
     <div className="min-h-screen    border bg-gradient-to-b from-green-50 to-white py-8 px-4 sm:px-1 lg:px-20">

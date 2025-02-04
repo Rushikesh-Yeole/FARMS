@@ -13,6 +13,11 @@ import MyProfilePage from "./Components/MyProfilePage.jsx";
 import FarmerStockForm from "./Pages/FarmerStockForm.jsx";
 import RetailerDemandForm from "./Pages/RetailerRequirement.jsx";
 import FarmerBestDealsPage  from "./Pages/FarmerBestDealsPage.jsx"
+import { Home } from "lucide-react";
+import TransportReq from "./Pages/transportReq.jsx";
+import Dummy from "./Pages/Dummy.jsx";
+import MyStock from "./Pages/myStock.jsx";
+import ConfRequest from "./Pages/confReq.jsx";
 
 
 
@@ -33,11 +38,11 @@ export default function App() {
           <Routes>
             <Route path="/" element={<VRfeed />} />
             <Route path="/loginpage" element={<LoginPage />} />
-            <Route path="/gohome" element={<Home/>} />
+            {/* <Route path="/gohome" element={<Home/>} /> */}
             <Route path="/register" element={<RegisterProfile />} />
             <Route path="/farmerstock" element={<FarmerStockForm />} />
             <Route path="/retailerpost" element={<RetailerDemandForm />} />
-            <Route path="/contactus" element={<Contact/>}></Route>
+            {/* <Route path="/contactus" element={<Contact/>}></Route> */}
             <Route path="/farmerbestdeals" element={<FarmerBestDealsPage />} />
             <Route path="/otp" element={<OtpPage />} />
             <Route path="/home" element={<HomePage />} />
@@ -47,6 +52,7 @@ export default function App() {
             <Route path="/tranporterfeed" element={<TransportReq/>}/>
             <Route path="/dummy" element={<Dummy/>}/>
             <Route path ="/dummy/myStock"element={<MyStock/>}/>
+            <Route path="/dummy/confRequset" element={<ConfRequest/>}/>
           </Routes>
         </div>
       </div>
