@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -11,7 +12,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-const FarmerBestDealsPage = () => {
+const RetailerSbestDeals = () => {
   const [distance, setDistance] = useState("");
   const [showContactMap, setShowContactMap] = useState({});
 
@@ -215,4 +216,4 @@ const FarmerBestDealsPage = () => {
   );
 };
 
-export default FarmerBestDealsPage;
+export default RetailerSbestDeals;

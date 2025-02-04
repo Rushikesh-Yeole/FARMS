@@ -15,8 +15,8 @@ import RetailerDemandForm from "./Pages/RetailerRequirement.jsx";
 import FarmerBestDealsPage  from "./Pages/FarmerBestDealsPage.jsx"
 import Contact from "./Pages/Contact.jsx";
 import Home from "./Pages/Home.jsx";
-
-
+import RetailerSbestDeals from "./Pages/RetailerSbestDeals.jsx"
+import FarmerDashboard from "./Pages/FarmerDashBoard.jsx"
 
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
@@ -38,9 +38,11 @@ export default function App() {
             <Route path="/gohome" element={<Home/>} />
             <Route path="/register" element={<RegisterProfile />} />
             <Route path="/farmerstock" element={<FarmerStockForm />} />
+            <Route path="/farmerdashbaord" element={<FarmerDashboard />} />
             <Route path="/retailerpost" element={<RetailerDemandForm />} />
             <Route path="/contactus" element={<Contact/>}></Route>
             <Route path="/farmerbestdeals" element={<FarmerBestDealsPage />} />
+            <Route path="/retailerbestdeals" element={<RetailerSbestDeals />} />
             <Route path="/otp" element={<OtpPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/About" element={<About />} />
