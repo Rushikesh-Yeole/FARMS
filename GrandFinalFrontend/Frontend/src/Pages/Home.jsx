@@ -5,8 +5,6 @@ import Test2 from "../assets/animation/Test2"
 import Test  from "../assets/animation/Test";
 import pic1 from "../assets/picture/web1final.jpeg"
 import pic2 from "../assets/picture/web2.webp";
-
-
 function Home() {
   useEffect(() => {
     const link = document.createElement("link");

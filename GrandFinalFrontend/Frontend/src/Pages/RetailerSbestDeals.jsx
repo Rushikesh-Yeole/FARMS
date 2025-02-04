@@ -1,4 +1,5 @@
-import React, { useState ,useEffect} from "react";
+
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Star,
@@ -10,14 +11,10 @@ import {
   ShieldCheck,
   ArrowRight,
 } from "lucide-react";
-import { useSelector,useDispatch } from "react-redux";
-import { bestDeal } from "../store/viewBestDealsSlice";
 
-const FarmerBestDealsPage = () => {
+const RetailerSbestDeals = () => {
   const [distance, setDistance] = useState("");
   const [showContactMap, setShowContactMap] = useState({});
-  const poststockState = useSelector((state)=>state.postStock)
-  const dispatch = useDispatch();
 
   const deals = [
     {
@@ -54,15 +51,10 @@ const FarmerBestDealsPage = () => {
     },
   ];
 
-
-  useEffect(()=>{
-    // Check if stock _id exists and dispatch the bestDeal thunk
-    if (poststockState?.stockPostData?.stock?._id) {
-      const requirementId = poststockState.stockPostData.stock._id;
-      dispatch(bestDeal(requirementId));  // Dispatch the async action with the stock ID
-    }
-  })
-  
+  const handleDistanceSubmit = (e) => {
+    e.preventDefault();
+    console.log("Distance submitted:", distance);
+  };
 
   const toggleContact = (dealId) => {
     setShowContactMap((prev) => ({
@@ -70,7 +62,6 @@ const FarmerBestDealsPage = () => {
       [dealId]: !prev[dealId],
     }));
   };
-  const handleDistanceSubmit =() =>{}
 
   return (
     <div className="min-h-screen    border bg-gradient-to-b from-green-50 to-white py-8 px-4 sm:px-1 lg:px-20">
@@ -225,4 +216,4 @@ const FarmerBestDealsPage = () => {
   );
 };
 
-export default FarmerBestDealsPage;
+export default RetailerSbestDeals;
