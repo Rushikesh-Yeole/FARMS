@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from "axios";
 
 // ✅ Load token from localStorage correctly
-const storedUserData = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null;
+// const storedUserData = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null;
+const storedUserData =null;
 const storedIsLogin = !!storedUserData; // ✅ Convert to boolean
-
 // ✅ Async action for login
 export const login = createAsyncThunk(
   'loginuser/login',
