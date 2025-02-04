@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { myTransportDemand } from '../store/transportDemandSlice';
 import {
   Package,
   Bell,
@@ -17,6 +18,7 @@ import {
   Truck,
   ArrowRight,
 } from 'lucide-react';
+import { useDispatch } from 'react-redux';
 
 const FarmerDashboard = () => {
   const [activeTab, setActiveTab] = useState('stocks');
@@ -45,6 +47,7 @@ const FarmerDashboard = () => {
           status: 'pending'
         },
         {
+          
           id: 2,
           retailerName: "City Grocers",
           quantity: 300,
@@ -105,7 +108,7 @@ const FarmerDashboard = () => {
     }
   ];
 
-  const transportDemands = [
+  const [transportDemands,settransportDemands] = useState([
     {
       id: 1,
       fromLocation: "Nashik, Maharashtra",
@@ -149,7 +152,7 @@ const FarmerDashboard = () => {
       },
       price: 8000
     }
-  ];
+  ]);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -184,9 +187,18 @@ const FarmerDashboard = () => {
         return null;
     }
   };
+  const dispatch = useDispatch();
+  const handledemandsButton =(st)=>{
+    dispatch(myTransportDemand()).then((result)=>{
+      const data = result.payload;
+      settransportDemands(data)
+
+    })
+    setActiveTab(st);
+  }
 
   return (
-    <div className="min-h-screen border-4 border-black  bg-gray-50">
+    <div className="min-h-screen  lg:px-44  bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Farmer Dashboard</h1>
@@ -207,7 +219,7 @@ const FarmerDashboard = () => {
             Stock Listings
           </button>
           <button
-            onClick={() => setActiveTab('transport')}
+            onClick={() => handledemandsButton('transport')}
             className={`flex items-center px-4 py-2 rounded-lg font-medium ${
               activeTab === 'transport'
                 ? 'bg-green-600 text-white'
@@ -243,10 +255,10 @@ const FarmerDashboard = () => {
                 key={stock.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl shadow-sm overflow-hidden"
+                className="bg-white rounded-xl shadow-xl  overflow-hidden"
               >
                 {/* Stock Header */}
-                <div className="p-6 border-b border-gray-100">
+                <div className="p-6  shadow-xl border-gray-100">
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="flex items-center gap-3 mb-2">
@@ -286,7 +298,7 @@ const FarmerDashboard = () => {
 
                   {/* Progress Bar */}
                   <div className="mt-6">
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <div className="flex  justify-between text-sm text-gray-600 mb-2">
                       <span>Stock Progress</span>
                       <span>
                         {stock.totalQuantity - stock.remainingQuantity}kg / {stock.totalQuantity}kg
@@ -309,7 +321,7 @@ const FarmerDashboard = () => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="bg-gray-50 p-6"
+                    className="bg-gray-50 shadow-xl border p-6"
                   >
                     <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                       <Handshake size={20} className="mr-2" />
@@ -319,7 +331,7 @@ const FarmerDashboard = () => {
                       {stock.acceptedDeals.map(deal => (
                         <div
                           key={deal.id}
-                          className="bg-white rounded-lg p-4 shadow-sm"
+                          className="bg-white rounded-lg p-4 shadow-lg border"
                         >
                           <div className="flex justify-between items-start mb-3">
                             <div className="flex items-center gap-2">
@@ -364,9 +376,9 @@ const FarmerDashboard = () => {
         {/* Transport Demands Tab */}
         {activeTab === 'transport' && (
           <div className="space-y-6">
-            {transportDemands.map(demand => (
+            {transportDemands.map((demand,index) => (
               <motion.div
-                key={demand.id}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-white rounded-xl shadow-sm overflow-hidden"
@@ -374,31 +386,28 @@ const FarmerDashboard = () => {
                 <div className="p-6">
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-4">
-                        <h3 className="text-xl font-bold text-gray-900">
-                          {demand.productName}
-                        </h3>
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium flex items-center ${getStatusColor(demand.status)}`}>
-                          {demand.status.charAt(0).toUpperCase() + demand.status.slice(1)}
-                        </span>
-                      </div>
+                      
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
                         <div className="flex items-center gap-2">
                           <Package size={16} />
-                          Quantity: {demand.quantity}kg
+                          Quantity: {demand.quantities
+                          }kg
                         </div>
                         <div className="flex items-center gap-2">
                           <Calendar size={16} />
-                          Expected: {new Date(demand.expectedDate).toLocaleDateString()}
+                          Expected: {new Date(demand.DepatrureDate
+).toLocaleDateString()}
                         </div>
                         <div className="flex items-center gap-2">
                           <MapPin size={16} />
-                          From: {demand.fromLocation}
+                          From: {demand.Departlocations?.[0]?.place
+
+}
                         </div>
                         <div className="flex items-center gap-2">
                           <ArrowRight size={16} />
-                          To: {demand.toLocation}
+                          To: {demand.Destination?.place}
                         </div>
                         {demand.price && (
                           <div className="flex items-center gap-2">

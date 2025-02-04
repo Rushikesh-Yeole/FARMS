@@ -1,18 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// export const transportDemandThunk = createAsyncThunk(
-//   "transportDemand/postDemand",
-//   async (formData, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.post("/api/transportDemand", formData);
-//       return response.data;
-//     } catch (error) {
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
-//////Standard and Easy way
+// ✅ Thunk to post a transport demand
 export const transportDemandThunk = createAsyncThunk(
   "transporterDemandSlice/transportDemandThunk",
   async (formData, { rejectWithValue }) => {
@@ -22,7 +11,23 @@ export const transportDemandThunk = createAsyncThunk(
         formData,
         { withCredentials: true }
       );
+      return response.data; // ✅ Ensure only serializable data is returned
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "An error occurred");
+    }
+  }
+);
 
+// ✅ Thunk to fetch transport demands by farmer ID
+export const myTransportDemand = createAsyncThunk(
+  "transporterDemandSlice/myDemands",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/farmer/farmFeed`, // Farmer ID as query parameter
+        
+        { withCredentials: true }
+      );
       return response.data; // ✅ Only return serializable data
     } catch (error) {
       return rejectWithValue(error.response?.data || "An error occurred");
@@ -30,20 +35,21 @@ export const transportDemandThunk = createAsyncThunk(
   }
 );
 
-
 const transportDemandSlice = createSlice({
   name: "transportDemand",
   initialState: {
-    // demands: [],
     demands: null,
+    myDemands: null,
     status: "idle",
     error: null,
     isLoading: false,
     hasError: false,
   },
-  reducers: {},
+  reducers: {}, // No standard reducers needed
+
   extraReducers: (builder) => {
     builder
+      // ✅ Handling transport demand request
       .addCase(transportDemandThunk.pending, (state) => {
         state.status = "loading";
         state.isLoading = true;
@@ -54,9 +60,29 @@ const transportDemandSlice = createSlice({
         state.isLoading = false;
         state.hasError = false;
         state.demands = action.payload;
-        console.log("success",action.payload)
+        console.log("Transport demand posted successfully:", action.payload);
       })
       .addCase(transportDemandThunk.rejected, (state, action) => {
+        state.status = "failed";
+        state.isLoading = false;
+        state.hasError = true;
+        state.error = action.payload;
+      })
+
+      // ✅ Handling fetching transport demands by farmer ID
+      .addCase(myTransportDemand.pending, (state) => {
+        state.status = "loading";
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(myTransportDemand.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.isLoading = false;
+        state.hasError = false;
+        state.myDemands = action.payload;
+        console.log("Fetched transport demands:", action.payload);
+      })
+      .addCase(myTransportDemand.rejected, (state, action) => {
         state.status = "failed";
         state.isLoading = false;
         state.hasError = true;
@@ -66,3 +92,4 @@ const transportDemandSlice = createSlice({
 });
 
 export default transportDemandSlice.reducer;
+
