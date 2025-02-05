@@ -5,9 +5,10 @@ import postStockreducer from "./farmerStockPostSlice";
 import retailerdemandReducer from "./retailerdemandSlice";
 import transportDemandSlice from "./transportDemandSlice";
 import transReqReducer from "./transReq"; // Corrected import name
-import getMyStockReducer from "./myStockInfo"
-import requestStateusReducer from "./requsetstatusSlice"
-
+import getMyStockReducer from "./myStockInfo";
+import requestStateusReducer from "./requsetstatusSlice";
+import farmerStockListingReducer from "./FarmerDashBoard/stocklistingSlice";
+import farmerNotificatonReducer from "./FarmerDashBoard/notificationSlice";
 const store = configureStore({
   reducer: {
     profile: profileReducer,
@@ -16,10 +17,11 @@ const store = configureStore({
     retailerdemand: retailerdemandReducer,
     transportdemand: transportDemandSlice,
     transReq: transReqReducer,
-    myStock:getMyStockReducer,
-    requestStatus:requestStateusReducer
-      },
+    myStock: getMyStockReducer,
+    requestStatus: requestStateusReducer,
+    farmerstocklisting: farmerStockListingReducer,
+    farmernotification: farmerNotificatonReducer,
+  },
 });
 
 export default store;
-
