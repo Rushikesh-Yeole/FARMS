@@ -11,12 +11,14 @@ const initialState = {
 export const bestDeal = createAsyncThunk(
   "deals/bestDeals",
   async (requirementId, { rejectWithValue }) => {
+
     try {
-      const response = await axios.post(
-        "http://localhost:8000/farmer/viewbestdeals",
-        {}, // Empty body because the params are being sent in the config
+      console.log("hii")
+      const response = await axios.get(
+        `http://localhost:8000/farmer/viewbestdeals?farmerStockId=${requirementId}`,
+         // Empty body because the params are being sent in the config
         {
-          params: { farmerStockId: requirementId }, // Parameters sent in URL
+           
           withCredentials: true
         }
       );
@@ -53,7 +55,7 @@ const bestDealsSlice = createSlice({
       .addCase(bestDeal.fulfilled, (state, action) => {
         state.loading = false;
         state.dealdata = action.payload;
-        console.log("infullfileed",action.payload);
+        console.log("bestdelas",action.payload);
       })
       .addCase(bestDeal.rejected, (state, action) => {
         state.loading = false;

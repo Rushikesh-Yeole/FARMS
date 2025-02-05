@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaLongArrowAltRight, FaCalendarAlt, FaTruck, FaUser, FaPhone, FaBox, FaMapMarkerAlt } from 'react-icons/fa';
-
+import { useDispatch } from "react-redux";
+import { transreq,acceptinvite } from "../store/transReq";
 const initialData = [
   { 
     id: 1, 
