@@ -1,70 +1,44 @@
 import React, { useState } from 'react';
-import { Bell, Truck, Clock, CheckCircle } from 'lucide-react';
-
-// Sample data - replace with your actual data
-const pendingRequests = [
-  {
-    id: 1,
-    cropType: "Wheat",
-    quantity: "500kg",
-    price: "$400",
-    fromlocation: "Farm District A",
-    tolocation: "Farm District A",
-    date: "2024-02-20",
-    status: "pending",
-  },
-  {
-    id: 2,
-    cropType: "Rice",
-    quantity: "300kg",
-    price: "$350",
-    fromlocation: "Farm District B",
-    tolocation: "Farm District A",
-    date: "2024-02-21",
-    status: "pending",
-  }
-];
-
-const confirmedRequests = [
-  {
-    id: 1,
-    cropType: "Corn",
-    quantity: "800kg",
-    price: "$600",
-    fromlocation: "Farm District B",
-    tolocation: "Farm District A",
-    date: "2024-02-22",
-    status: "confirmed",
-    farmerName: "John Doe"
-  },
-  {
-    id: 2,
-    cropType: "Soybeans",
-    quantity: "400kg",
-    price: "$450",
-    fromlocation: "Farm District B",
-    tolocation: "Farm District A",
-    date: "2024-02-23",
-    status: "confirmed",
-    farmerName: "Jane Smith"
-  }
-];
-
-const notifications = [
-  {
-    id: 1,
-    message: "Farmer John Doe has accepted your transport request for 800kg Corn",
-    timestamp: "2024-02-19 14:30",
-  },
-  {
-    id: 2,
-    message: "Farmer Jane Smith has accepted your transport request for 400kg Soybeans",
-    timestamp: "2024-02-19 10:15",
-  }
-];
+import { Bell, Clock, CheckCircle } from 'lucide-react';
+import { getPendingRequest, getmyRequest } from '../store/transReq';
+import { useDispatch } from 'react-redux';
 
 export default function TransporterDashboard() {
   const [activeTab, setActiveTab] = useState('pending');
+  const [pendingRequests, setPendingRequests] = useState([]);
+  const [confirmedRequests, setConfirmedRequests] = useState([]);
+  const dispatch = useDispatch();
+
+  const handlePendingRequest = () => {
+    dispatch(getPendingRequest()).then((result) => {
+      if (result.payload) {
+        console.log(result.payload.data);
+        setPendingRequests(result.payload.data || []);
+      }
+    });
+  };
+
+  const handleConfirmRequest = () => {
+    dispatch(getmyRequest()).then((result) => {
+      if (result.payload) {
+        console.log(result.payload.data);
+        setConfirmedRequests(result.payload.data || []);
+      }
+    });
+  };
+
+  const notifications = [
+    {
+      id: 1,
+      message: 'Farmer John Doe has accepted your transport request for 800kg Corn',
+      timestamp: '2024-02-19 14:30',
+    },
+    {
+      id: 2,
+      message: 'Farmer Jane Smith has accepted your transport request for 400kg Soybeans',
+      timestamp: '2024-02-19 10:15',
+    },
+  ];
 
   return (
     <div className="p-6 space-y-6">
@@ -73,11 +47,12 @@ export default function TransporterDashboard() {
       {/* Tab Buttons */}
       <div className="flex gap-4 mb-6">
         <button
-          onClick={() => setActiveTab('pending')}
+          onClick={() => {
+            setActiveTab('pending');
+            handlePendingRequest();
+          }}
           className={`px-4 py-2 rounded-lg font-medium transition-all ${
-            activeTab === 'pending'
-              ? 'bg-green-600 text-white'
-              : 'bg-green-100 text-green-600 hover:bg-green-200'
+            activeTab === 'pending' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-600 hover:bg-green-200'
           }`}
         >
           <div className="flex items-center gap-2">
@@ -87,11 +62,12 @@ export default function TransporterDashboard() {
         </button>
 
         <button
-          onClick={() => setActiveTab('confirmed')}
+          onClick={() => {
+            setActiveTab('confirmed');
+            handleConfirmRequest();
+          }}
           className={`px-4 py-2 rounded-lg font-medium transition-all ${
-            activeTab === 'confirmed'
-              ? 'bg-green-600 text-white'
-              : 'bg-green-100 text-green-600 hover:bg-green-200'
+            activeTab === 'confirmed' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-600 hover:bg-green-200'
           }`}
         >
           <div className="flex items-center gap-2">
@@ -103,9 +79,7 @@ export default function TransporterDashboard() {
         <button
           onClick={() => setActiveTab('notifications')}
           className={`px-4 py-2 rounded-lg font-medium transition-all ${
-            activeTab === 'notifications'
-              ? 'bg-green-600 text-white'
-              : 'bg-green-100 text-green-600 hover:bg-green-200'
+            activeTab === 'notifications' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-600 hover:bg-green-200'
           }`}
         >
           <div className="flex items-center gap-2">
@@ -115,7 +89,7 @@ export default function TransporterDashboard() {
         </button>
       </div>
 
-      {/* Content Sections */}
+      {/* Pending Requests */}
       {activeTab === 'pending' && (
         <div className="bg-white rounded-lg shadow-lg border border-green-200">
           <div className="bg-yellow-50 border-b border-yellow-100 p-4">
@@ -125,28 +99,30 @@ export default function TransporterDashboard() {
             </div>
           </div>
           <div className="p-4 space-y-4">
-            {pendingRequests.map((request) => (
-              <div key={request.id} 
-                   className="bg-white p-4 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold text-gray-800">{request.cropType}</h3>
-                  <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm">
-                    Pending
-                  </span>
+            {pendingRequests.length > 0 ? (
+              pendingRequests.map((request) => (
+                <div key={request.id} className="bg-white p-4 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="font-semibold text-gray-800">{request.cropType}</h3>
+                    <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm">Pending</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                    <p>Quantity: {request.quantities}</p>
+                    <p>Price: {request.price}</p>
+                    <p>From: {request.Departlocation?.place}</p>
+                    <p>To: {request.Destination?.place}</p>
+                    <p>Date: {new Date(request.DepartureDate).toLocaleDateString()}</p>
+                  </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
-                  <p>Quantity: {request.quantity}</p>
-                  <p>Price: {request.price}</p>
-                  <p>Source Location: {request.fromlocation}</p>
-                  <p>Destination Location: {request.tolocation}</p>
-                  <p>Date: {request.date}</p>
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-gray-500 text-center py-4">No pending requests</p>
+            )}
           </div>
         </div>
       )}
 
+      {/* Confirmed Requests */}
       {activeTab === 'confirmed' && (
         <div className="bg-white rounded-lg shadow-lg border border-green-200">
           <div className="bg-green-50 border-b border-green-100 p-4">
@@ -156,29 +132,31 @@ export default function TransporterDashboard() {
             </div>
           </div>
           <div className="p-4 space-y-4">
-            {confirmedRequests.map((request) => (
-              <div key={request.id} 
-                   className="bg-white p-4 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold text-gray-800">{request.cropType}</h3>
-                  <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
-                    Confirmed
-                  </span>
+            {confirmedRequests.length > 0 ? (
+              confirmedRequests.map((request) => (
+                <div key={request.id} className="bg-white p-4 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="font-semibold text-gray-800">{request.cropType}</h3>
+                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">Confirmed</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                    <p>Farmer: {request.Farmerid?.firstName}</p>
+                    <p>Quantity: {request.quantities}</p>
+                    <p>Price: {request.price}</p>
+                    <p>From: {request.Departlocation?.place}</p>
+                    <p>To: {request.Destination?.place}</p>
+                    <p>Date: {new Date(request.DepartureDate).toLocaleDateString()}</p>
+                  </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
-                  <p>Farmer: {request.farmerName}</p>
-                  <p>Quantity: {request.quantity}</p>
-                  <p>Price: {request.price}</p>
-                  <p>Location: {request.fromlocation}</p>
-                  <p>Location: {request.tolocation}</p>
-                  <p>Date: {request.date}</p>
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-gray-500 text-center py-4">No confirmed requests</p>
+            )}
           </div>
         </div>
       )}
 
+      {/* Notifications */}
       {activeTab === 'notifications' && (
         <div className="bg-white rounded-lg shadow-lg border border-green-200">
           <div className="bg-blue-50 border-b border-blue-100 p-4">
@@ -189,18 +167,15 @@ export default function TransporterDashboard() {
           </div>
           <div className="p-4">
             {notifications.length > 0 ? (
-              <div className="space-y-3">
-                {notifications.map((notif) => (
-                  <div key={notif.id} 
-                       className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                    <Bell className="h-5 w-5 text-blue-500" />
-                    <div>
-                      <p className="text-sm text-gray-800">{notif.message}</p>
-                      <p className="text-xs text-gray-500">{notif.timestamp}</p>
-                    </div>
+              notifications.map((notif) => (
+                <div key={notif.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                  <Bell className="h-5 w-5 text-blue-500" />
+                  <div>
+                    <p className="text-sm text-gray-800">{notif.message}</p>
+                    <p className="text-xs text-gray-500">{notif.timestamp}</p>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))
             ) : (
               <p className="text-gray-500 text-center py-4">No new notifications</p>
             )}

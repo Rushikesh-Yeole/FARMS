@@ -37,6 +37,21 @@ export const verifyOtp = createAsyncThunk(
   }
 );
 
+export const transportDetailsThunk = createAsyncThunk(
+  "transporterDemandSlice/transportDetailsThunk",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/transporter/postDetails",
+        formData,
+        { withCredentials: true }
+      );
+      return response.data; //  Ensure only serializable data is returned
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "An error occurred");
+    }
+  }
+);
 
 const profileSlice = createSlice({
   name: "profile",
@@ -47,15 +62,15 @@ const profileSlice = createSlice({
     otpLoading: false,
     error: null,
     otpError: null,
+    transportLoading: false,
+    transportError: null,
   },
   reducers: {
     resetErrors: (state) => {
       state.error = null;
       state.otpError = null;
+      state.transportError = null;
     },
-    // returnprofiledata: (state)=>{
-    //   return state.profile;
-    // },
   },
   extraReducers: (builder) => {
     builder
@@ -65,7 +80,6 @@ const profileSlice = createSlice({
       })
       .addCase(registerProfile.fulfilled, (state, action) => {
         state.loading = false;
-        
       })
       .addCase(registerProfile.rejected, (state, action) => {
         state.loading = false;
@@ -79,12 +93,23 @@ const profileSlice = createSlice({
         state.otpLoading = false;
         state.otpVerified = true;
         state.profiledata = action.payload;
-        console.log("Profile data after OTP verified:", action.payload); // Log to check if data is being returned correctly
+        console.log("Profile data after OTP verified:", action.payload);
       })
-      
       .addCase(verifyOtp.rejected, (state, action) => {
         state.otpLoading = false;
         state.otpError = action.payload;
+      })
+      .addCase(transportDetailsThunk.pending, (state) => {
+        state.transportLoading = true;
+        state.transportError = null;
+      })
+      .addCase(transportDetailsThunk.fulfilled, (state, action) => {
+        state.transportLoading = false;
+        console.log(action.payload)
+      })
+      .addCase(transportDetailsThunk.rejected, (state, action) => {
+        state.transportLoading = false;
+        state.transportError = action.payload;
       });
   },
 });

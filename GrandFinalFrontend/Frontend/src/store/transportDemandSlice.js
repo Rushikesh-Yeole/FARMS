@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// ✅ Thunk to post a transport demand
+//  Thunk to post a transport demand
 export const transportDemandThunk = createAsyncThunk(
   "transporterDemandSlice/transportDemandThunk",
   async (formData, { rejectWithValue }) => {
@@ -11,14 +11,14 @@ export const transportDemandThunk = createAsyncThunk(
         formData,
         { withCredentials: true }
       );
-      return response.data; // ✅ Ensure only serializable data is returned
+      return response.data; //  Ensure only serializable data is returned
     } catch (error) {
       return rejectWithValue(error.response?.data || "An error occurred");
     }
   }
 );
 
-// ✅ Thunk to fetch transport demands by farmer ID
+//  Thunk to fetch transport demands by farmer ID
 export const myTransportDemand = createAsyncThunk(
   "transporterDemandSlice/myDemands",
   async (_, { rejectWithValue }) => {
@@ -34,6 +34,12 @@ export const myTransportDemand = createAsyncThunk(
     }
   }
 );
+// export const pendingrequest = createAsyncThunk("transporterDemandSlice/pendingrequest",
+//   async(,{rejectWithValue})=>{
+
+//   }
+// )
+
 
 const transportDemandSlice = createSlice({
   name: "transportDemand",

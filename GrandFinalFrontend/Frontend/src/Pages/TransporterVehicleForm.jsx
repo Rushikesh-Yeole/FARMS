@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { transportDetailsThunk } from '../store/profileSlice';
 
 const vehicleTypes = [
-  { id: 'pickup', name: 'Pickup Vehicle' },
-  { id: 'tempo', name: 'Tempo' },
-  { id: 'truck', name: 'Truck' },
-  { id: 'eicher', name: 'Eicher' }
+  { id: 'Pickup', name: 'Pickup Vehicle' },
+  { id: 'Tempo', name: 'Tempo' },
+  { id: 'Truck', name: 'Truck' },
+  { id: 'Eicher', name: 'Eicher' }
 ];
 
 export default function TransporterVehicleForm() {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     vehicleType: '',
     capacity: '',
-    hasColdStorage: false
+    isColdStorageAvailable: false
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
+    dispatch(transportDetailsThunk(formData));
+    console.log('Form submitted:', formData);
   };
 
   return (
@@ -25,7 +28,6 @@ export default function TransporterVehicleForm() {
       <h2 className="text-2xl font-bold text-green-800 mb-6">Vehicle Registration</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-lg">
-        {/* Vehicle Type Dropdown */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Vehicle Type
@@ -45,7 +47,6 @@ export default function TransporterVehicleForm() {
           </select>
         </div>
 
-        {/* Capacity Input */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Loading Capacity (kg)
@@ -61,25 +62,23 @@ export default function TransporterVehicleForm() {
           />
         </div>
 
-        {/* Cold Storage Toggle */}
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium text-gray-700">Cold Storage Available</span>
           <button
             type="button"
-            onClick={() => setFormData({ ...formData, hasColdStorage: !formData.hasColdStorage })}
+            onClick={() => setFormData({ ...formData, isColdStorageAvailable: !formData.isColdStorageAvailable })}
             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 ${
-              formData.hasColdStorage ? 'bg-green-600' : 'bg-gray-200'
+              formData.isColdStorageAvailable ? 'bg-green-600' : 'bg-gray-200'
             }`}
           >
             <span
               className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                formData.hasColdStorage ? 'translate-x-6' : 'translate-x-1'
+                formData.isColdStorageAvailable ? 'translate-x-6' : 'translate-x-1'
               }`}
             />
           </button>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"

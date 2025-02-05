@@ -1,13 +1,14 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// ✅ Load token from localStorage correctly
-// const storedUserData = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null;
-const storedUserData =null;
-const storedIsLogin = !!storedUserData; // ✅ Convert to boolean
+// ✅ Load token correctly from localStorage
+const storedToken = localStorage.getItem("token");
+const storedUserData = storedToken ? JSON.parse(storedToken) : null;
+const storedIsLogin = !!storedUserData; // Convert to boolean
+
 // ✅ Async action for login
 export const login = createAsyncThunk(
-  'loginuser/login',
+  "loginuser/login",
   async ({ mobileNumber, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
@@ -16,7 +17,7 @@ export const login = createAsyncThunk(
         { withCredentials: true }
       );
 
-      // ✅ Store only the token
+      // ✅ Store only the token in localStorage
       localStorage.setItem("token", JSON.stringify(response.data.token));
 
       return response.data;
@@ -35,7 +36,7 @@ export const logoutThunk = createAsyncThunk(
     try {
       await axios.post("http://localhost:8000/api/logout", {}, { withCredentials: true });
 
-      // ✅ Remove token from localStorage
+      // ✅ Remove token from localStorage on logout
       localStorage.removeItem("token");
 
       return true; // Logout successful
@@ -48,10 +49,10 @@ export const logoutThunk = createAsyncThunk(
 
 // ✅ Create slice
 const loginSlice = createSlice({
-  name: 'loginuser',
+  name: "loginuser",
   initialState: {
-    userData: storedUserData, 
-    isLogin: storedIsLogin,  
+    userData: storedUserData, // ✅ Load from localStorage
+    isLogin: storedIsLogin, // ✅ Ensure login state persists
     loading: false,
     error: null,
   },
@@ -78,7 +79,7 @@ const loginSlice = createSlice({
         state.isLogin = false;
       })
       .addCase(logoutThunk.rejected, (state, action) => {
-        // ✅ Even if API fails, clear user session
+        //  Even if API fails, clear user session
         state.userData = null;
         state.isLogin = false;
         state.error = action.payload;

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaLongArrowAltRight, FaCalendarAlt, FaTruck, FaUser, FaPhone, FaBox, FaMapMarkerAlt } from 'react-icons/fa';
-
+import { useSelector,useDispatch } from "react-redux";
+import { transreq,acceptinvite } from "../store/transReq";
 const initialData = [
   { 
     id: 1, 
@@ -102,9 +103,22 @@ export default function Transport() {
     setSelectedCard(null);
   };
 
-  const handleAcceptRequest = () => {
+  
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(transreq()).then((result) => {
+          if (result.meta.requestStatus === "fulfilled") {
+            const fetchedData = result.payload?.data || [];
+            console.log("Fetched Data:", fetchedData);
+            setCards(fetchedData);
+            setFilteredCards(fetchedData); // Initialize filtered list
+          }
+        });
+  },[dispatch])
+  const handleAcceptRequest = (_id) => {
     if (selectedCard) {
       // Remove the accepted card from the list
+      dispatch(acceptinvite(_id));
       setCards(prevCards => prevCards.filter(card => card.id !== selectedCard.id));
       handleCloseModal();
     }
@@ -156,7 +170,7 @@ export default function Transport() {
         {cards.length > 0 ? (
           cards.map((card, index) => (
             <motion.div
-              key={card.id}
+              key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
@@ -168,7 +182,7 @@ export default function Transport() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-600 rounded-full" />
-                    <p className="text-gray-700">From: <span className="text-green-700 font-semibold">{card.from}</span></p>
+                    <p className="text-gray-700">From: <span className="text-green-700 font-semibold">{card.Departlocations?.place}</span></p>
                   </div>
                   <FaCalendarAlt className="text-green-600" />
                 </div>
@@ -181,10 +195,10 @@ export default function Transport() {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-green-600 rounded-full" />
-                  <p className="text-gray-700">To: <span className="text-green-700 font-semibold">{card.to}</span></p>
+                  <p className="text-gray-700">To: <span className="text-green-700 font-semibold">{card.Destination?.place}</span></p>
                 </div>
                 <div className="pt-4 border-t border-gray-100">
-                  <p className="text-sm text-gray-500">Available: {card.date}</p>
+                  <p className="text-sm text-gray-500">Available:  {new Date(card.DepatrureDate).toLocaleDateString()}</p>
                 </div>
               </div>
             </motion.div>
@@ -216,7 +230,7 @@ export default function Transport() {
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                   <FaMapMarkerAlt className="text-green-600" />
-                  <span className="font-semibold">{selectedCard.from}</span>
+                  <span className="font-semibold">{selectedCard.Departlocations?.place}</span>
                 </div>
                 <div className="flex-1 flex items-center justify-center">
                   <motion.div
@@ -227,18 +241,18 @@ export default function Transport() {
                   </motion.div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold">{selectedCard.to}</span>
+                  <span className="font-semibold">{selectedCard.Destination?.place}</span>
                   <FaMapMarkerAlt className="text-green-600" />
                 </div>
               </div>
               <div className="mt-4 flex justify-center gap-6 text-sm text-gray-600">
                 <div className="flex items-center gap-2">
                   <FaCalendarAlt className="text-green-600" />
-                  <span>{selectedCard.date} at {selectedCard.time}</span>
+                  <span>{new Date(selectedCard.DepatrureDate).toLocaleDateString()}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <FaBox className="text-green-600" />
-                  <span>{selectedCard.quantity} units</span>
+                  <span>{selectedCard.quantities} units</span>
                 </div>
               </div>
             </div>
@@ -249,41 +263,24 @@ export default function Transport() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <FaUser className="text-gray-400" />
-                    <span className="text-gray-700">{selectedCard.farmer.name}</span>
+                    <span className="text-gray-700">{selectedCard.FarmerIds?.firstName}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <FaPhone className="text-gray-400" />
-                    <span className="text-gray-700">{selectedCard.farmer.contact}</span>
+                    <span className="text-gray-700">{selectedCard.FarmerIds?.contactNumber}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <FaMapMarkerAlt className="text-gray-400" />
-                    <span className="text-gray-700">{selectedCard.farmer.address}</span>
-                  </div>
+                  
                 </div>
               </InfoCard>
 
-              <InfoCard title="Retailer Information" icon={FaUser}>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <FaUser className="text-gray-400" />
-                    <span className="text-gray-700">{selectedCard.retailer.name}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FaPhone className="text-gray-400" />
-                    <span className="text-gray-700">{selectedCard.retailer.contact}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FaMapMarkerAlt className="text-gray-400" />
-                    <span className="text-gray-700">{selectedCard.retailer.address}</span>
-                  </div>
-                </div>
-              </InfoCard>
+              
             </div>
 
             {/* Accept Button */}
             <div className="flex justify-end">
               <button
-                onClick={handleAcceptRequest}
+                onClick={()=>handleAcceptRequest(selectedCard._id
+                )}
                 className="px-6 py-3 rounded-lg text-white font-semibold transition-all duration-200 
                   bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 transform hover:scale-105"
               >
