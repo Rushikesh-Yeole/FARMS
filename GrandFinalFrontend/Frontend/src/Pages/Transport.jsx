@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaLongArrowAltRight, FaCalendarAlt, FaTruck, FaUser, FaPhone, FaBox, FaMapMarkerAlt } from 'react-icons/fa';
-
 const initialData = [
   { 
     id: 1, 
@@ -173,10 +172,10 @@ export default function Transport() {
                   <FaCalendarAlt className="text-green-600" />
                 </div>
                 <div className="flex justify-center">
-                  {getArrowDirection(card.from, card.to) === 'right' ? (
-                    <FaLongArrowAltRight className="text-2xl text-green-600" />
+                  {getArrowDirection(card.from, card.to) === 'down' ? (
+                    <FaLongArrowAltRight className="text-2xl border-black text-green-600" />
                   ) : (
-                    <FaLongArrowAltRight className="text-2xl text-green-600 transform rotate-180" />
+                    <FaLongArrowAltRight className="text-2xl text-green-600 transform rotate-240" />
                   )}
                 </div>
                 <div className="flex items-center gap-3">

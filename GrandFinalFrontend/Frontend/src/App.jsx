@@ -13,8 +13,6 @@ import MyProfilePage from "./Components/MyProfilePage.jsx";
 import FarmerStockForm from "./Pages/FarmerStockForm.jsx";
 import RetailerDemandForm from "./Pages/RetailerRequirement.jsx";
 import FarmerBestDealsPage  from "./Pages/FarmerBestDealsPage.jsx"
-
-// import { Home } from "lucide-react";
 import TransportReq from "./Pages/transportReq.jsx";
 import Dummy from "./Pages/Dummy.jsx";
 import MyStock from "./Pages/myStock.jsx";
@@ -24,7 +22,7 @@ import ConfRequest from "./Pages/confReq.jsx";
 import Contact from "./Pages/Contact.jsx";
 import Home from "./Pages/Home.jsx";
 import RetailerSbestDeals from "./Pages/RetailerSbestDeals.jsx"
-import FarmerDashboard from "./Pages/FarmerDashBoard.jsx"
+import FarmerDashboard from "./Pages/Farmer/FarmerDashBoard.jsx"
 import Transport from "./Pages/Transport.jsx";
 
 export default function App() {

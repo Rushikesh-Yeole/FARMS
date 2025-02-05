@@ -81,12 +81,11 @@ const FarmerBestDealsPage = () => {
       dispatch(bestDeal(requirementId)).then((result) => {
         if (result.type === "deals/bestDeals/fulfilled") {
           const response = result.payload;
-          setDeals(response.demandsWithScores);  
+          setDeals(response.demandsWithScores);
         }
       });
     }
-  }, [poststockState?.stockPostData?.stock?._id, dispatch]); 
-  
+  }, [poststockState?.stockPostData?.stock?._id, dispatch]);
 
   const toggleContact = (dealId) => {
     setShowContactMap((prev) => ({
@@ -145,80 +144,102 @@ const FarmerBestDealsPage = () => {
 
         {/* Deals Section */}
         <div className="space-y-6 ">
-        {deals.map((deal, index) => (
-  <motion.div
-    key={index}  // Use index if there's no unique ID
-    initial={{ opacity: 0, x: -20 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ delay: index * 0.3, duration: 1 }}
-    className="bg-white border border-gray-300 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-  >
-    <div className="flex flex-col md:flex-row">
-      {/* Image Section (Use Placeholder for Now) */}
-      <div className="w-full md:w-1/3 bg-green-100 md:p-4 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
-        <img
-          src="https://via.placeholder.com/150"  // 🔄 Update later if you have product images
-          alt={deal.demand.crop}
-          className="w-full object-contain rounded-s md:rounded-lg"
-        />
-        <h3 className="text-xl hidden md:block sm:text-2xl font-bold text-gray-900 text-center mt-2">
-          {deal.demand.crop} (Grade {deal.demand.cropGrade})
-        </h3>
-      </div>
+          {deals.map((deal, index) => (
+            <motion.div
+              key={index} // Use index if there's no unique ID
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.3, duration: 1 }}
+              className="bg-white border border-gray-300 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              <div className="flex flex-col md:flex-row">
+                {/* Image Section (Use Placeholder for Now) */}
+                <div className="w-full md:w-1/3 bg-green-100 md:p-4 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
+                  <img
+                    src="https://via.placeholder.com/150" // 🔄 Update later if you have product images
+                    alt={deal.demand.crop}
+                    className="w-full object-contain rounded-s md:rounded-lg"
+                  />
+                  <h3 className="text-xl hidden md:block sm:text-2xl font-bold text-gray-900 text-center mt-2">
+                    {deal.demand.crop} (Grade {deal.demand.cropGrade})
+                  </h3>
+                </div>
 
-      {/* Deal Details */}
-      <div className="flex-1 p-6">
-        <div className="flex flex-col sm:flex-row justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <h4 className="text-xl font-bold">
-              {deal.userId.firstName} {deal.userId.lastName}
-            </h4>
-            <Star className="text-yellow-500 fill-yellow-500" size={20} />
-            <span className="text-lg font-bold">{deal.userId.averageRating}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="text-green-700" size={20} />
-            <span className="text-lg font-bold text-green-700">Best Deal</span>
-          </div>
-        </div>
+                {/* Deal Details */}
+                <div className="flex-1 p-6">
+                  <div className="flex flex-col sm:flex-row justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <h4 className="text-xl font-bold">
+                        {deal.userId.firstName} {deal.userId.lastName}
+                      </h4>
+                      <Star
+                        className="text-yellow-500 fill-yellow-500"
+                        size={20}
+                      />
+                      <span className="text-lg font-bold">
+                        {deal.userId.averageRating}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck className="text-green-700" size={20} />
+                      <span className="text-lg font-bold text-green-700">
+                        Best Deal
+                      </span>
+                    </div>
+                  </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="flex items-center gap-2">
-            <IndianRupee className="text-gray-800" size={20} />
-            <div>
-              <p className="text-sm font-medium text-gray-700">Price per Quintal</p>
-              <p className="text-lg font-bold">₹{deal.demand.pricePerQuintal}</p>
-            </div>
-          </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-2">
+                      <IndianRupee className="text-gray-800" size={20} />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">
+                          Price per Quintal
+                        </p>
+                        <p className="text-lg font-bold">
+                          ₹{deal.demand.pricePerQuintal}
+                        </p>
+                      </div>
+                    </div>
 
-          <div className="flex items-center gap-2">
-            <TrendingUp className="text-gray-800" size={20} />
-            <div>
-              <p className="text-sm font-medium text-gray-700">Quantity</p>
-              <p className="text-lg font-bold text-green-700">{deal.demand.quantity} Quintals</p>
-            </div>
-          </div>
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="text-gray-800" size={20} />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">
+                          Quantity
+                        </p>
+                        <p className="text-lg font-bold text-green-700">
+                          {deal.demand.quantity} Quintals
+                        </p>
+                      </div>
+                    </div>
 
-          <div className="flex items-center gap-2">
-            <MapPin className="text-gray-800" size={20} />
-            <p className="text-lg font-semibold">{deal.demand.location.address}</p>
-          </div>
-        </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="text-gray-800" size={20} />
+                      <p className="text-lg font-semibold">
+                        {deal.demand.location.address}
+                      </p>
+                    </div>
+                  </div>
 
-        <div className="grid mt-4 md:mt-6 grid-cols-1 md:grid-cols-2">
-          <div className="flex items-center gap-2">
-            <Calendar className="text-gray-800" size={20} />
-            <div>
-              <p className="text-sm font-medium text-gray-700">Expected Delivery</p>
-              <p className="text-lg font-bold">{new Date(deal.demand.expectedDeliveryDate).toDateString()}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </motion.div>
-))}
-
+                  <div className="grid mt-4 md:mt-6 grid-cols-1 md:grid-cols-2">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="text-gray-800" size={20} />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">
+                          Expected Delivery
+                        </p>
+                        <p className="text-lg font-bold">
+                          {new Date(
+                            deal.demand.expectedDeliveryDate
+                          ).toDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>
