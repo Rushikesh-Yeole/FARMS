@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { myTransportDemand } from '../store/transportDemandSlice';
+import { myTransportDemand } from '../../store/transportDemandSlice';
 import {
   Package,
   Bell,
@@ -47,7 +47,6 @@ const FarmerDashboard = () => {
           status: 'pending'
         },
         {
-          
           id: 2,
           retailerName: "City Grocers",
           quantity: 300,
@@ -261,7 +260,7 @@ const FarmerDashboard = () => {
                 <div className="p-6  shadow-xl border-gray-100">
                   <div className="flex justify-between items-start">
                     <div>
-                      <div className="flex items-center gap-3 mb-2">
+                      <div className="flex items-center  gap-3 mb-2">
                         <h3 className="text-xl font-bold text-gray-900">
                           {stock.productName}
                         </h3>
