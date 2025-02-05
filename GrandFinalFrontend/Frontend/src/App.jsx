@@ -27,6 +27,7 @@ import Transport from "./Pages/Transport.jsx";
 import TransporterDashboard from "./Pages/TransporterDashboard.jsx";
 import TransporterVehicleForm from "./Pages/TransporterVehicleForm.jsx";
 import FarmerInsight from "./Pages/Farmerinsight.jsx";
+import Footer from "./Components/Footer.jsx"
 
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
