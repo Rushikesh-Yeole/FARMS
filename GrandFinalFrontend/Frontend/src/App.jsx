@@ -26,6 +26,7 @@ import FarmerDashboard from "./Pages/Farmer/FarmerDashBoard.jsx"
 import Transport from "./Pages/Transport.jsx";
 import TransporterDashboard from "./Pages/TransporterDashboard.jsx";
 import TransporterVehicleForm from "./Pages/TransporterVehicleForm.jsx";
+import FarmerInsight from "./Pages/Farmerinsight.jsx";
 
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
@@ -48,6 +49,7 @@ export default function App() {
             <Route path="/register" element={<RegisterProfile />} />
             <Route path="/farmerstock" element={<FarmerStockForm />} />
             <Route path="/farmerdashbaord" element={<FarmerDashboard />} />
+            <Route path="/farmerinsight" element={<FarmerInsight />} />
             <Route path="/retailerpost" element={<RetailerDemandForm />} />
             <Route path="/transport" element={<Transport />} />
             <Route path="/contactus" element={<Contact/>}></Route>
@@ -66,6 +68,7 @@ export default function App() {
             <Route path="/dummy/confRequset" element={<ConfRequest/>}/>
           </Routes>
         </div>
+        <Footer></Footer>
       </div>
     </BrowserRouter>
   );
