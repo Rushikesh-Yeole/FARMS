@@ -4,247 +4,178 @@ import {
   Star,
   TrendingUp,
   MapPin,
-  Phone,
   Calendar,
   IndianRupee,
-  ShieldCheck,
-  ArrowRight,
+  Leaf,
+  Package,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { bestDeal } from "../store/viewBestDealsSlice";
 
 const FarmerBestDealsPage = () => {
-  const [distance, setDistance] = useState("");
-  const [showContactMap, setShowContactMap] = useState({});
+  const [expandedDeals, setExpandedDeals] = useState({});
   const postStock = useSelector((state) => state.postStock);
   const dispatch = useDispatch();
-  const [deals, setDeals] = useState([
-    {
-      id: 1,
-      retailerName: "Karan Chavan",
-      retailerType: "Premium Wholesaler",
-      productImage:
-        "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=2070",
-      productName: "Tomatoes",
-      rating: 4.8,
-      pricePerKg: 45,
-      location: "Mumbai Central Market",
-      contactNumber: "+91 98765 43210",
-      expectedDeliveryDate: "2024-03-25",
-      expectedProfitMin: 10000,
-      expectedProfitMax: 12000,
-      dealScore: 98,
-    },
-    {
-      id: 2,
-      retailerName: "City Grocers",
-      retailerType: "Bulk Buyer",
-      productImage:
-        "https://images.unsplash.com/photo-1587049633312-d628ae50a8ae?auto=format&fit=crop&q=80&w=2070",
-      productName: "Potatoes",
-      rating: 4.6,
-      pricePerKg: 30,
-      location: "Pune Wholesale Market",
-      contactNumber: "+91 98765 43211",
-      expectedDeliveryDate: "2024-03-24",
-      expectedProfitMin: 7500,
-      expectedProfitMax: 8500,
-      dealScore: 95,
-    },
-  ]);
-  //////NOTES//////
+  const [deals, setDeals] = useState([ /* Your deals data here */ ]);
 
-  // useEffect(() => {
-  //   // Check if stock _id exists
-  //   if (poststockState?.stockPostData?.stock?._id) {
-  //     const requirementId = poststockState.stockPostData.stock._id;
-
-  //     dispatch(bestDeal(requirementId)).then((result) => {
-  //       if (result.type === "deals/bestDeals/fulfilled") {
-  //         setDeals(result.payload.demandWithScores);
-  //       }
-  //     });
-  //   }
-  // }, [poststockState?.stockPostData?.stock?._id, dispatch]);
-
-  // ✅ Issue 1: Missing dependency array
-  // This useEffect runs on every render, which is inefficient.
-  // It should only run when `poststockState?.stockPostData?.stock?._id` changes.
-
-  // ✅ Issue 2: Potential memory leak
-  // If the component unmounts before dispatch completes, updating state will cause errors.
-  // We need to prevent state updates on an unmounted component.
-
-  useEffect(() => {
-      console.log("kiiii")
-      const requirementId = postStock.stockPostData.stock._id;
-      dispatch(bestDeal(requirementId)).then((result) => {
-        // if (result.type === "deals/bestDeals/fulfilled") {
-          const response = result.payload;
-          console.log(response);
-          setDeals(response.demandsWithScores);
-        
-      });
-    
-  }, [dispatch,postStock]);
-
-  const toggleContact = (dealId) => {
-    setShowContactMap((prev) => ({
+  const toggleDealExpansion = (dealId) => {
+    setExpandedDeals((prev) => ({
       ...prev,
       [dealId]: !prev[dealId],
     }));
   };
-  const handleDistanceSubmit = () => {};
+
+  const formatDate = (date) => new Date(date).toLocaleDateString();
+  const formatCurrency = (value) => `₹${value.toLocaleString()}`;
+
+  useEffect(() => {
+    if (postStock?.stockPostData?.stock?._id) {
+      const requirementId = postStock.stockPostData.stock._id;
+      dispatch(bestDeal(requirementId)).then((result) => {
+        if (result.payload) {
+          setDeals(result.payload.filteredDeals);
+        }
+      });
+    }
+  }, [dispatch, postStock?.stockPostData?.stock?._id]);
 
   return (
-    <></>
-    // <div className="min-h-screen    border bg-gradient-to-b from-green-50 to-white py-8 px-4 sm:px-1 lg:px-20">
-    //   <div className="max-w-7xl  sm:mx-4 lg:mx-20 ">
-    //     {/* Hero Section */}
-    //     <motion.div
-    //       initial={{ opacity: 0, y: 20 }}
-    //       animate={{ opacity: 1, y: 0 }}
-    //       transition={{ duration: 1 }}
-    //       className="text-center mb-12"
-    //     >
-    //       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-800 mb-4">
-    //         Discover Your Best Profit Opportunities
-    //       </h1>
-    //       <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto">
-    //         Our AI-powered system analyzes thousands of deals to bring you the
-    //         most profitable opportunities. Trust in our Deal Score™ - your guide
-    //         to maximum returns.
-    //       </p>
-    //     </motion.div>
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">Available Bulk Deals</h1>
+        <div className="space-y-8">
+          {deals.map((deal, dealIndex) => {
+            const mainRetailer = deal.group.retailers[0]?.crop; // Adjust for correct data field
+            const isExpanded = expandedDeals[deal.group._id];
 
-    //     {/* Distance Input Section */}
-    //     <motion.div
-    //       initial={{ opacity: 0 }}
-    //       animate={{ opacity: 1 }}
-    //       transition={{ delay: 0.3 }}
-    //       className="max-w-md mx-auto mb-10"
-    //     >
-    //       <form
-    //         onSubmit={handleDistanceSubmit}
-    //         className="flex flex-col sm:flex-row gap-4"
-    //       >
-    //         <input
-    //           type="number"
-    //           value={distance}
-    //           onChange={(e) => setDistance(e.target.value)}
-    //           placeholder="Enter max distance (km)"
-    //           className="w-full sm:flex-1 px-4 py-3 rounded-lg border-2 border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition-colors"
-    //         />
-    //         <button
-    //           type="submit"
-    //           className="w-full sm:w-auto bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
-    //         >
-    //           Find Deals <ArrowRight size={20} />
-    //         </button>
-    //       </form>
-    //     </motion.div>
+            return (
+              <motion.div
+                key={deal.group._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: dealIndex * 0.1 }}
+              >
+                <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-green-100">
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-green-100 p-2 rounded-lg">
+                          <Leaf className="w-6 h-6 text-green-600" />
+                        </div>
+                        <div>
+                          <h2 className="text-2xl font-bold text-gray-800">Premium Bulk Deal</h2>
+                          <p className="text-green-600 font-medium">{mainRetailer}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 bg-green-50 px-3 py-1 rounded-full">
+                        <Star className="w-5 h-5 text-green-600 fill-green-600" />
+                        <span className="font-semibold text-green-700">{deal.group.avgGroupRating}</span>
+                      </div>
+                    </div>
 
-    //     {/* Deals Section */}
-    //     <div className="space-y-6 ">
-    //       {deals.map((deal, index) => (
-    //         <motion.div
-    //           key={index} // Use index if there's no unique ID
-    //           initial={{ opacity: 0, x: -20 }}
-    //           animate={{ opacity: 1, x: 0 }}
-    //           transition={{ delay: index * 0.3, duration: 1 }}
-    //           className="bg-white border border-gray-300 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-    //         >
-    //           <div className="flex flex-col md:flex-row">
-    //             {/* Image Section (Use Placeholder for Now) */}
-    //             <div className="w-full md:w-1/3 bg-green-100 md:p-4 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
-    //               <img
-    //                 src="https://via.placeholder.com/150" // 🔄 Update later if you have product images
-    //                 alt={deal.demand.crop}
-    //                 className="w-full object-contain rounded-s md:rounded-lg"
-    //               />
-    //               <h3 className="text-xl hidden md:block sm:text-2xl font-bold text-gray-900 text-center mt-2">
-    //                 {deal.demand.crop} (Grade {deal.demand.cropGrade})
-    //               </h3>
-    //             </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                      <div className="flex items-start gap-3">
+                        <MapPin className="w-5 h-5 text-green-600 mt-1" />
+                        <div>
+                          <div className="text-sm text-gray-500">Primary Location</div>
+                          <div className="font-medium text-gray-800">{deal.group.retailers[0]?.location.address}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <Calendar className="w-5 h-5 text-green-600 mt-1" />
+                        <div>
+                          <div className="text-sm text-gray-500">Earliest Delivery</div>
+                          <div className="font-medium text-gray-800">
+                            {formatDate(deal.group.retailers[0]?.expectedDeliveryDate)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-    //             {/* Deal Details */}
-    //             <div className="flex-1 p-6">
-    //               <div className="flex flex-col sm:flex-row justify-between mb-4">
-    //                 <div className="flex items-center gap-2">
-    //                   <h4 className="text-xl font-bold">
-    //                     {deal.userId.firstName} {deal.userId.lastName}
-    //                   </h4>
-    //                   <Star
-    //                     className="text-yellow-500 fill-yellow-500"
-    //                     size={20}
-    //                   />
-    //                   <span className="text-lg font-bold">
-    //                     {deal.userId.averageRating}
-    //                   </span>
-    //                 </div>
-    //                 <div className="flex items-center gap-2">
-    //                   <ShieldCheck className="text-green-700" size={20} />
-    //                   <span className="text-lg font-bold text-green-700">
-    //                     Best Deal
-    //                   </span>
-    //                 </div>
-    //               </div>
+                    <div className="bg-green-50 rounded-xl p-4 mb-6">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <div className="text-sm text-gray-500 mb-1">Price per Quintal</div>
+                          <div className="flex items-center gap-2">
+                            <IndianRupee className="w-5 h-5 text-green-600" />
+                            <span className="text-xl font-bold text-gray-800">
+                              {formatCurrency(deal.group.avgPrice)}
+                            </span>
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-gray-500 mb-1">Total Quantity</div>
+                          <div className="flex items-center gap-2">
+                            <TrendingUp className="w-5 h-5 text-green-600" />
+                            <span className="text-xl font-bold text-gray-800">
+                              {deal.group.totalQuantity} Quintals
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-    //               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    //                 <div className="flex items-center gap-2">
-    //                   <IndianRupee className="text-gray-800" size={20} />
-    //                   <div>
-    //                     <p className="text-sm font-medium text-gray-700">
-    //                       Price per Quintal
-    //                     </p>
-    //                     <p className="text-lg font-bold">
-    //                       ₹{deal.demand.pricePerQuintal}
-    //                     </p>
-    //                   </div>
-    //                 </div>
+                    <motion.button
+                      onClick={() => toggleDealExpansion(deal.group._id)}
+                      className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white py-4 px-6 rounded-xl font-medium transition-all shadow-md hover:shadow-lg"
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {isExpanded ? 'Hide Retailers' : `View ${deal.group.retailers.length} Retailers`}
+                      {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                    </motion.button>
+                  </div>
 
-    //                 <div className="flex items-center gap-2">
-    //                   <TrendingUp className="text-gray-800" size={20} />
-    //                   <div>
-    //                     <p className="text-sm font-medium text-gray-700">
-    //                       Quantity
-    //                     </p>
-    //                     <p className="text-lg font-bold text-green-700">
-    //                       {deal.demand.quantity} Quintals
-    //                     </p>
-    //                   </div>
-    //                 </div>
-
-    //                 <div className="flex items-center gap-2">
-    //                   <MapPin className="text-gray-800" size={20} />
-    //                   <p className="text-lg font-semibold">
-    //                     {deal.demand.location.address}
-    //                   </p>
-    //                 </div>
-    //               </div>
-
-    //               <div className="grid mt-4 md:mt-6 grid-cols-1 md:grid-cols-2">
-    //                 <div className="flex items-center gap-2">
-    //                   <Calendar className="text-gray-800" size={20} />
-    //                   <div>
-    //                     <p className="text-sm font-medium text-gray-700">
-    //                       Expected Delivery
-    //                     </p>
-    //                     <p className="text-lg font-bold">
-    //                       {new Date(
-    //                         deal.demand.expectedDeliveryDate
-    //                       ).toDateString()}
-    //                     </p>
-    //                   </div>
-    //                 </div>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </motion.div>
-    //       ))}
-    //     </div>
-    //   </div>
-    // </div>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="border-t border-green-100"
+                    >
+                      <div className="p-6 bg-green-50/50">
+                        <div className="space-y-4">
+                          {deal.group.retailers.map((retailer, idx) => (
+                            <motion.div
+                              key={retailer._id}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.1 }}
+                              className="bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-green-100"
+                            >
+                              <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-2">
+                                  <Package className="w-5 h-5 text-green-600" />
+                                  <span className="font-semibold text-gray-800">Retailer #{idx + 1}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  {[...Array(5)].map((_, i) => (
+                                    <Star
+                                      key={i}
+                                      className={`w-4 h-4 ${i < retailer.cropGrade ? 'text-green-500 fill-green-500' : 'text-gray-300'}`}
+                                    />
+                                  ))}
+                                </div>
+                              </div>
+                              <div className="text-sm text-gray-500">Location: {retailer.location.address}</div>
+                              <div className="font-medium text-gray-800">Delivery Date: {formatDate(retailer.expectedDeliveryDate)}</div>
+                              <div className="font-medium text-gray-800">Price per Quintal: {formatCurrency(retailer.pricePerQuintal)}</div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 };
 

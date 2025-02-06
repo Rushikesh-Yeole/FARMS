@@ -2,27 +2,32 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Fetch the initial state from localStorage, if it exists
-const initialStateFromLocalStorage = localStorage.getItem("PostStock")
-  ? JSON.parse(localStorage.getItem("PostStock"))
-  : {
-      stockPostData: null,
-      loading: false,
-      error: null
-  };
+const initialState = {
+  stockPostData: localStorage.getItem("PostStock")
+    ? JSON.parse(localStorage.getItem("PostStock"))
+    : null,
+  loading: false,
+  error: null,
+};
 
 export const farmerStockPost = createAsyncThunk(
   "farmerStock/Post",
-  async (postStockData, { rejectWithValue }) => {
+  async (formData, { rejectWithValue }) => {
     try {
-      console.log("hii");
+      console.log("Uploading stock data...", formData);
       const response = await axios.post(
         "http://localhost:8000/farmer/poststock",
-        postStockData,
-        { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true }
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true, // Ensure backend supports CORS credentials
+        }
       );
-      console.log(response);
+      console.log("Response received:", response.data);
+
       return response.data;
     } catch (error) {
+      console.error("Upload failed:", error);
       return rejectWithValue(
         error.response && error.response.data
           ? error.response.data.message
@@ -34,7 +39,7 @@ export const farmerStockPost = createAsyncThunk(
 
 const postStockSlice = createSlice({
   name: "stockPost",
-  initialState: initialStateFromLocalStorage, // Initialize from localStorage
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -45,13 +50,17 @@ const postStockSlice = createSlice({
       .addCase(farmerStockPost.fulfilled, (state, action) => {
         state.loading = false;
         state.stockPostData = action.payload;
-        console.log("infulfill", action.payload);
-        // Store the updated state in localStorage
-        localStorage.setItem("PostStock", JSON.stringify(state));
+        console.log("Upload successful:", action.payload);
+
+        // Store only the necessary data in localStorage
+        localStorage.setItem("PostStock", JSON.stringify(state.stockPostData));
       })
       .addCase(farmerStockPost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+
+        // Ensure localStorage remains in sync
+        localStorage.setItem("PostStock", JSON.stringify(state.stockPostData));
       });
   },
 });

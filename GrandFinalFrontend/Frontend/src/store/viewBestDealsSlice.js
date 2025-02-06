@@ -22,11 +22,11 @@ export const bestDeal = createAsyncThunk(
           withCredentials: true
         }
       );
-      console.log("inresponse", response);
+      console.log("inresponse", response.data);
       
       // Store response in localStorage
       localStorage.setItem("bestDeals", JSON.stringify(response.data));
-      return response.data.demandsWithScores;
+      return response.data;
     } catch (error) {
       return rejectWithValue(
         error.response && error.response.data

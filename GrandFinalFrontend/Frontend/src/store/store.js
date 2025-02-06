@@ -10,6 +10,7 @@ import requestStateusReducer from "./requsetstatusSlice";
 import farmerStockListingReducer from "./FarmerDashBoard/stocklistingSlice";
 import farmerNotificatonReducer from "./FarmerDashBoard/notificationSlice";
 import bestDealreducer from "./viewBestDealsSlice"
+
 const store = configureStore({
   reducer: {
     profile: profileReducer,

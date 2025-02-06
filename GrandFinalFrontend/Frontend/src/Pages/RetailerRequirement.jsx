@@ -32,12 +32,15 @@ export default function RetailerDemandForm() {
     crop: "",
     quantity: "",
     price: "", 
-    cropgrade: "", // Added crop grade
+    cropGrade: "", // Added crop grade
     expectedDeliveryDate: "",
     location: {
       state: "",
       district: "",
       village: "",
+      landmark:"",
+      areaName:""
+
     },
     contactNumber: "",
   });
@@ -147,9 +150,9 @@ export default function RetailerDemandForm() {
         <div>
           <label className="block font-medium mb-1">Crop Grade</label>
           <select
-            name="cropgrade"
+            name="cropGrade"
             className="w-full p-3 border rounded-lg"
-            value={formData.cropgrade}
+            value={formData.cropGrade}
             onChange={handleChange}
             required
           >
@@ -222,6 +225,34 @@ export default function RetailerDemandForm() {
               name="village"
               className="w-full p-3 border rounded-lg"
               value={formData.location.village}
+              onChange={handleLocationChange}
+              required
+              placeholder="Enter village name"
+            />
+          </div>
+        )}
+        {formData.location.village && (
+          <div className="md:col-span-2">
+            <label className="block font-medium mb-1">areaName</label>
+            <input
+              type="text"
+              name="areaName"
+              className="w-full p-3 border rounded-lg"
+              value={formData.location.areaName}
+              onChange={handleLocationChange}
+              required
+              placeholder="Enter village name"
+            />
+          </div>
+        )}
+        {formData.location.areaName && (
+          <div className="md:col-span-2">
+            <label className="block font-medium mb-1">landmark</label>
+            <input
+              type="text"
+              name="landmark"
+              className="w-full p-3 border rounded-lg"
+              value={formData.location.landmark}
               onChange={handleLocationChange}
               required
               placeholder="Enter village name"

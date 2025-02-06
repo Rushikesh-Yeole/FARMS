@@ -26,6 +26,9 @@ export default function TransporterDashboard() {
       }
     });
   };
+  const handleGetmypending=()=>{
+    dispatch()
+  }
 
   const notifications = [
     {
@@ -77,7 +80,7 @@ export default function TransporterDashboard() {
         </button>
 
         <button
-          onClick={() => setActiveTab('notifications')}
+          onClick={() =>{ handleGetmypending(),setActiveTab('notifications')}}
           className={`px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === 'notifications' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-600 hover:bg-green-200'
           }`}

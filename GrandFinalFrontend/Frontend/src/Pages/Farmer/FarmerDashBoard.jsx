@@ -15,14 +15,64 @@ import {
   Clock,
   AlertCircle,
   Truck,
+  ArrowRight
 } from "lucide-react";
+import { getPendingRequest } from "../../store/transReq";
+import { fetchNotifications,acceptInvitation } from "../../store/FarmerDashBoard/notificationSlice";
 
 const FarmerDashboard = () => {
   const [activeTab, setActiveTab] = useState("stocks");
   const [expandedStock, setExpandedStock] = useState(null);
-  const [expandedTransport, setExpandedTransport] = useState(null);
+  const [expandedTransport, setExpandedTransport] = useState([]);
   const [stocks, setStocks] = useState([]);
+  const [pendingrequest,setPendingrequest] = useState([]);
   const dispatch = useDispatch();
+  const [transportDemands, settransportDemands] = useState([
+    {
+      id: 1,
+      fromLocation: "Nashik, Maharashtra",
+      toLocation: "Mumbai Central Market",
+      productName: "Premium Tomatoes",
+      quantity: 300,
+      expectedDate: "2024-03-25",
+      status: "accepted",
+      transporterDetails: {
+        name: "FastTrack Logistics",
+        vehicleType: "Refrigerated Truck",
+        vehicleNumber: "MH-04-AB-1234",
+        contactNumber: "+91 98765 43210",
+        rating: 4.8,
+      },
+      price: 5000,
+    },
+    {
+      id: 2,
+      fromLocation: "Nashik, Maharashtra",
+      toLocation: "Pune Market",
+      productName: "Premium Tomatoes",
+      quantity: 300,
+      expectedDate: "2024-03-26",
+      status: "pending",
+    },
+    {
+      id: 3,
+      fromLocation: "Pune, Maharashtra",
+      toLocation: "Thane Market",
+      productName: "Organic Potatoes",
+      quantity: 800,
+      expectedDate: "2024-03-28",
+      status: "in_transit",
+      transporterDetails: {
+        name: "Green Miles Transport",
+        vehicleType: "Medium Truck",
+        vehicleNumber: "MH-12-XY-5678",
+        contactNumber: "+91 98765 43211",
+        rating: 4.6,
+      },
+      price: 8000,
+    },
+  ]);
+
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -71,6 +121,20 @@ const FarmerDashboard = () => {
     });
   };
 
+  const handleGetmypending=()=>{
+    dispatch(fetchNotifications()).then((result)=>{
+      console.log(result.payload.myrequest
+      )
+      setPendingrequest(result.payload.myrequest
+      );
+    });
+  }
+  const handleAccept=(id)=>{
+
+    dispatch(acceptInvitation(id));
+  }
+
+
   useEffect(() => {
     if (activeTab === "stocks") {
       handlestockListing(); // Fetch stocks when 'stocks' tab is active
@@ -112,7 +176,7 @@ const FarmerDashboard = () => {
             Transport Demands
           </button>
           <button
-            onClick={() => setActiveTab("notifications")}
+             onClick={()=>{handleGetmypending(),setActiveTab('notifications')}}
             className={`flex items-center border border-gray-300 px-4 py-2 rounded-lg text-xs font-medium ${
               activeTab === "notifications"
                 ? "bg-green-600 text-white"
@@ -215,9 +279,128 @@ const FarmerDashboard = () => {
         {/* Transport Demands Tab */}
         {activeTab === "transport" && (
           <div className="space-y-6">
-            {/* Add transport demands rendering here */}
+            {transportDemands.map((demand, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white rounded-xl shadow-sm overflow-hidden"
+              >
+                <div className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                        <div className="flex items-center gap-2">
+                          <Package size={16} />
+                          Quantity: {demand.quantities}kg
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Calendar size={16} />
+                          Expected:{" "}
+                          {new Date(demand.DepatrureDate
+).toLocaleDateString()}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          From: {demand.Departlocations?.[0]?.place}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <ArrowRight size={16} />
+                          To: {demand.Destination?.place}
+                        </div>
+                        {demand.price && (
+                          <div className="flex items-center gap-2">
+                            <DollarSign size={16} />
+                            Price: ₹{demand.price}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {demand.transporterDetails && (
+                      <button
+                        onClick={() =>
+                          setExpandedTransport(
+                            expandedTransport === demand.id ? null : demand.id
+                          )
+                        }
+                        className="text-gray-400 hover:text-gray-600 ml-4"
+                      >
+                        {expandedTransport === demand.id ? (
+                          <ChevronUp size={24} />
+                        ) : (
+                          <ChevronDown size={24} />
+                        )}
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Expanded Transporter Details */}
+                  {expandedTransport === demand.id &&
+                    demand.transporterDetails && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="mt-6 pt-6 border-t border-gray-100"
+                      >
+                        <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                          <Truck size={20} className="mr-2" />
+                          Transporter Details
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                          <div>
+                            <span className="font-medium">Name:</span>{" "}
+                            {demand.transporterDetails.name}
+                          </div>
+                          <div>
+                            <span className="font-medium">Vehicle Type:</span>{" "}
+                            {demand.transporterDetails.vehicleType}
+                          </div>
+                          <div>
+                            <span className="font-medium">Vehicle Number:</span>{" "}
+                            {demand.transporterDetails.vehicleNumber}
+                          </div>
+                          <div>
+                            <span className="font-medium">Contact:</span>{" "}
+                            {demand.transporterDetails.contactNumber}
+                          </div>
+                          <div>
+                            <span className="font-medium">Rating:</span>{" "}
+                            {demand.transporterDetails.rating} / 5
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                </div>
+              </motion.div>
+            ))}
           </div>
         )}
+         {activeTab === "notifications" && (
+          <div className="space-y-4">
+            {pendingrequest.map((notification) => (
+              <motion.div
+                key={notification._id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className={`p-4 rounded-lg shadow-sm ${
+                  notification.read
+                    ? "bg-white"
+                    : "bg-green-50 border-l-4 border-green-600"
+                }`}
+              >
+                <h1>{new Date(notification.DepatrureDate).toLocaleDateString("en-GB")}</h1>
+                 <h2>{notification.Departlocation
+?.place}</h2> 
+                <button className="border-4" onClick={()=>{
+                  handleAccept(notification._id)
+                }}>accept</button>
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+
       </div>
     </div>
   );

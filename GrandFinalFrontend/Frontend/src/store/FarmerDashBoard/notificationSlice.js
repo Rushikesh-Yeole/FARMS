@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "https://your-backend-api.com/notifications";
+const API_URL = "http://localhost:8000/farmer/getmypendingrequest";
 
+// Fetch Notifications
 export const fetchNotifications = createAsyncThunk(
   "notifications/fetch",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(API_URL);
+      const response = await axios.get(API_URL, { withCredentials: true });
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -17,12 +18,32 @@ export const fetchNotifications = createAsyncThunk(
   }
 );
 
+// Accept Invitation
+export const acceptInvitation = createAsyncThunk(
+  "notifications/acceptInvitation",
+  async (pendingrequestId, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/farmer/accepttransportRequest?transporterRequestId=${pendingrequestId}`,
+        {}, // No body required
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to accept invitation"
+      );
+    }
+  }
+);
+
+// Send Notification
 export const sendNotification = createAsyncThunk(
   "notifications/send",
   async (message, { rejectWithValue }) => {
     try {
       const newNotification = { id: Date.now(), message };
-      const response = await axios.post(API_URL, newNotification);
+      const response = await axios.post(API_URL, newNotification, { withCredentials: true });
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -64,6 +85,20 @@ const notificationSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      // Accept Invitation
+      .addCase(acceptInvitation.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(acceptInvitation.fulfilled, (state, action) => {
+        state.loading = false;
+        console.log("accepted")
+      })
+      .addCase(acceptInvitation.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
       // Send Notification
       .addCase(sendNotification.pending, (state) => {
         state.loading = true;
@@ -79,6 +114,5 @@ const notificationSlice = createSlice({
   },
 });
 
-export const { removeNotification, clearNotifications } =
-  notificationSlice.actions;
+export const { removeNotification, clearNotifications } = notificationSlice.actions;
 export default notificationSlice.reducer;

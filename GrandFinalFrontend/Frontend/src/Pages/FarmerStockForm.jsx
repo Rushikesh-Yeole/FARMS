@@ -83,6 +83,7 @@ export default function FarmerStockForm() {
       village: "",
     },
     contactNumber: "",
+    minExpectedPrice:0
   });
 
   const handleChange = (e) => {
@@ -212,6 +213,19 @@ export default function FarmerStockForm() {
             name="quantity"
             className="w-full p-3 border rounded-lg"
             value={formData.quantity}
+            onChange={handleChange}
+            required
+            min="1"
+            placeholder="Enter quantity"
+          />
+        </div>
+        <div>
+          <label className="block font-medium mb-1">minExpectedPrice</label>
+          <input
+            type="number"
+            name="minExpectedPrice"
+            className="w-full p-3 border rounded-lg"
+            value={formData.minExpectedPrice}
             onChange={handleChange}
             required
             min="1"

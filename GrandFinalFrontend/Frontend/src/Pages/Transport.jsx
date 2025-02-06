@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { transreq } from "../store/transReq";
+import { acceptinvite } from "../store/transReq";
 import {
   FaLongArrowAltRight,
   FaCalendarAlt,
@@ -112,23 +115,23 @@ export default function Transport() {
     setSelectedCard(null);
   };
 
-  // const dispatch = useDispatch();
-  // useEffect(()=>{
-  //   dispatch(transreq()).then((result) => {
-  //         if (result.meta.requestStatus === "fulfilled") {
-  //           const fetchedData = result.payload?.data || [];
-  //           console.log("Fetched Data:", fetchedData);
-  //           setCards(fetchedData);
-  //           setFilteredCards(fetchedData); // Initialize filtered list
-  //         }
-  //       });
-  // },[dispatch])
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(transreq()).then((result) => {
+          if (result.meta.requestStatus === "fulfilled") {
+            const fetchedData = result.payload?.data || [];
+            console.log("Fetched Data:", fetchedData);
+            setCards(fetchedData);
+            setFilteredCards(fetchedData); // Initialize filtered list
+          }
+        });
+  },[dispatch])
   const handleAcceptRequest = (_id) => {
     if (selectedCard) {
       // Remove the accepted card from the list
       dispatch(acceptinvite(_id));
       setCards((prevCards) =>
-        prevCards.filter((card) => card.id !== selectedCard.id)
+        prevCards.filter((card) => card._id !== selectedCard._id)
       );
       handleCloseModal();
     }
