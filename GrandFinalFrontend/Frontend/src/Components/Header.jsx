@@ -50,10 +50,10 @@ export default function Header() {
 
           {/* ✅ Desktop Navigation Links */}
           <div className="hidden lg:flex flex-grow justify-center">
-            <NavLink to="/" className={({ isActive }) => `block py-2 px-4 text-sm font-medium duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700`}>Home</NavLink>
-            <NavLink to="/profile" className={({ isActive }) => `block py-2 px-4 text-sm font-medium duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700`}>My Profile</NavLink>
-            <NavLink to="/about" className={({ isActive }) => `block py-2 px-4 text-sm font-medium duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700`}>About</NavLink>
-            <NavLink to="/contactus" className={({ isActive }) => `block py-2 px-4 text-sm font-medium duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700`}>Contact Us</NavLink>
+            <NavLink to="/" className={({ isActive }) => `block py-2 px-4 text-lg font-medium duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700 `}>Home</NavLink>
+            <NavLink to="/profile" className={({ isActive }) => `block py-2 px-4 text-lg font-medium duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700`}>My Profile</NavLink>
+            <NavLink to="/about" className={({ isActive }) => `block py-2 px-4 text-lg font-medium duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700`}>About</NavLink>
+            <NavLink to="/contactus" className={({ isActive }) => `block py-2 px-4 text-lg font-medium duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700`}>Contact Us</NavLink>
           </div>
 
           {/* ✅ Login/Register or Logout Button */}
@@ -63,7 +63,7 @@ export default function Header() {
                 Log out
               </button>
             ) : (
-              <button onClick={handleLogin} className="text-white bg-green-700 border border-transparent hover:bg-white hover:text-green-700 hover:border-green-700 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none mt-4">
+              <button onClick={handleLogin} className="text-white bg-green-700 border-2 border-transparent hover:bg-white hover:text-green-700 hover:border-green-700 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none mb-0 mt-1">
                 Log in / Register
               </button>
             )}
@@ -91,7 +91,7 @@ export default function Header() {
             Log out
           </button>
         ) : (
-          <button onClick={handleLogin} className="text-white bg-green-700 border border-transparent hover:bg-white hover:text-green-700 hover:border-green-700 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none mt-4">
+          <button onClick={handleLogin} className="text-white bg-green-700 border-4 hover:bg-white hover:text-green-700 hover:border-green-700 rounded-lg text-2xl px-4 py-4 focus:outline-none mt-4">
             Log in / Register
           </button>
         )}
