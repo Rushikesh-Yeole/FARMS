@@ -58,13 +58,18 @@ function Home() {
               <img src={image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent" />
               <motion.div
-                className="absolute inset-0 flex items-center ml-20 max-w-lg"
+                className="absolute inset-0 flex items-center px-4 md:px-8 lg:ml-20 max-w-[90%] md:max-w-2xl lg:max-w-3xl"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <h1 className="text-white text-7xl md:text-7xl font-bold" style={{ fontFamily: "'REM', sans-serif" }}>
-                  {index === 0 ? "Optimising Farmer's product Cost" : "Connecting Farmer To Retailer"}
+                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight" 
+                    style={{ fontFamily: "'REM', sans-serif" }}>
+                  {index === 0 ? (
+                    <span className="block">Optimising Farmer's<br className="hidden md:block" /> product Cost</span>
+                  ) : (
+                    <span className="block">Connecting Farmer<br className="hidden md:block" /> To Retailer</span>
+                  )}
                 </h1>
               </motion.div>
             </motion.div>
@@ -96,7 +101,7 @@ function Home() {
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.2 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.2 }}
             >
               <div className="w-full h-56 bg-green-300 rounded-lg overflow-hidden mb-4">
                 <img
