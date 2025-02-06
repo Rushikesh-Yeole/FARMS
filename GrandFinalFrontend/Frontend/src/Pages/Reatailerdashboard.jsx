@@ -11,9 +11,28 @@ const orderRequests = [
     location: "Farm District A",
     date: "2024-02-20",
     status: "pending",
-    farmerName: "John Doe"
+    farmer: {
+      name: "John Doe",
+      contact: "123-456-7890",
+      location: "Farm District A",
+      rating: "4.5"
+    }
   },
-  // Add more sample data
+  {
+    id: 2,
+    productName: "Rice",
+    quantity: "300kg",
+    price: "$350",
+    location: "Farm District B",
+    date: "2024-02-21",
+    status: "completed",
+    farmer: {
+      name: "Jane Smith",
+      contact: "987-654-3210",
+      location: "Farm District B",
+      rating: "4.8"
+    }
+  }
 ];
 
 const acceptedOrders = [
@@ -41,6 +60,13 @@ const notifications = [
 
 export default function RetailerDashboard() {
   const [activeTab, setActiveTab] = useState('requests');
+  const [selectedFarmer, setSelectedFarmer] = useState(null);
+
+  const handleOrderClick = (order) => {
+    if (order.status === 'completed') {
+      setSelectedFarmer(order.farmer);
+    }
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -59,20 +85,6 @@ export default function RetailerDashboard() {
           <div className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5" />
             Order Requests
-          </div>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('accepted')}
-          className={`px-4 py-2 rounded-lg font-medium transition-all ${
-            activeTab === 'accepted'
-              ? 'bg-green-600 text-white'
-              : 'bg-green-100 text-green-600 hover:bg-green-200'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <CheckCircle className="h-5 w-5" />
-            Accepted Orders
           </div>
         </button>
 
@@ -103,14 +115,28 @@ export default function RetailerDashboard() {
           </div>
           <div className="p-4 space-y-4">
             {orderRequests.map((order) => (
-              <div key={order.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+              <div 
+                key={order.id} 
+                className={`border rounded-lg p-4 hover:shadow-md transition-shadow ${
+                  order.status === 'completed' ? 'cursor-pointer' : ''
+                }`}
+                onClick={() => handleOrderClick(order)}
+              >
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="font-semibold">{order.productName}</h3>
-                  <span className="text-yellow-600 text-sm">Pending</span>
+                  {order.status === 'pending' ? (
+                    <span className="text-yellow-600 text-sm px-2 py-1 bg-yellow-100 rounded">
+                      Pending
+                    </span>
+                  ) : (
+                    <button className="text-green-600 text-sm px-2 py-1 bg-green-100 rounded">
+                      View Farmer Details
+                    </button>
+                  )}
                 </div>
                 <p className="text-sm text-gray-600">Quantity: {order.quantity}</p>
                 <p className="text-sm text-gray-600">Price: {order.price}</p>
-                <p className="text-sm text-gray-600">Farmer: {order.farmerName}</p>
+                <p className="text-sm text-gray-600">Date: {order.date}</p>
               </div>
             ))}
           </div>
@@ -163,6 +189,33 @@ export default function RetailerDashboard() {
             ))}
           </div>
         </motion.div>
+      )}
+
+      {/* Farmer Details Modal */}
+      {selectedFarmer && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-lg p-6 max-w-md w-full"
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold">Farmer Details</h3>
+              <button 
+                onClick={() => setSelectedFarmer(null)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-3">
+              <p><span className="font-semibold">Name:</span> {selectedFarmer.name}</p>
+              <p><span className="font-semibold">Contact:</span> {selectedFarmer.contact}</p>
+              <p><span className="font-semibold">Location:</span> {selectedFarmer.location}</p>
+              <p><span className="font-semibold">Rating:</span> {selectedFarmer.rating}</p>
+            </div>
+          </motion.div>
+        </div>
       )}
     </div>
   );
