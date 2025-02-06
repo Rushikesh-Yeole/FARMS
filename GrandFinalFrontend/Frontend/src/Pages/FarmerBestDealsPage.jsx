@@ -12,20 +12,24 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
-import { bestDeal } from "../store/viewBestDealsSlice";
+import { bestDeal,requestsupply } from "../store/viewBestDealsSlice";
+import { div } from "framer-motion/client";
+import { HiIdentification } from "react-icons/hi";
 
 const FarmerBestDealsPage = () => {
   const [expandedDeals, setExpandedDeals] = useState({});
   const postStock = useSelector((state) => state.postStock);
   const dispatch = useDispatch();
   const [deals, setDeals] = useState([ /* Your deals data here */ ]);
-
+  const [loading,setloading]=useState(true);
   const toggleDealExpansion = (dealId) => {
     setExpandedDeals((prev) => ({
       ...prev,
       [dealId]: !prev[dealId],
     }));
   };
+  const farmerStockId = useSelector((state) => state.postStock?.stockPostData?.stock?._id);
+// const farmerStockId = useSelector((state)=>state.postStock)
 
   const formatDate = (date) => new Date(date).toLocaleDateString();
   const formatCurrency = (value) => `₹${value.toLocaleString()}`;
@@ -36,11 +40,21 @@ const FarmerBestDealsPage = () => {
       dispatch(bestDeal(requirementId)).then((result) => {
         if (result.payload) {
           setDeals(result.payload.filteredDeals);
+          setloading(false);
         }
       });
     }
   }, [dispatch, postStock?.stockPostData?.stock?._id]);
 
+  const handleSupplyRequest = (groupId, farmerStockId, maxDistance) => {
+    if (!farmerStockId) {
+      console.error("Farmer Stock ID is missing!");
+      return;
+    }
+    dispatch(requestsupply({ groupId, farmerStockId, maxDistance }));
+  };
+  
+if(loading) return <div>loading</div>
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
@@ -126,6 +140,9 @@ const FarmerBestDealsPage = () => {
                       {isExpanded ? 'Hide Retailers' : `View ${deal.group.retailers.length} Retailers`}
                       {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                     </motion.button>
+                    <button onClick={()=>{
+                      handleSupplyRequest(deal.groupId,farmerStockId,deal.maxDistance)
+                    }}> kalpesh</button>
                   </div>
 
                   {isExpanded && (

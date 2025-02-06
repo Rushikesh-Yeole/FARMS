@@ -10,6 +10,7 @@ import requestStateusReducer from "./requsetstatusSlice";
 import farmerStockListingReducer from "./FarmerDashBoard/stocklistingSlice";
 import farmerNotificatonReducer from "./FarmerDashBoard/notificationSlice";
 import bestDealreducer from "./viewBestDealsSlice"
+import retailerReducer from "./retailerSlice"
 
 const store = configureStore({
   reducer: {
@@ -23,7 +24,8 @@ const store = configureStore({
     requestStatus: requestStateusReducer,
     farmerstocklisting: farmerStockListingReducer,
     farmernotification: farmerNotificatonReducer,
-    bestDeal:bestDealreducer
+    bestDeal:bestDealreducer,
+    retailer:retailerReducer
   },
 });
 

@@ -1,66 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Bell, ShoppingBag, CheckCircle } from 'lucide-react';
+import { useSelector,useDispatch } from 'react-redux';
+import { viewMyOrdersThunk } from '../store/retailerSlice';
 
-const orderRequests = [
-  {
-    id: 1,
-    productName: "Wheat",
-    quantity: "500kg",
-    price: "$400",
-    location: "Farm District A",
-    date: "2024-02-20",
-    status: "pending",
-    farmer: {
-      name: "John Doe",
-      contact: "123-456-7890",
-      location: "Farm District A",
-      rating: "4.5"
-    }
-  },
-  {
-    id: 2,
-    productName: "Rice",
-    quantity: "300kg",
-    price: "$350",
-    location: "Farm District B",
-    date: "2024-02-21",
-    status: "completed",
-    farmer: {
-      name: "Jane Smith",
-      contact: "987-654-3210",
-      location: "Farm District B",
-      rating: "4.8"
-    }
-  }
-];
 
-const acceptedOrders = [
-  {
-    id: 1,
-    productName: "Rice",
-    quantity: "300kg",
-    price: "$350",
-    location: "Farm District B",
-    date: "2024-02-21",
-    status: "accepted",
-    farmerName: "Jane Smith"
-  },
-  // Add more sample data
-];
 
-const notifications = [
-  {
-    id: 1,
-    message: "Your order for Wheat has been accepted by John Doe",
-    timestamp: "2024-02-19 14:30"
-  },
-  // Add more notifications
-];
 
 export default function RetailerDashboard() {
   const [activeTab, setActiveTab] = useState('requests');
   const [selectedFarmer, setSelectedFarmer] = useState(null);
+  const [myorderRequests,setMyorderRequests] = useState([
+    {
+      id: 1,
+      productName: "Wheat",
+      quantity: "500kg",
+      price: "$400",
+      location: "Farm District A",
+      date: "2024-02-20",
+      status: "pending",
+      farmer: {
+        name: "John Doe",
+        contact: "123-456-7890",
+        location: "Farm District A",
+        rating: "4.5"
+      }
+    },
+    {
+      id: 2,
+      productName: "Rice",
+      quantity: "300kg",
+      price: "$350",
+      location: "Farm District B",
+      date: "2024-02-21",
+      status: "completed",
+      farmer: {
+        name: "Jane Smith",
+        contact: "987-654-3210",
+        location: "Farm District B",
+        rating: "4.8"
+      }
+    }
+  ]);
+  
+  const acceptedOrders = [
+    {
+      id: 1,
+      productName: "Rice",
+      quantity: "300kg",
+      price: "$350",
+      location: "Farm District B",
+      date: "2024-02-21",
+      status: "accepted",
+      farmerName: "Jane Smith"
+    },
+    // Add more sample data
+  ];
+  
+  const notifications = [
+    {
+      id: 1,
+      message: "Your order for Wheat has been accepted by John Doe",
+      timestamp: "2024-02-19 14:30"
+    },
+    // Add more notifications
+  ];
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(viewMyOrdersThunk()).then((result)=>{
+      console.log(result.payload);
+      setMyorderRequests(result.payload.myOrders
+      )
+      
+
+    })
+  },[dispatch]);
 
   const handleOrderClick = (order) => {
     if (order.status === 'completed') {
@@ -114,29 +128,23 @@ export default function RetailerDashboard() {
             <h2 className="text-lg font-semibold text-yellow-700">Order Requests</h2>
           </div>
           <div className="p-4 space-y-4">
-            {orderRequests.map((order) => (
+            {myorderRequests.map((order) => (
               <div 
-                key={order.id} 
+                key={order._id} 
                 className={`border rounded-lg p-4 hover:shadow-md transition-shadow ${
                   order.status === 'completed' ? 'cursor-pointer' : ''
                 }`}
                 onClick={() => handleOrderClick(order)}
               >
                 <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold">{order.productName}</h3>
-                  {order.status === 'pending' ? (
-                    <span className="text-yellow-600 text-sm px-2 py-1 bg-yellow-100 rounded">
-                      Pending
-                    </span>
-                  ) : (
-                    <button className="text-green-600 text-sm px-2 py-1 bg-green-100 rounded">
-                      View Farmer Details
-                    </button>
-                  )}
+                  <h3 className="font-semibold">{order.crop
+                  }</h3>
+                  
                 </div>
-                <p className="text-sm text-gray-600">Quantity: {order.quantity}</p>
-                <p className="text-sm text-gray-600">Price: {order.price}</p>
-                <p className="text-sm text-gray-600">Date: {order.date}</p>
+                <p className="text-sm text-gray-600">Quantity: {order.quantity
+                }</p>
+                <p className="text-sm text-gray-600">Price: {order.pricePerQuintal}</p>
+                <p className="text-sm text-gray-600">Date: {order?.expectedDeliveryDate ? new Date(order.expectedDeliveryDate).toLocaleDateString() : "N/A"}</p>
               </div>
             ))}
           </div>

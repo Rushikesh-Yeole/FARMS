@@ -3,41 +3,65 @@ import axios from "axios";
 
 // Load initial state from localStorage
 const storedDeals = localStorage.getItem("bestDeals");
+
 const initialState = {
   dealdata: storedDeals ? JSON.parse(storedDeals) : null,
+  requestSupplyData: null, // Added state to store request supply response
   loading: false,
   error: null,
 };
+
+// Fetch Best Deals
 export const bestDeal = createAsyncThunk(
   "deals/bestDeals",
   async (requirementId, { rejectWithValue }) => {
-
     try {
-      console.log("hii")
+      console.log("Fetching best deals...");
       const response = await axios.get(
         `http://localhost:8000/farmer/viewbestdeals?farmerStockId=${requirementId}`,
-         // Empty body because the params are being sent in the config
         {
-           
-          withCredentials: true
+          withCredentials: true,
         }
       );
-      console.log("inresponse", response.data);
-      
+      console.log("Best deals response:", response.data);
+
       // Store response in localStorage
       localStorage.setItem("bestDeals", JSON.stringify(response.data));
       return response.data;
     } catch (error) {
       return rejectWithValue(
-        error.response && error.response.data
-          ? error.response.data.message
-          : error.message
+        error.response?.data?.message || error.message
+      );
+    }
+  }
+);
+
+// Request Supply
+export const requestsupply = createAsyncThunk(
+  "request/requestsupply",
+  async ({ groupId, farmerStockId, maxDistance }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/farmer/requestsupply`, 
+        { groupId, farmerStockId, maxDistance }, // Send all data in the request body
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      console.log("Request supply response:", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to accept request"
       );
     }
   }
 );
 
 
+// Create Slice
 const bestDealsSlice = createSlice({
   name: "bestdeal",
   initialState,
@@ -48,6 +72,7 @@ const bestDealsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Best Deals Reducers
       .addCase(bestDeal.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -55,9 +80,24 @@ const bestDealsSlice = createSlice({
       .addCase(bestDeal.fulfilled, (state, action) => {
         state.loading = false;
         state.dealdata = action.payload;
-        console.log("bestdelas",action.payload);
+        console.log("Best deals:", action.payload);
       })
       .addCase(bestDeal.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Request Supply Reducers
+      .addCase(requestsupply.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(requestsupply.fulfilled, (state, action) => {
+        state.loading = false;
+        state.requestSupplyData = action.payload;
+        console.log("Request supply:", action.payload);
+      })
+      .addCase(requestsupply.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
