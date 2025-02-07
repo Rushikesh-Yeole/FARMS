@@ -33,6 +33,8 @@ import TransporterHome from "./Components/TransporterHome.jsx";
 import ConsumerForm from "./Pages/ConsumerForm.jsx";
 // import FarmerHome from "./Components/FarmerHome.jsx";
 import ConsumerDashboard from "./Pages/Consumerdashboard.jsx";
+import  Loader  from "./assets/animation/Loader.jsx"
+
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
   // console.log(intstate.profile); // Debugging: Ensure this is printing the correct Redux state
@@ -98,7 +100,9 @@ export default function App() {
             <Route path="/dummy" element={<Dummy />} />
             <Route path="/dummy/myStock" element={<MyStock />} />
             <Route path="/dummy/confRequset" element={<ConfRequest />} />
-           
+            <Route path="/retailerDashboard" element={<RetailerDashboard />} />
+            <Route path="/ConsumerDashboard" element={<ConsumerDashboard />} />
+            <Route path="/loader" element={<Loader/>} />
           </Routes>
         </div>
         <Footer></Footer>

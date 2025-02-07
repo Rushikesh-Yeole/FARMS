@@ -122,32 +122,46 @@ const FarmerDashboard = () => {
     });
   };
 
-  const handleGetmypending=()=>{
-    dispatch(fetchNotifications()).then((result)=>{
-      console.log(result.payload.myrequest
-      )
-      setPendingrequest(result.payload.myrequest
-      );
-    });
-  }
+  const handleGetmypending = async () => {
+    try {
+      const result = await dispatch(fetchNotifications());
+      
+      console.log("API Response:", result.payload); // Debugging log
+  
+      if (result.payload?.myrequest) {
+        setPendingrequest(result.payload.myrequest);
+      } else {
+        console.warn("No 'myrequest' found in API response.");
+        setPendingrequest([]); // Ensure it's always an array
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      setPendingrequest([]); // Prevents crashes if API call fails
+    }
+  };
+  
   const handleAccept=(id)=>{
 
     dispatch(acceptInvitation(id));
   }
-  const handleOnclickMyDemands = () => {
-    dispatch(myTransportDemand())
-      .then((result) => {
-        if (result.payload) {
-          console.log(result.payload); // Directly accessing the payload
-          settransportDemands(result.payload); // Uncomment if you need to set state
-        } else {
-          console.error("Error: No data received", result);
-        }
-      })
-      .catch((error) => {
-        console.error("Request failed:", error);
-      });
+  const handleOnclickMyDemands = async () => {
+    try {
+      const result = await dispatch(myTransportDemand());
+  
+      console.log("API Response:", result); // Debugging log
+  
+      if (result.payload) {
+        settransportDemands(result.payload);
+      } else {
+        console.warn("Warning: No data received in payload.");
+        settransportDemands([]); // Ensures it's always an array
+      }
+    } catch (error) {
+      console.error("Request failed:", error);
+      settransportDemands([]); // Prevent crashes in UI
+    }
   };
+  
   
 
 
@@ -396,7 +410,7 @@ const FarmerDashboard = () => {
         )}
          {activeTab === "notifications" && (
   <div className="space-y-4">
-    {pendingrequest.length === 0 ? (
+    {pendingrequest.length <= 0 ? (
       <p className="text-gray-500 text-center">No notifications available</p>
     ) : (
       pendingrequest.map((notification) => (

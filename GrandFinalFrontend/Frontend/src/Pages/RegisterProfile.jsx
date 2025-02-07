@@ -115,8 +115,9 @@ const RegisterProfile = () => {
             <option value="Farmer">Farmer</option>
             <option value="Retailer">Retailer</option>
             <option value="Transporter">Transporter</option>
+            <option value="Consumer">Consumer</option>
           </select>
-        </div>
+        </div> 
         <button
           type="submit"
           className={`w-full text-white py-2 px-4 rounded-lg ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 hover:bg-green-600"}`}
