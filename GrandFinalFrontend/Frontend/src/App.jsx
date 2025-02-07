@@ -33,6 +33,8 @@ import TransporterHome from "./Components/TransporterHome.jsx";
 import ConsumerForm from "./Pages/ConsumerForm.jsx";
 // import FarmerHome from "./Components/FarmerHome.jsx";
 import ConsumerDashboard from "./Pages/Consumerdashboard.jsx";
+import  Loader  from "./assets/animation/Loader.jsx"
+import ConsumerBestDeals from "./Pages/ConsumerBestDeals.jsx";
 
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
@@ -101,6 +103,9 @@ export default function App() {
             <Route path="/dummy/confRequset" element={<ConfRequest />} />
             <Route path="/retailerDashboard" element={<RetailerDashboard />} />
             <Route path="/ConsumerDashboard" element={<ConsumerDashboard />} />
+            <Route path="/loader" element={<Loader/>} />
+            <Route path="/consumerbestdeals" element={<ConsumerBestDeals/>} />
+
           </Routes>
         </div>
         <Footer></Footer>

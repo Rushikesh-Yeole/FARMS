@@ -126,7 +126,7 @@ export default function FarmerStockForm() {
     setFormData({ ...formData});
     dispatch(farmerStockPost(formData)).then(()=>{
       console.log("done")
-      navigate("/farmerbestdeals");
+      navigate("/consumerbestdeals");
     })
     // dispatch(bestDeal(state.postStock.stockPostData.stock._id)).then((result)=>{
     //   if(result.type === "deals/bestDeals/fulfilled")

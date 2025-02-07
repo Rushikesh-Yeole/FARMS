@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { consumerPostStock } from "../store/consumerSlice";
 
 export default function ConsumerForm() {
   const [formData, setFormData] = useState({
@@ -30,9 +32,12 @@ export default function ConsumerForm() {
     }
   };
 
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(formData);
+    dispatch(consumerPostStock(formData))
     console.log("Form Submitted", formData);
+
   };
 
   return (

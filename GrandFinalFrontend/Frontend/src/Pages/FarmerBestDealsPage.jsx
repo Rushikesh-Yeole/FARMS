@@ -82,7 +82,7 @@ if(loading) return <div>loading</div>
         
           
 
-    
+
         <div className="space-y-8">
           {deals.map((deal, dealIndex) => {
             const mainRetailer = deal.group.retailers[0]?.crop; // Adjust for correct data field
@@ -106,7 +106,7 @@ if(loading) return <div>loading</div>
                         <div>
                           <h2 className="text-2xl font-bold text-gray-800">Premium Bulk Deal</h2>
                           <p className="text-green-600 font-medium">{mainRetailer}</p>
-                        </div>
+                        </div>  
                       </div>
                       <div className="flex items-center gap-2 bg-green-50 px-3 py-1 rounded-full">
                         <Star className="w-5 h-5 text-green-600 fill-green-600" />
