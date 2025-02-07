@@ -28,6 +28,7 @@ import TransporterVehicleForm from "./Pages/TransporterVehicleForm.jsx";
 import FarmerInsight from "./Pages/Farmerinsight.jsx";
 import Footer from "./Components/Footer.jsx";
 import RetailerDashboard from "./Pages/Reatailerdashboard.jsx";
+import ConsumerDashboard from "./Pages/Consumerdashboard.jsx";
 
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
@@ -77,6 +78,7 @@ export default function App() {
             <Route path="/dummy/myStock" element={<MyStock />} />
             <Route path="/dummy/confRequset" element={<ConfRequest />} />
             <Route path="/retailerDashboard" element={<RetailerDashboard />} />
+            <Route path="/ConsumerDashboard" element={<ConsumerDashboard />} />
           </Routes>
         </div>
         <Footer></Footer>

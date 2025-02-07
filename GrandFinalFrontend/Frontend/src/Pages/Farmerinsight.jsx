@@ -68,6 +68,7 @@
 
       const fetchMarketInsights = async () => {
         try {
+          console.log("hii")
           const response = await axios.post("https://farms-engine.onrender.com/insights",{
             region:"a",
             product:"Rice"
