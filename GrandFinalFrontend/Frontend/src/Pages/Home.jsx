@@ -8,6 +8,7 @@ import pic2 from "../assets/picture/web2.webp";
 import FarmerHome from "../Components/FarmerHome";
 import RetailerHome from "../Components/RetailerHome";
 import { useSelector } from "react-redux";
+
 function Home() {
   useEffect(() => {
     const link = document.createElement("link");
@@ -16,12 +17,17 @@ function Home() {
     link.rel = "stylesheet";
     document.head.appendChild(link);
   }, []);
+
   const carouselImages = [pic1, pic2];
   const [currentSlide, setCurrentSlide] = useState(0);
   const [text, setText] = useState("");
   const headingText = "Empowering Farm-to-Table Connectivity";
-  const usertype = useSelector(loginuser.userData.accountType);
-  const { isLogin} = useSelector((state) => state.loginuser);
+
+  // ✅ Corrected Redux state selection
+  const userData = useSelector((state) => state.loginuser?.userData);
+  const isLogin = useSelector((state) => state.loginuser?.isLogin);
+  const usertype = userData?.accountType; // ✅ Safely get user role
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
@@ -48,46 +54,47 @@ function Home() {
 
   return (
     <div className="bg-green-200 min-h-screen font-rem">
-      {!isLogin ?(<div className="relative w-full mx-auto flex justify-center items-center">
-        <div className="relative h-[92vh] w-full overflow-hidden">
-          {carouselImages.map((image, index) => (
-            <motion.div
-              key={index}
-              className="absolute w-full h-full flex items-center justify-center"
-              initial={{ opacity: 0, x: 100 }}
-              animate={index === currentSlide ? { opacity: 1, x: 0 } : { opacity: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <img src={image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent" />
+      {!isLogin ? (
+        <div className="relative w-full mx-auto flex justify-center items-center">
+          <div className="relative h-[92vh] w-full overflow-hidden">
+            {carouselImages.map((image, index) => (
               <motion.div
-                className="absolute inset-0 flex items-center px-4 md:px-8 lg:ml-20 max-w-[90%] md:max-w-2xl lg:max-w-3xl"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                key={index}
+                className="absolute w-full h-full flex items-center justify-center"
+                initial={{ opacity: 0, x: 100 }}
+                animate={index === currentSlide ? { opacity: 1, x: 0 } : { opacity: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight" 
-                    style={{ fontFamily: "'REM', sans-serif" }}>
-                  {index === 0 ? (
-                    <span className="block">Optimising Farmer's<br className="hidden md:block" /> product Cost</span>
-                  ) : (
-                    <span className="block">Connecting Farmer<br className="hidden md:block" /> To Retailer</span>
-                  )}
-                </h1>
+                <img src={image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent" />
+                <motion.div
+                  className="absolute inset-0 flex items-center px-4 md:px-8 lg:ml-20 max-w-[90%] md:max-w-2xl lg:max-w-3xl"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  <h1
+                    className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
+                    style={{ fontFamily: "'REM', sans-serif" }}
+                  >
+                    {index === 0 ? (
+                      <span className="block">Optimising Farmer's<br className="hidden md:block" /> product Cost</span>
+                    ) : (
+                      <span className="block">Connecting Farmer<br className="hidden md:block" /> To Retailer</span>
+                    )}
+                  </h1>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div> ):(
-       
-       <> {usertype==="farmer" && <FarmerHome/> }
-        {usertype==="retailer" &&   <RetailerHome />}
-        
+      ) : (
+        <>
+          {usertype === "Farmer" && <FarmerHome />}
+          {usertype === "Retailer" && <RetailerHome />}
         </>
       )}
-      
-      {/* <FarmerHome/> */}
-      {/* <RetailerHome /> */}
+
       <motion.div
         className="flex flex-col lg:flex-row justify-center items-center px-6 lg:px-16 gap-6 w-full mb-10"
         initial={{ opacity: 0, y: 50 }}
@@ -104,10 +111,7 @@ function Home() {
           >
             {text}
           </h2>
-          <p
-            className="text-black text-lg leading-relaxed"
-            style={{ fontFamily: "'REM', sans-serif" }}
-          >
+          <p className="text-black text-lg leading-relaxed" style={{ fontFamily: "'REM', sans-serif" }}>
             Our platform bridges the gap between farmers and consumers...
           </p>
         </div>
@@ -131,10 +135,7 @@ function Home() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p
-                className="text-black text-center"
-                style={{ fontFamily: "'REM', sans-serif" }}
-              >
+              <p className="text-black text-center" style={{ fontFamily: "'REM', sans-serif" }}>
                 This section highlights how our platform optimizes logistics...
               </p>
             </motion.div>
@@ -150,10 +151,7 @@ function Home() {
       >
         <div className="w-full lg:w-1/2 text-left">
           <h2 className="text-green-700 text-3xl mb-4">{text}</h2>
-          <p
-            className="text-black text-lg leading-relaxed"
-            style={{ fontFamily: "'REM', sans-serif" }}
-          >
+          <p className="text-black text-lg leading-relaxed" style={{ fontFamily: "'REM', sans-serif" }}>
             Our platform bridges the gap between farmers and consumers...
           </p>
         </div>

@@ -1,11 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// ✅ Load token correctly from localStorage
-const storedToken = localStorage.getItem("token");
-// const storedUserData = storedToken ? JSON.parse(storedToken) : null;
-const storedUserData = null;
-const storedIsLogin = !!storedUserData; // Convert to boolean
+// ✅ Load userData from localStorage
+const storedUserData = JSON.parse(localStorage.getItem("userData")) || null; 
+const storedIsLogin = !!storedUserData; 
 
 // ✅ Async action for login
 export const login = createAsyncThunk(
@@ -18,8 +16,9 @@ export const login = createAsyncThunk(
         { withCredentials: true }
       );
 
-      // ✅ Store only the token in localStorage
+      // ✅ Save both token and user data
       localStorage.setItem("token", JSON.stringify(response.data.token));
+      localStorage.setItem("userData", JSON.stringify(response.data));
 
       return response.data;
     } catch (error) {
@@ -37,23 +36,23 @@ export const logoutThunk = createAsyncThunk(
     try {
       await axios.post("http://localhost:8000/api/logout", {}, { withCredentials: true });
 
-      // ✅ Remove token from localStorage on logout
+      // ✅ Clear user data
       localStorage.removeItem("token");
+      localStorage.removeItem("userData");
 
-      return true; // Logout successful
+      return true; 
     } catch (err) {
-      console.error("Logout failed:", err);
       return rejectWithValue(err.response?.data || "Logout failed");
     }
   }
 );
 
-// ✅ Create slice
+// ✅ Create Redux Slice
 const loginSlice = createSlice({
   name: "loginuser",
   initialState: {
-    userData: storedUserData, // ✅ Load from localStorage
-    isLogin: storedIsLogin, // ✅ Ensure login state persists
+    userData: storedUserData,
+    isLogin: storedIsLogin,
     loading: false,
     error: null,
   },
@@ -80,7 +79,6 @@ const loginSlice = createSlice({
         state.isLogin = false;
       })
       .addCase(logoutThunk.rejected, (state, action) => {
-        //  Even if API fails, clear user session
         state.userData = null;
         state.isLogin = false;
         state.error = action.payload;
