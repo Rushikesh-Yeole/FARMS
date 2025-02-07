@@ -57,7 +57,7 @@ export default function App() {
             <Route path="/contactus" element={<Contact/>}></Route>
             <Route path="/farmerbestdeals" element={<FarmerBestDealsPage />} />
             <Route path="/retailerbestdeals" element={<RetailerSbestDeals />} />
-            <Route path="/otp" element={<OtpPage />} />
+            <Route path="/otp" element={<OtpPage />} />     
             <Route path="/home" element={<HomePage />} />
             <Route path="/About" element={<About />} />
             <Route path="/profile" element={<MyProfilePage />} />
