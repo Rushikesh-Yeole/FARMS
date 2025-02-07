@@ -35,15 +35,17 @@ const FarmerBestDealsPage = () => {
   const formatCurrency = (value) => `₹${value.toLocaleString()}`;
 
   useEffect(() => {
-    if (postStock?.stockPostData?.stock?._id) {
-      const requirementId = postStock.stockPostData.stock._id;
-      dispatch(bestDeal(requirementId)).then((result) => {
-        if (result.payload) {
-          setDeals(result.payload.filteredDeals);
-          setloading(false);
+    const requirementId = postStock?.stockPostData?.stock?._id;
+    if (!requirementId) return; // Prevent unnecessary calls
+  
+  
+    dispatch(bestDeal(requirementId))
+      .then((result) => {
+        if (result.payload?.filteredDeals?.length) {
+          setDeals(result.payload.filteredDeals); // Only set if not empty
         }
-      });
-    }
+      })
+      .finally(() => setloading(false)); // Ensure loading stops
   }, [dispatch, postStock?.stockPostData?.stock?._id]);
 
   const handleSupplyRequest = (groupId, farmerStockId, maxDistance) => {
@@ -77,33 +79,10 @@ if(loading) return <div>loading</div>
         </motion.div>
 
         {/* Distance Input Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="max-w-md mx-auto mb-10"
-        >
-          <form
-            onSubmit={handleDistanceSubmit}
-            className="flex flex-col sm:flex-row gap-4"
-          >
-            <input
-              type="number"
-              value={distance}
-              onChange={(e) => setDistance(e.target.value)}
-              placeholder="Enter max distance (km)"
-              className="w-full sm:flex-1 px-4 py-3 rounded-lg border-2 border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition-colors"
-            />
-            <button
-              type="submit"
-              className="w-full sm:w-auto bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
-            >
-              Find Deals <ArrowRight size={20} />
-            </button>
-          </form>
-        </motion.div>
+        
+          
 
-
+    
         <div className="space-y-8">
           {deals.map((deal, dealIndex) => {
             const mainRetailer = deal.group.retailers[0]?.crop; // Adjust for correct data field

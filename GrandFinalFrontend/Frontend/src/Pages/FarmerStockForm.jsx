@@ -123,7 +123,7 @@ export default function FarmerStockForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log("Form Submitted:", formData);
-    setFormData({ ...formData, [contactNumber]:"91"+ value });
+    setFormData({ ...formData});
     dispatch(farmerStockPost(formData)).then(()=>{
       console.log("done")
       navigate("/farmerbestdeals");

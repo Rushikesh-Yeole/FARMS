@@ -125,10 +125,10 @@ function Home() {
         </div>
       ) : (
         <>
-          {usertype === "farmer" && <FarmerHome />}
-          {usertype === "retailer" && <RetailerHome />}
-          {usertype==="transporter" && <TransportHome/>}
-          {usertype==="consumer" && <ConsumerHome/>}
+          {usertype === "Farmer" && <FarmerHome />}
+          {usertype === "Retailer" && <RetailerHome />}
+          {usertype==="Transporter" && <TransportHome/>}
+          {usertype==="Consumer" && <ConsumerHome/>}
 
         </>
       )}
