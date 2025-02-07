@@ -58,7 +58,52 @@ if(loading) return <div>loading</div>
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Available Bulk Deals</h1>
+      <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-center mb-12"
+        >
+
+          
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-800 mb-4">
+            Discover Your Best Profit Opportunities
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto">
+            Our AI-powered system analyzes thousands of deals to bring you the
+            most profitable opportunities. Trust in our Deal Score™ - your guide
+            to maximum returns.
+          </p>
+        </motion.div>
+
+        {/* Distance Input Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="max-w-md mx-auto mb-10"
+        >
+          <form
+            onSubmit={handleDistanceSubmit}
+            className="flex flex-col sm:flex-row gap-4"
+          >
+            <input
+              type="number"
+              value={distance}
+              onChange={(e) => setDistance(e.target.value)}
+              placeholder="Enter max distance (km)"
+              className="w-full sm:flex-1 px-4 py-3 rounded-lg border-2 border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition-colors"
+            />
+            <button
+              type="submit"
+              className="w-full sm:w-auto bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+            >
+              Find Deals <ArrowRight size={20} />
+            </button>
+          </form>
+        </motion.div>
+
+
         <div className="space-y-8">
           {deals.map((deal, dealIndex) => {
             const mainRetailer = deal.group.retailers[0]?.crop; // Adjust for correct data field
@@ -71,6 +116,7 @@ if(loading) return <div>loading</div>
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: dealIndex * 0.1 }}
               >
+                
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-green-100">
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-6">

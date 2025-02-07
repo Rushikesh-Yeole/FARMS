@@ -7,7 +7,7 @@ import TransportDemandForm from "./Pages/TransportDemand.jsx";
 import HomePage from "./Pages/HomePage.jsx";
 import About from "./Pages/About.jsx";
 import LoginPage from "./Pages/LoginPage.jsx";
-import VRfeed from "./Pages/VRfeed.jsx";
+// import VRfeed from "./Pages/VRfeed.jsx";
 import Header from "./Components/Header.jsx";
 import MyProfilePage from "./Components/MyProfilePage.jsx";
 import FarmerStockForm from "./Pages/FarmerStockForm.jsx";
@@ -60,7 +60,7 @@ export default function App() {
               path="/transporterDemand"
               element={<TransportDemandForm />}
             />
-
+            
 
             {/* Retailer Routing */}
             <Route path="/retailerpost" element={<RetailerDemandForm />} />
@@ -88,7 +88,7 @@ export default function App() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/About" element={<About />} />
             <Route path="/profile" element={<MyProfilePage />} />
-      
+
      
             <Route
               path="/transportervehicleform"
