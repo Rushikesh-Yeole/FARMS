@@ -164,11 +164,11 @@ export default function RetailerDashboard() {
             {acceptedOrders.map((order) => (
               <div key={order.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold">{order.productName}</h3>
+                  <h3 className="font-semibold">{order.crop}</h3>
                   <span className="text-green-600 text-sm">Accepted</span>
                 </div>
                 <p className="text-sm text-gray-600">Quantity: {order.quantity}</p>
-                <p className="text-sm text-gray-600">Price: {order.price}</p>
+                <p className="text-sm text-gray-600">Price: {order.pricePerQuintal}</p>
                 <p className="text-sm text-gray-600">Farmer: {order.farmerName}</p>
               </div>
             ))}

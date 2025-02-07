@@ -3,7 +3,8 @@ import axios from "axios";
 
 // ✅ Load token correctly from localStorage
 const storedToken = localStorage.getItem("token");
-const storedUserData = storedToken ? JSON.parse(storedToken) : null;
+// const storedUserData = storedToken ? JSON.parse(storedToken) : null;
+const storedUserData = null;
 const storedIsLogin = !!storedUserData; // Convert to boolean
 
 // ✅ Async action for login

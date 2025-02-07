@@ -6,7 +6,7 @@ import { logoutThunk } from "../store/loginSlice";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isLogin } = useSelector((state) => state.loginuser);
+  const { isLogin} = useSelector((state) => state.loginuser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,7 +17,6 @@ export default function Header() {
   const handleLogin = () => {
     navigate("/loginpage");
   };
-
   const handleLogout = () => {
     dispatch(logoutThunk());
     navigate("/"); // Redirect to homepage after logout
@@ -42,12 +41,13 @@ export default function Header() {
             <div className={`w-6 h-1 bg-green-700 my-1 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></div>
             <div className={`w-6 h-1 bg-green-700 transition-all duration-300 transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></div>
           </button>
+          
 
           {/* ✅ Logo */}
           <Link to="/" className="lg:ml-0 ml-auto flex">
             <img src={logo} className="h-8 sm:h-10 md:h-12 max-w-full object-contain" alt="FARMS" />
           </Link>
-
+          
           {/* ✅ Desktop Navigation Links */}
           <div className="hidden lg:flex flex-grow justify-center">
             <NavLink to="/" className={({ isActive }) => `block py-2 px-4 text-lg font-medium duration-200 ${isActive ? "text-green-700" : "text-gray-700"} hover:text-green-700 `}>Home</NavLink>
