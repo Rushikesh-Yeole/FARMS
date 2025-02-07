@@ -7,7 +7,10 @@ import pic1 from "../assets/picture/web1final.jpeg";
 import pic2 from "../assets/picture/web2.webp";
 import FarmerHome from "../Components/FarmerHome";
 import RetailerHome from "../Components/RetailerHome";
+import TransportHome from "../Components/TransporterHome";
+import ConsumerHome from "../Components/ConsumerHome";
 import { useSelector } from "react-redux";
+
 function Home() {
   useEffect(() => {
     const link = document.createElement("link");
@@ -21,7 +24,7 @@ function Home() {
   const [text, setText] = useState("");
   const headingText = "Empowering Farm-to-Table Connectivity";
   const usertype = useSelector(loginuser.userData.accountType);
-  const { isLogin} = useSelector((state) => state.loginuser);
+  const { isLogin } = useSelector((state) => state.loginuser);
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
@@ -48,44 +51,62 @@ function Home() {
 
   return (
     <div className="bg-green-200 min-h-screen font-rem">
-      {!isLogin ?(<div className="relative w-full mx-auto flex justify-center items-center">
-        <div className="relative h-[92vh] w-full overflow-hidden">
-          {carouselImages.map((image, index) => (
-            <motion.div
-              key={index}
-              className="absolute w-full h-full flex items-center justify-center"
-              initial={{ opacity: 0, x: 100 }}
-              animate={index === currentSlide ? { opacity: 1, x: 0 } : { opacity: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <img src={image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent" />
+      {!isLogin ? (
+        <div className="relative w-full mx-auto flex justify-center items-center">
+          <div className="relative h-[92vh] w-full overflow-hidden">
+            {carouselImages.map((image, index) => (
               <motion.div
-                className="absolute inset-0 flex items-center px-4 md:px-8 lg:ml-20 max-w-[90%] md:max-w-2xl lg:max-w-3xl"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                key={index}
+                className="absolute w-full h-full flex items-center justify-center"
+                initial={{ opacity: 0, x: 100 }}
+                animate={
+                  index === currentSlide ? { opacity: 1, x: 0 } : { opacity: 0 }
+                }
                 transition={{ duration: 0.8 }}
               >
-                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight" 
-                    style={{ fontFamily: "'REM', sans-serif" }}>
-                  {index === 0 ? (
-                    <span className="block">Optimising Farmer's<br className="hidden md:block" /> product Cost</span>
-                  ) : (
-                    <span className="block">Connecting Farmer<br className="hidden md:block" /> To Retailer</span>
-                  )}
-                </h1>
+                <img
+                  src={image}
+                  alt={`Slide ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent" />
+                <motion.div
+                  className="absolute inset-0 flex items-center px-4 md:px-8 lg:ml-20 max-w-[90%] md:max-w-2xl lg:max-w-3xl"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  <h1
+                    className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
+                    style={{ fontFamily: "'REM', sans-serif" }}
+                  >
+                    {index === 0 ? (
+                      <span className="block">
+                        Optimising Farmer's
+                        <br className="hidden md:block" /> product Cost
+                      </span>
+                    ) : (
+                      <span className="block">
+                        Connecting Farmer
+                        <br className="hidden md:block" /> To Retailer
+                      </span>
+                    )}
+                  </h1>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div> ):(
-       
-       <> {usertype==="farmer" && <FarmerHome/> }
-        {usertype==="retailer" &&   <RetailerHome />}
-        
+      ) : (
+        <>
+          {usertype === "farmer" && <FarmerHome />}
+          {usertype === "retailer" && <RetailerHome />}
+          {usertype==="transporter" && <TransportHome/>}
+          {usertype==="consumer" && <ConsumerHome/>}
+
         </>
       )}
-      
+{/* <ConsumerHome/> */}
       {/* <FarmerHome/> */}
       {/* <RetailerHome /> */}
       <motion.div

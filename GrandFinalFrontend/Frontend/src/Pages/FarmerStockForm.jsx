@@ -90,7 +90,7 @@ export default function FarmerStockForm() {
     let { name, value } = e.target;
     if (name === "contactNumber") {
       if (!value.startsWith("+91")) {
-        value = "+91" + value.replace(/\D/g, "");
+        value =  value.replace(/\D/g, "");
       }
     }
     setFormData({ ...formData, [name]: value });
@@ -107,7 +107,7 @@ export default function FarmerStockForm() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFormData({ ...formData, cropImage: file });
-
+    
     // Image Preview Logic
     if (file) {
       const reader = new FileReader();
@@ -123,6 +123,7 @@ export default function FarmerStockForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log("Form Submitted:", formData);
+    setFormData({ ...formData, [contactNumber]:"91"+ value });
     dispatch(farmerStockPost(formData)).then(()=>{
       console.log("done")
       navigate("/farmerbestdeals");
@@ -137,7 +138,7 @@ export default function FarmerStockForm() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10 border border-gray-200">
+    <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10 border border-gray-200 mb-10">
       <h2 className="text-3xl font-bold mb-6 text-center text-green-700">
         🌾 Post Your Stock
       </h2>

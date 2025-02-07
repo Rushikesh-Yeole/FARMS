@@ -28,6 +28,10 @@ import TransporterVehicleForm from "./Pages/TransporterVehicleForm.jsx";
 import FarmerInsight from "./Pages/Farmerinsight.jsx";
 import Footer from "./Components/Footer.jsx";
 import RetailerDashboard from "./Pages/Reatailerdashboard.jsx";
+import TransporterHome from "./Components/TransporterHome.jsx"
+import ConsumerHome from "./Components/ConsumerHome.jsx";
+import ConsumerForm from "./Pages/ConsumerForm.jsx";
+
 
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
@@ -44,7 +48,7 @@ export default function App() {
 
         <div>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<ConsumerForm />} />
             <Route path="/loginpage" element={<LoginPage />} />
             <Route path="/gohome" element={<Home />} />
             <Route path="/register" element={<RegisterProfile />} />
@@ -53,6 +57,8 @@ export default function App() {
             <Route path="/farmerinsight" element={<FarmerInsight />} />
             <Route path="/retailerpost" element={<RetailerDemandForm />} />
             <Route path="/transport" element={<Transport />} />
+            <Route path="/consumerhome" element={<ConsumerHome />} />
+            <Route path="/transporthome" element={<TransporterHome />} />
             <Route path="/contactus" element={<Contact />}></Route>
             <Route path="/farmerbestdeals" element={<FarmerBestDealsPage />} />
             {/* <Route path="/retailerbestdeals" element={<RetailerSbestDeals />} /> */}
