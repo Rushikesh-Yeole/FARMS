@@ -11,8 +11,8 @@ function Footer() {
         document.head.appendChild(link);
       }, []);
   return (
-    <footer className="bg-green-700 text-white py-8">
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8" style={{ fontFamily: "'REM', sans-serif" }} >
+    <footer className="bg-green-700  text-white py-8">
+      <div className="max-w-screen-xl  mx-auto px-4 sm:px-6 lg:px-8" style={{ fontFamily: "'REM', sans-serif" }} >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div className="text-center md:text-left">

@@ -44,11 +44,11 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="h-screen flex flex-col">
+      <div className=" flex flex-col">
         {/* Fixed Header */}
         <Header />
 
-        <div>
+        <div className="">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contactus" element={<Contact />}></Route>
