@@ -29,7 +29,7 @@ import FarmerInsight from "./Pages/Farmerinsight.jsx";
 import Footer from "./Components/Footer.jsx";
 import RetailerDashboard from "./Pages/Reatailerdashboard.jsx";
 import ConsumerDashboard from "./Pages/Consumerdashboard.jsx";
-
+import ConsumerForm from "./pages/consumerForm.jsx"
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
   // console.log(intstate.profile); // Debugging: Ensure this is printing the correct Redux state
@@ -79,6 +79,8 @@ export default function App() {
             <Route path="/dummy/confRequset" element={<ConfRequest />} />
             <Route path="/retailerDashboard" element={<RetailerDashboard />} />
             <Route path="/ConsumerDashboard" element={<ConsumerDashboard />} />
+            <Route path="/ConsumerForm" element={<ConsumerForm />} />
+
           </Routes>
         </div>
         <Footer></Footer>

@@ -11,6 +11,7 @@ import farmerStockListingReducer from "./FarmerDashBoard/stocklistingSlice";
 import farmerNotificatonReducer from "./FarmerDashBoard/notificationSlice";
 import bestDealreducer from "./viewBestDealsSlice"
 import retailerReducer from "./retailerSlice"
+import consumerReducer from "./consumerSlice"
 
 const store = configureStore({
   reducer: {
@@ -25,7 +26,8 @@ const store = configureStore({
     farmerstocklisting: farmerStockListingReducer,
     farmernotification: farmerNotificatonReducer,
     bestDeal:bestDealreducer,
-    retailer:retailerReducer
+    retailer:retailerReducer,
+    consumer:consumerReducer
   },
 });
 
