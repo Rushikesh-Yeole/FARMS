@@ -18,7 +18,7 @@ const ConsumerHome = () => {
       title: "Post Demand",
       description: "Find Fresh Food here",
       icon: PackagePlus,
-      path: "/transport",
+      path: "/consumerform",
       color: "from-green-600 to-green-700"
     },
     // {
@@ -32,7 +32,7 @@ const ConsumerHome = () => {
       title: "DashBoard",
       description: "Track your deals here",
       icon: LineChart,
-      path: "/transporterDashboard",
+      path: "/ConsumerDashboard",
       color: "from-green-700 to-emerald-800"
     },
     // {

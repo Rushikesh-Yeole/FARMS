@@ -19,12 +19,17 @@ function Home() {
     link.rel = "stylesheet";
     document.head.appendChild(link);
   }, []);
+
   const carouselImages = [pic1, pic2];
   const [currentSlide, setCurrentSlide] = useState(0);
   const [text, setText] = useState("");
   const headingText = "Empowering Farm-to-Table Connectivity";
-  const usertype = useSelector(loginuser.userData.accountType);
-  const { isLogin } = useSelector((state) => state.loginuser);
+
+  // ✅ Corrected Redux state selection
+  const userData = useSelector((state) => state.loginuser?.userData);
+  const isLogin = useSelector((state) => state.loginuser?.isLogin);
+  const usertype = userData?.accountType; // ✅ Safely get user role
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
@@ -125,10 +130,7 @@ function Home() {
           >
             {text}
           </h2>
-          <p
-            className="text-black text-lg leading-relaxed"
-            style={{ fontFamily: "'REM', sans-serif" }}
-          >
+          <p className="text-black text-lg leading-relaxed" style={{ fontFamily: "'REM', sans-serif" }}>
             Our platform bridges the gap between farmers and consumers...
           </p>
         </div>
@@ -152,10 +154,7 @@ function Home() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p
-                className="text-black text-center"
-                style={{ fontFamily: "'REM', sans-serif" }}
-              >
+              <p className="text-black text-center" style={{ fontFamily: "'REM', sans-serif" }}>
                 This section highlights how our platform optimizes logistics...
               </p>
             </motion.div>
@@ -171,10 +170,7 @@ function Home() {
       >
         <div className="w-full lg:w-1/2 text-left">
           <h2 className="text-green-700 text-3xl mb-4">{text}</h2>
-          <p
-            className="text-black text-lg leading-relaxed"
-            style={{ fontFamily: "'REM', sans-serif" }}
-          >
+          <p className="text-black text-lg leading-relaxed" style={{ fontFamily: "'REM', sans-serif" }}>
             Our platform bridges the gap between farmers and consumers...
           </p>
         </div>

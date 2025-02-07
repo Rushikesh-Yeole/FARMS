@@ -395,28 +395,39 @@ const FarmerDashboard = () => {
           </div>
         )}
          {activeTab === "notifications" && (
-          <div className="space-y-4">
-            {pendingrequest.map((notification) => (
-              <motion.div
-                key={notification._id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className={`p-4 rounded-lg shadow-sm ${
-                  notification.read
-                    ? "bg-white"
-                    : "bg-green-50 border-l-4 border-green-600"
-                }`}
-              >
-                <h1>{new Date(notification.DepatrureDate).toLocaleDateString("en-GB")}</h1>
-                 <h2>{notification.Departlocation
-?.place}</h2> 
-                <button className="border-4" onClick={()=>{
-                  handleAccept(notification._id)
-                }}>accept</button>
-              </motion.div>
-            ))}
-          </div>
-        )}
+  <div className="space-y-4">
+    {pendingrequest.length === 0 ? (
+      <p className="text-gray-500 text-center">No notifications available</p>
+    ) : (
+      pendingrequest.map((notification) => (
+        <motion.div
+          key={notification._id}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className={`p-4 rounded-lg shadow-sm ${
+            notification.read
+              ? "bg-white"
+              : "bg-green-50 border-l-4 border-green-600"
+          }`}
+        >
+          <h1>
+            {new Date(notification.DepatrureDate).toLocaleDateString("en-GB")}
+          </h1>
+          <h2>{notification.Departlocation?.place}</h2>
+          <button
+            className="border-4"
+            onClick={() => {
+              handleAccept(notification._id);
+            }}
+          >
+            Accept
+          </button>
+        </motion.div>
+      ))
+    )}
+  </div>
+)}
+
 
 
       </div>

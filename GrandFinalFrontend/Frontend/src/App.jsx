@@ -28,11 +28,11 @@ import TransporterVehicleForm from "./Pages/TransporterVehicleForm.jsx";
 import FarmerInsight from "./Pages/Farmerinsight.jsx";
 import Footer from "./Components/Footer.jsx";
 import RetailerDashboard from "./Pages/Reatailerdashboard.jsx";
-import TransporterHome from "./Components/TransporterHome.jsx"
-import ConsumerHome from "./Components/ConsumerHome.jsx";
+import TransporterHome from "./Components/TransporterHome.jsx";
+// import ConsumerHome from "./Components/ConsumerHome.jsx";
 import ConsumerForm from "./Pages/ConsumerForm.jsx";
-
-
+// import FarmerHome from "./Components/FarmerHome.jsx";
+import ConsumerDashboard from "./Pages/Consumerdashboard.jsx";
 export default function App() {
   // const intstate = useSelector((state) => state.profile);
   // console.log(intstate.profile); // Debugging: Ensure this is printing the correct Redux state
@@ -48,41 +48,57 @@ export default function App() {
 
         <div>
           <Routes>
-            <Route path="/" element={<ConsumerForm />} />
-            <Route path="/loginpage" element={<LoginPage />} />
-            <Route path="/gohome" element={<Home />} />
-            <Route path="/register" element={<RegisterProfile />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/contactus" element={<Contact />}></Route>
+
+            {/* Farmer Routing */}
             <Route path="/farmerstock" element={<FarmerStockForm />} />
             <Route path="/farmerdashbaord" element={<FarmerDashboard />} />
             <Route path="/farmerinsight" element={<FarmerInsight />} />
-            <Route path="/retailerpost" element={<RetailerDemandForm />} />
-            <Route path="/transport" element={<Transport />} />
-            <Route path="/consumerhome" element={<ConsumerHome />} />
-            <Route path="/transporthome" element={<TransporterHome />} />
-            <Route path="/contactus" element={<Contact />}></Route>
             <Route path="/farmerbestdeals" element={<FarmerBestDealsPage />} />
-            {/* <Route path="/retailerbestdeals" element={<RetailerSbestDeals />} /> */}
-            <Route path="/otp" element={<OtpPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/About" element={<About />} />
-            <Route path="/profile" element={<MyProfilePage />} />
             <Route
               path="/transporterDemand"
               element={<TransportDemandForm />}
             />
+
+
+            {/* Retailer Routing */}
+            <Route path="/retailerpost" element={<RetailerDemandForm />} />
+            <Route path="/retailerDashboard" element={<RetailerDashboard />} />
+
+            {/* Transport Routing */}
+           
+            <Route path="/transport" element={<Transport />} />
+            <Route path="/tranporterfeed" element={<TransportReq />} />
             <Route
               path="/transporterDashboard"
               element={<TransporterDashboard />}
             />
+
+            {/* Consumer Routing */}
+            <Route path="/consumerform" element={<ConsumerForm />} />
+            <Route path="/ConsumerDashboard" element={<ConsumerDashboard />} />
+
+          
+            <Route path="/loginpage" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterProfile />} />
+
+            
+            <Route path="/otp" element={<OtpPage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/About" element={<About />} />
+            <Route path="/profile" element={<MyProfilePage />} />
+      
+     
             <Route
               path="/transportervehicleform"
               element={<TransporterVehicleForm />}
             />
-            <Route path="/tranporterfeed" element={<TransportReq />} />
+          
             <Route path="/dummy" element={<Dummy />} />
             <Route path="/dummy/myStock" element={<MyStock />} />
             <Route path="/dummy/confRequset" element={<ConfRequest />} />
-            <Route path="/retailerDashboard" element={<RetailerDashboard />} />
+           
           </Routes>
         </div>
         <Footer></Footer>
