@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Bell, ShoppingBag, CheckCircle } from 'lucide-react';
 import { useSelector,useDispatch } from 'react-redux';
-import { viewMyOrdersThunk } from '../store/retailerSlice';
+import { viewMyOrdersThunk,retailerNotificationThunk } from '../store/retailerSlice';
 
 
 
@@ -60,7 +60,7 @@ export default function RetailerDashboard() {
   const notifications = [
     {
       id: 1,
-      message: "Your order for Wheat has been accepted by John Doe",
+      notification: "Your order for Wheat has been accepted by John Doe",
       timestamp: "2024-02-19 14:30"
     },
     // Add more notifications
@@ -81,6 +81,11 @@ export default function RetailerDashboard() {
       setSelectedFarmer(order.farmer);
     }
   };
+  const handleGetNotification = ()=>{
+    dispatch(retailerNotificationThunk()).then((result)=>{
+      console.log(result.payload)
+    })
+  }
 
   return (
     <div className="p-6 space-y-6">
@@ -103,14 +108,16 @@ export default function RetailerDashboard() {
         </button>
 
         <button
-          onClick={() => setActiveTab('notifications')}
+          onClick={() =>{ 
+            handleGetNotification();
+            setActiveTab('notifications')}}
           className={`px-4 py-2 rounded-lg font-medium transition-all ${
             activeTab === 'notifications'
               ? 'bg-green-600 text-white'
               : 'bg-green-100 text-green-600 hover:bg-green-200'
           }`}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" >
             <Bell className="h-5 w-5" />
             Notifications
           </div>
@@ -190,7 +197,7 @@ export default function RetailerDashboard() {
               <div key={notif.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                 <Bell className="text-blue-500" />
                 <div>
-                  <p className="text-sm">{notif.message}</p>
+                  <p className="text-sm">{notif.notification}</p>
                   <p className="text-xs text-gray-500">{notif.timestamp}</p>
                 </div>
               </div>

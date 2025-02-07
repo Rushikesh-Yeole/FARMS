@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { fetchStockListings } from "../../store/FarmerDashBoard/stocklistingSlice";
 import { useDispatch } from "react-redux";
+import { myTransportDemand } from "../../store/transportDemandSlice";
 import {
   Package,
   Bell,
@@ -133,6 +134,21 @@ const FarmerDashboard = () => {
 
     dispatch(acceptInvitation(id));
   }
+  const handleOnclickMyDemands = () => {
+    dispatch(myTransportDemand())
+      .then((result) => {
+        if (result.payload) {
+          console.log(result.payload); // Directly accessing the payload
+          settransportDemands(result.payload); // Uncomment if you need to set state
+        } else {
+          console.error("Error: No data received", result);
+        }
+      })
+      .catch((error) => {
+        console.error("Request failed:", error);
+      });
+  };
+  
 
 
   useEffect(() => {
@@ -165,7 +181,9 @@ const FarmerDashboard = () => {
             Stock Listings
           </button>
           <button
-            onClick={() => setActiveTab("transport")}
+            onClick={() => {
+              handleOnclickMyDemands();
+              setActiveTab("transport")}}
             className={`flex items-center px-4 py-2 border border-gray-300 rounded-lg text-xs font-medium ${
               activeTab === "transport"
                 ? "bg-green-600 text-white"
