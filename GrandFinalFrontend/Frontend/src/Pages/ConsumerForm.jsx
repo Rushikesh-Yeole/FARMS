@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { consumerPostStock } from "../store/consumerSlice";
 
 export default function ConsumerForm() {
   const [formData, setFormData] = useState({
