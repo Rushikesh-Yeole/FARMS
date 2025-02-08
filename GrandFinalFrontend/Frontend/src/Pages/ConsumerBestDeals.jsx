@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { consumerbestDeal } from "../store/consumerSlice";
+import { requestsupplyconsumer } from "../store/consumerSlice";
 
 const ConsumerBestDeals = () => {
   const [expandedDeals, setExpandedDeals] = useState({});
@@ -48,16 +49,16 @@ const ConsumerBestDeals = () => {
           setLoading(false); // Ensure loading is set to false after API call
         });
     }
-  }, [dispatch]);
+  }, [dispatch,farmerStockId]);
   
 
-  // const handleSupplyRequest = (groupId, farmerStockId, maxDistance) => {
-  //   if (!farmerStockId) {
-  //     console.error("Farmer Stock ID is missing!");
-  //     return;
-  //   }
-  //   dispatch(requestsupply({ groupId, farmerStockId, maxDistance }));
-  // };
+ const handleSupplyRequest = (groupId, farmerStockId, maxDistance) => {
+     if (!farmerStockId) {
+       console.error("Farmer Stock ID is missing!");
+       return;
+     }
+     dispatch(requestsupplyconsumer({ groupId, farmerStockId, maxDistance }));
+   };
 
   if (loading) return <div className="flex justify-center items-center py-20"><div className="animate-spin border-t-4 border-green-600 rounded-full w-16 h-16"></div></div>;
 
@@ -153,7 +154,7 @@ const ConsumerBestDeals = () => {
                           </div>
                         </div>
                       </div>
-
+<div className="grid grid-cols-2 gap-4 mt-4 md:pr-96">
                       <motion.button
                         onClick={() => toggleDealExpansion(deal.group?._id)}
                         className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white py-4 px-6 rounded-xl font-medium transition-all shadow-md hover:shadow-lg"
@@ -163,10 +164,23 @@ const ConsumerBestDeals = () => {
                         {isExpanded ? 'Hide Retailers' : `View ${deal.group?.consumers?.length} Retailers`}
                         {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                       </motion.button>
+                       <motion.button
+                                                                                     
+                                                                                     className="w-full flex items-center justify-center gap-2 bg-gradient-to-r  px-2 py-2  from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white  rounded-xl font-medium transition-all shadow-md hover:shadow-lg"
+                                                                                     whileHover={{ scale: 1.01 }}
+                                                                                     whileTap={{ scale: 0.98 }}
+                                                                                     onClick={()=>{
+                                                                                      handleSupplyRequest(deal.groupId,farmerStockId,deal.maxDistance)
+                                                                                    }}
+                                                                                   >
+                                                                                      Request for supply
+                                                                                   </motion.button>
 
-                      <button onClick={() => {
+                      {/* <button onClick={() => {
                         handleSupplyRequest(deal.group._id, farmerStockId, deal.maxDistance);
-                      }}>Request Supply</button>
+                      }}>Request Supply</button> */}
+
+                      </div>
                     </div>
                     
                     {isExpanded && (

@@ -14,7 +14,7 @@ export const confReq = createAsyncThunk(
     try {
       console.log("Fetching my stock...");
       const response = await axios.get(
-        "http://localhost:8000/transporter/getpendingreq",
+        "https://farms-9cei.onrender.com/transporter/getpendingreq",
         { withCredentials: true }
       );
       console.log(response);

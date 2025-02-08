@@ -39,7 +39,7 @@ const FarmerHome = () => {
       title: "Dashboard",
       description: "Manage your business",
       icon: LayoutDashboard,
-      path: "/farmer",
+      path: "/farmerdashbaord",
       color: "from-emerald-700 to-green-800"
     }
   ];

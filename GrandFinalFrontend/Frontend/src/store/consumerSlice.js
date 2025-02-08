@@ -2,12 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Fetch the initial state from localStorage, if it exists
+const storedConsumerPost = localStorage.getItem("consumerPostStock");
+const storedBestDeals = localStorage.getItem("consumerbestDeal");
+
 const initialState = {
-  consumerPost: localStorage.getItem("consumerPostStock")
-    ? JSON.parse(localStorage.getItem("consumerPostStock"))
-    : null,
+  consumerPost: storedConsumerPost ? JSON.parse(storedConsumerPost) : null,
   myOrders: [],
-  consumerbestDeal: [], // New state for storing best deals
+  consumerbestDeal: storedBestDeals ? JSON.parse(storedBestDeals) : [],
+  notifications: [], // Added notifications state
   loading: false,
   error: null,
 };
@@ -16,24 +18,43 @@ const initialState = {
 export const consumerPostStock = createAsyncThunk(
   "consumerPostStock/post",
   async (formData, { rejectWithValue }) => {
-    console.log("h2y")
     try {
       console.log("Uploading consumer post data...", formData);
       const response = await axios.post(
-        "http://localhost:8000/consumer/postrequirement",
+        "https://farms-9cei.onrender.com/consumer/postrequirement",
         formData,
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true, // Ensure backend supports CORS credentials
+          withCredentials: true,
         }
       );
       console.log("Response received:", response.data);
       return response.data;
     } catch (error) {
       console.error("Upload failed:", error);
-      return rejectWithValue(
-        error.response?.data?.message || error.message
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+// Async thunk to request supply from a farmer
+export const requestsupplyconsumer = createAsyncThunk(
+  "request/requestsupply",
+  async ({ groupId, farmerStockId, maxDistance }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        "https://farms-9cei.onrender.com/farmer/consumerdeals/requestsupply",
+        { groupId, farmerStockId, maxDistance },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
       );
+
+      console.log("Request supply response:", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Failed to accept request");
     }
   }
 );
@@ -45,20 +66,14 @@ export const consumerbestDeal = createAsyncThunk(
     try {
       console.log("Fetching best deals...");
       const response = await axios.get(
-        `http://localhost:8000/farmer/consumerdeals/viewbestdeals?farmerStockId=${requirementId}`,
-        {
-          withCredentials: true,
-        }
+        `https://farms-9cei.onrender.com/farmer/consumerdeals/viewbestdeals?requirementId=${requirementId}`,
+        { withCredentials: true }
       );
       console.log("Best deals response:", response.data);
-
-      // Store response in localStorage
       localStorage.setItem("consumerbestDeal", JSON.stringify(response.data));
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || error.message
-      );
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
@@ -68,15 +83,12 @@ export const consumerNotification = createAsyncThunk(
   "viewMyOrders/fetchNotifications",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/consumer/notifications",
-        { withCredentials: true }
-      );
+      const response = await axios.get("https://farms-9cei.onrender.com/consumer/notifications", {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data || "Failed to fetch notifications"
-      );
+      return rejectWithValue(error.response?.data || "Failed to fetch notifications");
     }
   }
 );
@@ -86,15 +98,12 @@ export const viewMyOrders = createAsyncThunk(
   "viewMyOrders/fetch",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/consumer/viewmyorders",
-        { withCredentials: true }
-      );
+      const response = await axios.get("https://farms-9cei.onrender.com/consumer/viewmyorders", {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data || "Failed to fetch orders"
-      );
+      return rejectWithValue(error.response?.data || "Failed to fetch orders");
     }
   }
 );
@@ -105,7 +114,6 @@ const consumerPostStockSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Handling consumerPostStock
       .addCase(consumerPostStock.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -113,17 +121,12 @@ const consumerPostStockSlice = createSlice({
       .addCase(consumerPostStock.fulfilled, (state, action) => {
         state.loading = false;
         state.consumerPost = action.payload;
-        console.log("Upload successful:", action.payload);
-
-        // Store only the necessary data in localStorage
         localStorage.setItem("consumerPostStock", JSON.stringify(state.consumerPost));
       })
       .addCase(consumerPostStock.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      
-      // Handling consumerbestDeal
       .addCase(consumerbestDeal.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -131,14 +134,11 @@ const consumerPostStockSlice = createSlice({
       .addCase(consumerbestDeal.fulfilled, (state, action) => {
         state.loading = false;
         state.consumerbestDeal = action.payload;
-        console.log("Best deals fetched:", action.payload);
       })
       .addCase(consumerbestDeal.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      
-      // Handling viewMyOrders
       .addCase(viewMyOrders.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -146,21 +146,18 @@ const consumerPostStockSlice = createSlice({
       .addCase(viewMyOrders.fulfilled, (state, action) => {
         state.loading = false;
         state.myOrders = action.payload;
-        console.log("Fetched orders successfully:", action.payload);
       })
       .addCase(viewMyOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-
-      // Handling consumer notifications
       .addCase(consumerNotification.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(consumerNotification.fulfilled, (state, action) => {
         state.loading = false;
-        console.log("Fetched notifications:", action.payload);
+        state.notifications = action.payload; // Store notifications
       })
       .addCase(consumerNotification.rejected, (state, action) => {
         state.loading = false;

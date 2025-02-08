@@ -20,48 +20,50 @@ export default function FarmerInsight() {
     tomato: "https://example.com/tomato.jpg",
   };
 
-  // useEffect(() => {
-  //   const fetchStocks = async () => {
-  //     try {
-  //       const result = await dispatch(fetchStockListings());
-  //       const response = result.payload;
-  //       if (response && response.stocks) {
-  //         const cropList = response.stocks.map(stock => stock.crop);
-  //         setCrops(cropList);
-  //         setRegion(response.stocks[0]?.village || "Unknown");
+  useEffect(() => {
+    const fetchStocks = async () => {
+      try {
+        const result = await dispatch(fetchStockListings());
+        const response = result.payload;
+        if (response && response.stocks) {
+          const cropList = response.stocks.map(stock => stock.crop);
+          setCrops(cropList);
+          setRegion(response.stocks[0]?.village || "Unknown");
 
-  //         const maxCrop = response.stocks.reduce((max, stock) =>
-  //           stock.quantity > max.quantity ? stock : max, response.stocks[0]);
-  //         setSelectedProduct(maxCrop?.crop || "");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching stocks:", error);
-  //       setCrops([]);
-  //     }
-  //   };
-  //   fetchStocks();
-  // }, [dispatch]);
+          const maxCrop = response.stocks.reduce((max, stock) =>
+            stock.quantity > max.quantity ? stock : max, response.stocks[0]);
+          setSelectedProduct(maxCrop?.crop || "");
+        }
+      } catch (error) {
+        console.error("Error fetching stocks:", error);
+        setCrops([]);
+      }
+    };
+    fetchStocks();
+  }, [dispatch]);
 
   useEffect(() => {
-    
+    if (!region || !selectedProduct) return;
 
     const fetchMarketInsights = async () => {
       setLoading(true);
       try {
-        const response = await axios.post(
-          "https://farms-engine.onrender.com/insights", // Check if this API route exists
-          { region:"a", product: "Rice" },
-          { withCredentials: true }
-        );
+        const response = await axios.post("https://farms-engine.onrender.com/insights", {
+          region:"nashik",
+          product: "rice",
+        }, {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
         setMarketInsights(response.data);
         setError(null);
       } catch (err) {
-        setError("Failed to fetch market insights. Please try again.");
+        setError("Failed to fetch market insights.");
       }
       setLoading(false);
     };
     fetchMarketInsights();
-  }, []);
+  }, [region, selectedProduct]);
 
   const handleProductChange = (e) => {
     setSelectedProduct(e.target.value);
@@ -70,7 +72,6 @@ export default function FarmerInsight() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 p-6">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <motion.div className="text-center mb-12" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex items-center justify-center gap-2 mb-4">
             <Sprout className="w-8 h-8 text-green-600" />
@@ -78,11 +79,8 @@ export default function FarmerInsight() {
           </div>
           <p className="text-gray-600 text-lg">Make informed decisions with real-time market analysis</p>
         </motion.div>
-
-        {/* Content */}
         <div className="bg-white rounded-xl shadow-xl overflow-hidden">
           <div className="grid md:grid-cols-2 gap-6">
-            {/* Crop Image Section */}
             <div className="p-8 flex items-center justify-center bg-gray-50">
               <div className="w-full h-full max-h-[500px] relative rounded-2xl overflow-hidden p-4">
                 {selectedProduct && cropImages[selectedProduct.toLowerCase()] ? (
@@ -96,10 +94,7 @@ export default function FarmerInsight() {
                 )}
               </div>
             </div>
-
-            {/* Insights Section */}
             <div className="p-8">
-              {/* Crop Selection */}
               <div className="mb-8">
                 <label className="block text-lg font-medium text-gray-700 mb-3">Select Your Crop</label>
                 <select value={selectedProduct} onChange={handleProductChange}
@@ -109,21 +104,15 @@ export default function FarmerInsight() {
                   ))}
                 </select>
               </div>
-
-              {/* Market Insights */}
               {loading ? (
                 <p className="text-center text-blue-600 font-semibold">Loading market insights...</p>
               ) : error ? (
                 <div className="p-4 bg-red-100 text-red-700 rounded-lg text-center">{error}</div>
               ) : selectedProduct && marketInsights && (
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                  <div className={`p-6 rounded-lg ${marketInsights.percent_gap > 10 
-                    ? "bg-green-100 border-l-4 border-green-500"
-                    : "bg-red-100 border-l-4 border-red-500"}`}>
+                  <div className={`p-6 rounded-lg ${marketInsights.percent_gap > 10 ? "bg-green-100 border-l-4 border-green-500" : "bg-red-100 border-l-4 border-red-500"}`}>
                     <div className="flex items-start gap-4">
-                      {marketInsights.percent_gap > 10 
-                        ? <TrendingUp className="w-6 h-6 text-green-600" /> 
-                        : <AlertCircle className="w-6 h-6 text-red-600" />}
+                      {marketInsights.percent_gap > 10 ? <TrendingUp className="w-6 h-6 text-green-600" /> : <AlertCircle className="w-6 h-6 text-red-600" />}
                       <div>
                         <h3 className="font-semibold text-lg mb-2">Market Analysis</h3>
                         <p className="text-lg">{marketInsights.message}</p>

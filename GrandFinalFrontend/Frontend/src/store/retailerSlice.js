@@ -4,6 +4,7 @@ import axios from "axios";
 // Define initial state
 const initialState = {
   myretailerData: null,
+  viewsupplier: null, // Fixed typo from 'veiwsupplier'
   notification: null,
   loading: false,
   error: null,
@@ -15,8 +16,26 @@ export const viewMyOrdersThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/retailer/viewmyorders",
+        "https://farms-9cei.onrender.com/retailer/viewmyorders",
         { withCredentials: true } // Ensure backend supports CORS credentials
+      );
+      console.log("Response received:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Fetch failed:", error);
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+// Async thunk for fetching supplier data
+export const viewSupplierThunk = createAsyncThunk(
+  "retailer/viewSupplier",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        "https://farms-9cei.onrender.com/retailer/viewsupplier",
+        { withCredentials: true }
       );
       console.log("Response received:", response.data);
       return response.data;
@@ -33,8 +52,8 @@ export const retailerNotificationThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/retailer/notifications",
-        { withCredentials: true } // Ensure backend supports CORS credentials
+        "https://farms-9cei.onrender.com/retailer/notifications",
+        { withCredentials: true }
       );
       console.log("Notification Response:", response.data);
       return response.data;
@@ -52,11 +71,13 @@ const retailerSlice = createSlice({
   reducers: {
     resetState: (state) => {
       state.myretailerData = null;
+      state.viewsupplier = null; // Reset supplier data
       state.notification = null;
       state.loading = false;
       state.error = null;
       sessionStorage.removeItem("myretailerData"); // Clear session storage
-      sessionStorage.removeItem("notification"); // Clear session storage for notifications
+      sessionStorage.removeItem("viewsupplier"); // Clear supplier session storage
+      sessionStorage.removeItem("notification"); // Clear notification session storage
     },
   },
   extraReducers: (builder) => {
@@ -93,6 +114,24 @@ const retailerSlice = createSlice({
         sessionStorage.setItem("notification", JSON.stringify(action.payload));
       })
       .addCase(retailerNotificationThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Handle viewSupplierThunk
+      .addCase(viewSupplierThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(viewSupplierThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.viewsupplier = action.payload;
+        console.log("Supplier Fetch successful:", action.payload);
+
+        // Store supplier data in sessionStorage
+        sessionStorage.setItem("viewsupplier", JSON.stringify(action.payload));
+      })
+      .addCase(viewSupplierThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

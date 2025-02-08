@@ -6,7 +6,8 @@ const storedDeals = localStorage.getItem("bestDeals");
 
 const initialState = {
   dealdata: storedDeals ? JSON.parse(storedDeals) : null,
-  requestSupplyData: null, // Added state to store request supply response
+  requestSupplyData: null,
+   // Added state to store request supply response
   loading: false,
   error: null,
 };
@@ -42,7 +43,7 @@ export const requestsupply = createAsyncThunk(
   async ({ groupId, farmerStockId, maxDistance }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `http://localhost:8000/farmer/requestsupply`, 
+        `https://farms-9cei.onrender.com/farmer/requestsupply`, 
         { groupId, farmerStockId, maxDistance }, // Send all data in the request body
         {
           headers: { "Content-Type": "application/json" },
@@ -69,6 +70,10 @@ const bestDealsSlice = createSlice({
     resetErrors: (state) => {
       state.error = null;
     },
+    updateDealData: (state, action) => {
+      // Completely replace dealdata with the new object
+      state.dealdata = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -80,7 +85,6 @@ const bestDealsSlice = createSlice({
       .addCase(bestDeal.fulfilled, (state, action) => {
         state.loading = false;
         state.dealdata = action.payload;
-        console.log("Best deals:", action.payload);
       })
       .addCase(bestDeal.rejected, (state, action) => {
         state.loading = false;
@@ -95,7 +99,6 @@ const bestDealsSlice = createSlice({
       .addCase(requestsupply.fulfilled, (state, action) => {
         state.loading = false;
         state.requestSupplyData = action.payload;
-        console.log("Request supply:", action.payload);
       })
       .addCase(requestsupply.rejected, (state, action) => {
         state.loading = false;
@@ -104,5 +107,8 @@ const bestDealsSlice = createSlice({
   },
 });
 
-export const { resetErrors } = bestDealsSlice.actions;
+
+
+
+export const { resetErrors,updateDealData  } = bestDealsSlice.actions;
 export default bestDealsSlice.reducer;

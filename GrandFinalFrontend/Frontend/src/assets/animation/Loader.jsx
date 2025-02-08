@@ -4,7 +4,7 @@ import loader from "./loader.json"
 
 const Loader = () => {
   return (
-    <div className="fixed inset-0 w-full min-h-screen z-50 flex flex-col justify-center items-center bg-white/80 backdrop-blur-sm">
+    <div className="inset-0 w-full min-h-screen z-50 flex flex-col justify-center items-center bg-white/80 backdrop-blur-sm">
       <div className="relative flex flex-col items-center">
         <div className="w-[125px] h-[125px] max-w-full">
           <Lottie

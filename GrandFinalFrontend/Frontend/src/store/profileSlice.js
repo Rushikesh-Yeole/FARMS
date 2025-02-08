@@ -21,7 +21,7 @@ export const verifyOtp = createAsyncThunk(
   "profile/verifyOtp",
   async ({ phoneNumber, otp, ...rest }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:8000/api/verifyOtp", {
+      const response = await axios.post("https://farms-9cei.onrender.com/api/verifyOtp", {
         phoneNumber,
         otp,
         ...rest,

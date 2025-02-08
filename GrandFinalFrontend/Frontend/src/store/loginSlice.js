@@ -11,7 +11,7 @@ export const login = createAsyncThunk(
   async ({ mobileNumber, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/login",
+        "https://farms-9cei.onrender.com/api/login",
         { contactNumber: mobileNumber, password },
         { withCredentials: true }
       );
@@ -34,7 +34,7 @@ export const logoutThunk = createAsyncThunk(
   "loginuser/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await axios.post("http://localhost:8000/api/logout", {}, { withCredentials: true });
+      await axios.post("https://farms-9cei.onrender.com/api/logout", {}, { withCredentials: true });
 
       // ✅ Clear user data
       localStorage.removeItem("token");

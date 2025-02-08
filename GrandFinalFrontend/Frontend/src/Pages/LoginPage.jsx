@@ -15,14 +15,7 @@ const LoginPage = () => {
       dispatch(login({ mobileNumber, password })).then((result) => {
         if (result.meta.requestStatus === "fulfilled") {
           const user = result.payload; // Extract userData from payload
-          if (user && user.accountType === "Farmer") {
-            navigate("/dummy");
-          } else if(user && user.accountType === "Retailer") {
-            navigate("/retailerpost");
-          }
-          else{
-            navigate("/tranporterfeed");
-          }
+          navigate('/')
         } else {
           alert("User not logged in");
         }

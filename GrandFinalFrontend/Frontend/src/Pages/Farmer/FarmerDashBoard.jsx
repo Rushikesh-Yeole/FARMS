@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { fetchStockListings } from "../../store/FarmerDashBoard/stocklistingSlice";
 import { useDispatch } from "react-redux";
 import { myTransportDemand } from "../../store/transportDemandSlice";
+import { updateDealData } from "../../store/viewBestDealsSlice";
+import { useNavigate } from "react-router-dom";
 import {
   Package,
   Bell,
@@ -28,6 +30,7 @@ const FarmerDashboard = () => {
   const [stocks, setStocks] = useState([]);
   const [pendingrequest,setPendingrequest] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [transportDemands, settransportDemands] = useState([
     {
       id: 1,
@@ -146,7 +149,7 @@ const FarmerDashboard = () => {
   }
   const handleOnclickMyDemands = async () => {
     try {
-      const result = await dispatch(myTransportDemand());
+      const result =  dispatch(myTransportDemand());
   
       console.log("API Response:", result); // Debugging log
   
@@ -161,6 +164,18 @@ const FarmerDashboard = () => {
       settransportDemands([]); // Prevent crashes in UI
     }
   };
+  const handleshopkeeperBestdeals = async (payload) => {
+    try {
+      console.log("Dispatching payload:", payload);
+      await dispatch(updateDealData(payload));
+      navigate('/farmerbestdeals');
+    } catch (error) {
+      console.error("Error updating deal data:", error);
+    }
+  };
+  const handleconsumerBestdeals =(stock) =>{
+    navigate('/consumerbestdeals');
+  }
   
   
 
@@ -272,16 +287,30 @@ const FarmerDashboard = () => {
                       }
                       className="text-gray-400 hover:text-gray-600"
                     >
-                      {expandedStock === stock.id ? (
-                        <ChevronUp size={24} />
-                      ) : (
-                        <ChevronDown size={24} />
-                      )}
+                     
                     </button>
                   </div>
-                      
+                      <div className="grid grid-cols-2 gap-4 mt-4 md:pr-96">
+                        <motion.button
+                                           
+                                              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r px-2 py-2 from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white  rounded-xl font-medium transition-all shadow-md hover:shadow-lg"
+                                              whileHover={{ scale: 1.01 }}
+                                              whileTap={{ scale: 0.98 }}
+                                            onClick={()=>{handleshopkeeperBestdeals(stock)}}>
+                                              Shopkeeper BestDeals 
+                                            </motion.button>
+                                            <motion.button  
+                                           
+                                           className="w-full flex items-center justify-center gap-2 bg-gradient-to-r  px-2 py-2  from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white  rounded-xl font-medium transition-all shadow-md hover:shadow-lg"
+                                           whileHover={{ scale: 1.01 }}
+                                           whileTap={{ scale: 0.98 }}
+                                           onClick={()=>{handleconsumerBestdeals(stock)}}
+                                         >
+                                           consumer BestDeals 
+                                         </motion.button>
+                      </div>
                   {/* Progress Bar */}
-                  <div className="mt-6">
+                  {/* <div className="mt-6">
                     <div className="flex  justify-between text-sm text-gray-600 mb-2">
                       <span>Stock Progress</span>
                       <span>
@@ -297,7 +326,7 @@ const FarmerDashboard = () => {
                         }}
                       ></div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                   
                 </motion.div>

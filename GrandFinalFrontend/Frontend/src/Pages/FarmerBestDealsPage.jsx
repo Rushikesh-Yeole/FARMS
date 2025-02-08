@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Loader from "../assets/animation/Loader"
 import {
   Star,
   TrendingUp,
@@ -56,7 +57,8 @@ const FarmerBestDealsPage = () => {
     dispatch(requestsupply({ groupId, farmerStockId, maxDistance }));
   };
   
-if(loading) return <div>loading</div>
+  
+if(loading) return <Loader/>
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
@@ -156,7 +158,8 @@ if(loading) return <div>loading</div>
                       </div>
                     </div>
 
-                    <motion.button
+                   <div className="grid grid-cols-2 gap-4 mt-4 md:pr-96">
+                   <motion.button
                       onClick={() => toggleDealExpansion(deal.group._id)}
                       className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white py-4 px-6 rounded-xl font-medium transition-all shadow-md hover:shadow-lg"
                       whileHover={{ scale: 1.01 }}
@@ -165,9 +168,19 @@ if(loading) return <div>loading</div>
                       {isExpanded ? 'Hide Retailers' : `View ${deal.group.retailers.length} Retailers`}
                       {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                     </motion.button>
-                    <button onClick={()=>{
-                      handleSupplyRequest(deal.groupId,farmerStockId,deal.maxDistance)
-                    }}> kalpesh</button>
+                         <motion.button
+                                                               
+                                                               className="w-full flex items-center justify-center gap-2 bg-gradient-to-r  px-2 py-2  from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white  rounded-xl font-medium transition-all shadow-md hover:shadow-lg"
+                                                               whileHover={{ scale: 1.01 }}
+                                                               whileTap={{ scale: 0.98 }}
+                                                               onClick={()=>{
+                                                                handleSupplyRequest(deal.groupId,farmerStockId,deal.maxDistance)
+                                                              }}
+                                                             >
+                                                                Request for supply
+                                                             </motion.button>
+                   </div>
+                    {/* <button > kalpesh</button> */}
                   </div>
 
                   {isExpanded && (
