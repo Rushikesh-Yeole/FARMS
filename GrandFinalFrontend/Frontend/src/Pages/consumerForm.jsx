@@ -34,11 +34,11 @@ export default function ConsumerForm() {
 
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
-    e.preventDefault(formData);
-    dispatch(consumerPostStock(formData))
+    e.preventDefault(); // Remove formData from preventDefault
+    dispatch(consumerPostStock(formData));
     console.log("Form Submitted", formData);
+};
 
-  };
 
   return (
     <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10 border border-gray-200">
