@@ -5,7 +5,7 @@ const Retailer = require("../models/RetailerRequirements");
 const FarmerStock = require("../models/FarmerStock");
 const RegionData = require("../models/RegionWiseData");
 
-const DATA_POST_URL = "https://farms-engine.onrender.com/add"; 
+const DATA_POST_URL = "https://insightsengine.onrender.com/add"; 
 
 async function updateSendAndClearData() {
     try {

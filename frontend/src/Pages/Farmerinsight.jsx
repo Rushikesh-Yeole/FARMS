@@ -75,7 +75,7 @@ export default function FarmerInsight() {
     const fetchMarketForecastInsights = async () => {
       setLoading(true);
       try {
-        const response = await axios.post("https://farms-engine.onrender.com/optisights", { 
+        const response = await axios.post("https://insightsengine.onrender.com/optisights", { 
           region: "beed",
           product: selectedProductopti.toLocaleLowerCase,
           period: 1,

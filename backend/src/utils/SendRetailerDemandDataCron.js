@@ -4,7 +4,7 @@ const cron = require("node-cron");
 const Retailer = require("../models/RetailerRequirements");
 const RetailerDemandData = require("../models/RetailerDemandData");
 
-const TARGET_URL = "https://farms-engine.onrender.com/addDemand"; // Replace with actual API URL
+const TARGET_URL = "https://insightsengine.onrender.com/addDemand"; // Replace with actual API URL
 
 // Function to fetch, store, send, and clear data
 const processRetailerDemands = async () => {
