@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://farms-engine.onrender.com", // Your FastAPI backend URL
+        target: "https://insightsengine.onrender.com", // Your FastAPI backend URL
         changeOrigin: true,
         secure: true,
       },

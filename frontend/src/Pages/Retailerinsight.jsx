@@ -57,7 +57,7 @@ export default function Retailerinsight() {
       try {
         console.log(selectedProduct);
         const response = await axios.post(
-          "https://farms-engine.onrender.com/insights",
+          "https://insightsengine.onrender.com/insights",
           { region: "beed", product: "papaya" },
           { headers: { "Content-Type": "application/json" }, withCredentials: true }
         );
@@ -77,7 +77,7 @@ export default function Retailerinsight() {
       setNarrowLoading(true);
       try {
         const response = await axios.get(
-          "https://farms-engine.onrender.com/narrowInsights/6799016d06a2f18aaae17152"
+          "https://insightsengine.onrender.com/narrowInsights/6799016d06a2f18aaae17152"
         );
         setNarrowInsights(response.data);
         console.log(response.data);
